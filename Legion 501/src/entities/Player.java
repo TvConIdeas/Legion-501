@@ -11,7 +11,7 @@ import utilz.LoadSave;
 /**
  * Player ==>
  * Clase que contiene los atributos y métodos necesarios para el funcionamiento del jugador
- * (animación, movimiento, ataque, etc).
+ * (animación, movimiento, ataque, etc.).
  */
 
 public class Player extends Entity {
