@@ -6,12 +6,19 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Menu extends State implements Statemethods{
+/**
+ * Menu ==>
+ * Estado que funciona como parte principal del juego, uniendo a los diferentes estados.
+ */
 
+public class Menu extends State {
+
+    // ====================> CONSTRUCTOR <====================
     public Menu(Game game) {
         super(game);
     }
 
+    // ====================> METODOS <====================
     @Override
     public void update() {
 
@@ -19,8 +26,9 @@ public class Menu extends State implements Statemethods{
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.black);
-        g.drawString("MENU", Game.GAME_WIDTH / 2, 200);
+        g.setColor(Color.white);
+        g.setFont(new Font("Times New Roman",Font.PLAIN,50));
+        g.drawString("Menu", Game.GAME_WIDTH / 2 - Game.TILES_SIZE, 200);
     }
 
     @Override

@@ -6,6 +6,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * MouseInputs ==>
+ * Esta clase nos permitará detectar el movimiento y las acciones del mouse.
+ * Para lograr esto, implementamos las interfaces MouseListener y MouseMotionListener.
+ */
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
     private GamePanel gamePanel;
