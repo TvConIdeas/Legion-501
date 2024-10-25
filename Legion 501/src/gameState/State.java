@@ -2,15 +2,22 @@ package gameState;
 
 import main.Game;
 
-public class State {
+/**
+ * State ==>
+ * Clase padre abstracta de los estados del juego.
+ */
 
-    // Atributos
+public abstract class State implements Statemethods{
+
+    // ====================> ATRIBUTOS <====================
     protected Game game;
 
+    // ====================> CONSTRUCTOR <====================
     public State(Game game) {
         this.game = game;
     }
 
+    // ====================> GETTER <====================
     public Game getGame() {
         return game;
     }

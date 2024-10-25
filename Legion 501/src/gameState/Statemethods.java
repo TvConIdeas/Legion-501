@@ -4,7 +4,12 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-// Borrar y pasar a la clase State
+/**
+ * Statemethods ==>
+ * Interfaz encargada de proporcionar métodos necesarios para los inputs del usuario y el funcioamiento de las clases.
+ * Implementada por las clases del paquete gameState.
+ */
+
 public interface Statemethods {
 
     public void update();

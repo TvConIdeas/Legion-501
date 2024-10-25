@@ -7,6 +7,12 @@ import gameState.GameState;
 import main.GamePanel;
 import static utilz.Constants.Directions.*;
 
+/**
+ * KeyboardInputs ==>
+ * Esta clase nos permitará detectar los comandos del teclado.
+ * Implementamos la interfaz KeyListener para detectar los comandos.
+ */
+
 public class KeyboardInputs implements KeyListener {
 
     private GamePanel gamePanel;
