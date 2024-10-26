@@ -18,7 +18,7 @@ public class Player extends Entity {
 
     // ====================> ATRIBUTOS <====================
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
-    private int aniTick, aniIndex, aniSpeed = 30; // Variables para animación
+    private int aniTick, aniIndex, aniSpeed = 10; // Variables para animación
     private int playerAction = IDLE; // Estado del jugador, por defecto IDLE (inactivo)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
@@ -115,7 +115,7 @@ public class Player extends Entity {
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpritesAtlas(LoadSave.Player_ATLAS); // Cargar el SpriteSheat
 
-        animations = new BufferedImage[2][2]; // Instanciar el SpriteSheat
+        animations = new BufferedImage[3][7]; // Instanciar el SpriteSheat
 
         // Ubicar a través de un bucle los diferentes sprites dentro de la matriz
         for (int j = 0; j < animations.length; j++)
