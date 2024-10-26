@@ -18,11 +18,11 @@ public class Constants {
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
                 case IDLE:
-                    return 1; // La cantidad de sprites para esa accion (Actualizar)
+                    return 6; // La cantidad de sprites para esa accion (Actualizar)
                 case RUNNING:
-                    return 2;
+                    return 6;
                 case DEAD:
-                    return 4;
+                    return 7;
                 default:
                     return 1;
             }
