@@ -20,9 +20,9 @@ public class Constants {
                 case IDLE:
                     return 6; // La cantidad de sprites para esa accion (Actualizar)
                 case RUNNING:
-                    return 7;
+                    return 6;
                 case DEAD:
-                    return 4;
+                    return 7;
                 default:
                     return 1;
             }

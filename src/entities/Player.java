@@ -115,7 +115,7 @@ public class Player extends Entity {
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpritesAtlas(LoadSave.Player_ATLAS); // Cargar el SpriteSheat
 
-        animations = new BufferedImage[2][7]; // Instanciar el SpriteSheat
+        animations = new BufferedImage[3][7]; // Instanciar el SpriteSheat
 
         // Ubicar a través de un bucle los diferentes sprites dentro de la matriz
         for (int j = 0; j < animations.length; j++)
