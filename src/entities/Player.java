@@ -22,7 +22,7 @@ public class Player extends Entity {
     private int playerAction = IDLE; // Estado del jugador, por defecto IDLE (inactivo)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
-    private float playerSpeed = 4.0f;
+    private float  playerSpeed= 4.0f; // CAMIBAR A ENTITY
     private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
     private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 

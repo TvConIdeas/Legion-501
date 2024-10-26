@@ -31,7 +31,7 @@ public class Game implements Runnable {
 
     // Constantes Tiles
     public final static int TILES_DEFAULT_SIZE = 32; // 32 bits
-    public final static float SCALE = 2f; // Variable que permite "agrandar" el tamaño de los Tile
+    public final static float SCALE = 1.5f; // Variable que permite "agrandar" el tamaño de los Tile
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE); // 48x48
     public final static int TILES_IN_WIDTH = 10; // Columnas
     public final static int TILES_IN_HEIGHT = 15; // Filas
