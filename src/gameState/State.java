@@ -1,6 +1,9 @@
 package gameState;
 
 import main.Game;
+import ui.MenuButton;
+
+import java.awt.event.MouseEvent;
 
 /**
  * State ==>
@@ -20,5 +23,10 @@ public abstract class State implements Statemethods{
     // ====================> GETTER <====================
     public Game getGame() {
         return game;
+    }
+
+    // ====================> METODOS <====================
+    public boolean isIn(MouseEvent e, MenuButton mb){ // Method auxiliar que verificar si el mouse está dentro de la hitbox
+        return mb.getHitbox().contains(e.getX(), e.getY());
     }
 }
