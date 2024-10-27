@@ -9,6 +9,7 @@ public class LoadSave {
 
     // Constante con cada Sprite que utilizemos
     public static final String Player_ATLAS = "player_sprites.png";
+    public static final String Alien1_ATRAS = "alien1_sprites.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
 
     // Funcion que retorna esas imagenes

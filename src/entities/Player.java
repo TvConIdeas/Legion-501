@@ -83,7 +83,7 @@ public class Player extends Entity {
     /** setAnimation() ==> Settea el estado del jugador. */
     private void setAnimation() {
         if (moving) // En caso de estar en movimiento
-            playerAction = RUNNING;
+            playerAction = MOVING;
         else // En caso de estar inactivo
             playerAction = IDLE;
     }
