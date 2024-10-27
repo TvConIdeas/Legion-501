@@ -1,5 +1,6 @@
 package gameState;
 
+import entities.EnemyManager;
 import entities.Player;
 import main.Game;
 
@@ -16,6 +17,7 @@ public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
     private Player player;
+    private EnemyManager enemyManager;
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -31,24 +33,30 @@ public class Playing extends State {
     // ====================> METODOS <====================
 
     private void initClasses(){
-        player = new Player(game.GAME_WIDTH/2 - game.TILES_SIZE / 2,
-                game.GAME_HEIGHT - game.TILES_SIZE * 2, game.TILES_SIZE, game.TILES_SIZE);
+        player = new Player(
+                game.GAME_WIDTH/2 - game.TILES_SIZE / 2,
+                game.GAME_HEIGHT - game.TILES_SIZE * 2,
+                game.TILES_SIZE,
+                game.TILES_SIZE);
+
+        enemyManager = new EnemyManager(this);
     }
 
     public void windowFocusLost() {
         player.resetDirBooleans();
     }
 
-
     /// Interface StateMethods
     @Override
     public void update() {
         player.update();
+        enemyManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
         player.draw(g);
+        enemyManager.draw(g);
     }
 
     @Override
