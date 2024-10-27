@@ -9,13 +9,11 @@ import static utilz.Constants.UI.Buttons.*;
 /***
  * MenuButton ==>
  *
- * En esta clase
+ * Creamos los botones pricipales del menu, Jugar, Opciones y Salir
  */
-
 public class MenuButton {
-
     // ====================> ATRIBUTOS <====================
-    private int xPos, yPos, rowIndex, index;
+    private int xPos, yPos, rowIndex, index; // rowIndex: Define la fila en la que se encuentran las imágenes del botón
     private int xOffsetCenter = B_WIDTH / 2; // El centro a lo ancho
     private GameState state; // Para cambiar el State
     private BufferedImage[] imgs; // Imagenes
@@ -45,6 +43,12 @@ public class MenuButton {
     public void setMousePressed(boolean mousePressed) {
         this.mousePressed = mousePressed;
     }
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
+    public void setHitbox(Rectangle hitbox) {
+        this.hitbox = hitbox;
+    }
 
     // ====================> METODOS <====================
 
@@ -65,13 +69,13 @@ public class MenuButton {
         g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null);
     }
 
-    // Actualizamos el boton
+    // Index, controla cuál de las imágenes del botón se muestra, según el estado del mouse.
     public void update() {
-        index = 0;
+        index = 0; // Inactivo
         if (mouseOver)
-            index = 1;
+            index = 1; // Sobre el Boton
         if (mousePressed)
-            index = 2;
+            index = 2; // Presiona el Boton
     }
 
     // Cambiamos el State

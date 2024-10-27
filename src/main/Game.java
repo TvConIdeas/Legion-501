@@ -82,14 +82,16 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.update();
                 break;
-
-                default: break;
+            case OPTIONS: //option.update() [no existe aun] break;
+            case QUIT:
+            default:
+                System.exit(0); // Cierra el programa
+                break;
         }
     }
 
     /*** render() ==> Renderiza cada clase. Dibuja la ventana, con la informacion actualizada. */
     public void render(Graphics g){
-
         switch (GameState.state){
             case MENU:
                 menu.draw(g);
@@ -97,8 +99,8 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.draw(g);
                 break;
-
-            default: break;
+            default:
+            break;
         }
     }
 
