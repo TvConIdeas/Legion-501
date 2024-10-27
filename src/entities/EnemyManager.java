@@ -33,7 +33,7 @@ public class EnemyManager {
     // ====================> METODOS <====================
     public void update(){
         for(Alien1 alien1 : aliens1){
-            alien1.update();
+            //alien1.update(); Revisar
             move();
         }
     }
@@ -49,12 +49,12 @@ public class EnemyManager {
             if (alien.alive) { // Si el Alien esta vivo
                 alien.hitbox.x += alienVelocityX;
 
-                //if alien touches the borders
+                // SI el alien toca con su Hitbox.X las paredes
                 if (alien.hitbox.x + alien.width >= GAME_WIDTH || alien.hitbox.x <= 0) {
                     alienVelocityX *= -1;
                     alien.hitbox.x += alienVelocityX*2;
 
-                    //move all aliens up by one row
+                    // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < aliens1.size(); j++) {
                         aliens1.get(j).hitbox.y += Alien_HEIGHT;
                     }
@@ -79,11 +79,11 @@ public class EnemyManager {
     /** createAliens() ==> Ubica los aliens segun las filas y columnas y los agrega al
      * ArrayList */
     public void createAliens() {
-        for (int c = 0; c < alienColumns; c++) {
-            for (int r = 0; r < alienRows; r++) {
+        for (int i = 0; i < alienColumns; i++) {
+            for (int j = 0; j < alienRows; j++) {
                 Alien1 alien = new Alien1(
-                        Game.TILES_SIZE + c*Alien_WIDTH,
-                        Game.TILES_SIZE + r*Alien_HEIGHT);
+                        Game.TILES_SIZE + i * Alien_WIDTH,
+                        Game.TILES_SIZE + j * Alien_HEIGHT);
                 aliens1.add(alien); // Lo agregamos al ArrayList
             }
         }
