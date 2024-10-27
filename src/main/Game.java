@@ -108,38 +108,45 @@ public class Game implements Runnable {
     /** run() ==> Se crea el GameLoop (núcleo del juego). Una vez creado un Thread (Hilo), automáticamente usa este método. */
     @Override
     public void run() {
+        // Calcula el tiempo entre frames y updates
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timePerUpdate = 1000000000.0 / UPS_SET;
 
+        // Marca el tiempo de inicio
         long previousTime = System.nanoTime();
 
+        // Inicializa contadores de FPS y UPS
         int frames = 0;
         int updates = 0;
         long lastCheck = System.currentTimeMillis();
 
+        // Inicializa deltas para controlar el tiempo acumulado entre frames y updates
         double deltaU = 0;
         double deltaF = 0;
 
         while(true) {
             long currentTime = System.nanoTime();
 
+            // Acumula tiempo para update y frame
             deltaU += (currentTime - previousTime) / timePerUpdate;
             deltaF += (currentTime - previousTime) / timePerFrame;
             previousTime = currentTime;
 
+            // Ejecuta update si deltaU es suficiente
             if (deltaU >= 1) {
                 update();
                 updates++;
                 deltaU--;
             }
 
+            // Dibuja un nuevo frame si deltaF es suficiente
             if (deltaF >= 1) {
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
             }
 
-            // Mostrar por consola los Frames y Updates por segundo.
+            // Cada segundo, muestra FPS y UPS por consola y reinicia contadores
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println("FPS: " + frames + " | UPS: " + updates);
