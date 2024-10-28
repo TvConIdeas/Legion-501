@@ -24,9 +24,9 @@ public class Menu extends State {
 
     // ====================> METODOS <====================
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_HEIGHT / 2, (int) (100*Game.SCALE),0,GameState.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_HEIGHT / 2, (int) (170*Game.SCALE),1,GameState.OPTIONS);
-        buttons[2] = new MenuButton(Game.GAME_HEIGHT / 2, (int) (240*Game.SCALE),2,GameState.QUIT);
+        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (100*Game.SCALE),0,GameState.PLAYING);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (170*Game.SCALE),1,GameState.OPTIONS);
+        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (240*Game.SCALE),2,GameState.QUIT);
         // La yPos, se debe editar manualmente y le agregamos al final a que state pertene el boton
     }
 
