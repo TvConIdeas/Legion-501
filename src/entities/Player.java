@@ -1,5 +1,6 @@
 package entities;
 
+import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
 import java.awt.Graphics;
@@ -18,11 +19,8 @@ public class Player extends Entity {
 
     // ====================> ATRIBUTOS <====================
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
-    private int aniTick, aniIndex, aniSpeed = 10; // Variables para animación
-    private int playerAction = IDLE; // Estado del jugador, por defecto IDLE (inactivo)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
-    private float playerSpeed= 4.0f; // CAMIBAR A ENTITY
     private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
     private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 
@@ -63,7 +61,7 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics g){
-        g.drawImage(animations[playerAction][aniIndex], (int)(hitbox.x - xDrawOffset),
+        g.drawImage(animations[state][aniIndex], (int)(hitbox.x - xDrawOffset),
                 (int)(hitbox.y - yDrawOffset), width,height,null);
 //        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
     }
@@ -71,10 +69,10 @@ public class Player extends Entity {
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
     private void updateAnimationTick(){
         aniTick++; // Contador de tiempo para la animación
-        if(aniTick >= aniSpeed){ // Cuando el contador llegue al límite de tiempo (30)
+        if(aniTick >= ANI_SPEED){ // Cuando el contador llegue al límite de tiempo (30)
             aniTick = 0;
             aniIndex++; // Indice de qué sprite se va a mostrar
-            if(aniIndex >= GetSpriteAmount(playerAction)){ // Si se pasa de la cantidad máxima de sprites...
+            if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...
                 aniIndex = 0; // Vuelve al primer sprite
             }
         }
@@ -83,9 +81,9 @@ public class Player extends Entity {
     /** setAnimation() ==> Settea el estado del jugador. */
     private void setAnimation() {
         if (moving) // En caso de estar en movimiento
-            playerAction = MOVING;
+            state = MOVING;
         else // En caso de estar inactivo
-            playerAction = IDLE;
+            state = IDLE;
     }
 
     private void updatePos() {
@@ -98,9 +96,9 @@ public class Player extends Entity {
 
         // Movimiento
         if (left && !right)
-            xSpeed = -playerSpeed;
+            xSpeed = -speed;
         else if (right && !left)
-            xSpeed = playerSpeed;
+            xSpeed = speed;
 
 
         // Comprobación de Colision
