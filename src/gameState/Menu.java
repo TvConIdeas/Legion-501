@@ -54,7 +54,7 @@ public class Menu extends State {
     public void mousePressed(MouseEvent e) {
         for(MenuButton mb : buttons) {
             if(isIn(e,mb)){
-                mb.setMousePressed(true); // Boton precionado
+                mb.setMousePressed(true); // Boton presionado
             }
         }
     }
@@ -92,14 +92,14 @@ public class Menu extends State {
 
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) { // BORRAR LUEGO
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             GameState.state = GameState.PLAYING;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) { // BORRAR LUEGO
         // Sin uso (todavia)
     }
 }

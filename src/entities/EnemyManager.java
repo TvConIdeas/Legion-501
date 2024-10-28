@@ -17,11 +17,11 @@ public class EnemyManager {
     private Playing playing; // Traemos el State Playing
     private BufferedImage[][] alien1Arr; // Matriz con las animaciones del Alien1
 
-    private ArrayList<Alien1> aliens1 = new ArrayList<>(); // ArrayList con los aliens
-    int alienRows = 4; // Cantidad de Filas de aliens
-    int alienColumns = 4; // Cantidad de Columnas de aliens
-    int alienCount = 0; // Numero de Aliens a vencer
-    private float alienVelocityX = 0.2f; // Velocidad de los aliens (Revisar)
+    private ArrayList<Alien1> aliens1 = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
+    private int alienRows = 4; // Cantidad de Filas de aliens
+    private int alienColumns = 4; // Cantidad de Columnas de aliens
+    private int alienCount = 0; // Numero de Aliens a vencer
+    private float alienVelocityX = 0.1f; // Velocidad de los aliens (Revisar)
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -30,10 +30,13 @@ public class EnemyManager {
         createAliens();
     }
 
+    // ====================> GETTER <====================
+    // agregar getter de alienCount
+
     // ====================> METODOS <====================
     public void update(){
         for(Alien1 alien1 : aliens1){
-            //alien1.update(); Revisar
+            alien1.update(); // Revisar
             move();
         }
     }
@@ -42,7 +45,7 @@ public class EnemyManager {
         drawAlien1(g);
     }
 
-    /** move() ==> Se encarga de mover la ubicacion de los aliens1 */
+    /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
         for (int i = 0; i < aliens1.size(); i++) {
             Alien1 alien = aliens1.get(i);
@@ -52,7 +55,7 @@ public class EnemyManager {
                 // SI el alien toca con su Hitbox.X las paredes
                 if (alien.hitbox.x + alien.width >= GAME_WIDTH || alien.hitbox.x <= 0) {
                     alienVelocityX *= -1;
-                    alien.hitbox.x += alienVelocityX*2;
+                    alien.hitbox.x += alienVelocityX*5; // eeeee revisar
 
                     // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < aliens1.size(); j++) {
@@ -76,8 +79,8 @@ public class EnemyManager {
         }
     }
 
-    /** createAliens() ==> Ubica los aliens segun las filas y columnas y los agrega al
-     * ArrayList */
+    /** createAliens() ==> Ubica los aliens según las filas y columnas y los agrega al
+     * ArrayList. */
     public void createAliens() {
         for (int i = 0; i < alienColumns; i++) {
             for (int j = 0; j < alienRows; j++) {

@@ -26,7 +26,7 @@ public abstract class State implements Statemethods{
     }
 
     // ====================> METODOS <====================
-    public boolean isIn(MouseEvent e, MenuButton mb){ // Method auxiliar que verificar si el mouse está dentro de la hitbox
+    public boolean isIn(MouseEvent e, MenuButton mb){ // Method auxiliar que verifica si el mouse está dentro de la hitbox
         return mb.getHitbox().contains(e.getX(), e.getY());
     }
 }

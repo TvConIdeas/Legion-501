@@ -22,7 +22,7 @@ public class HelpMethods {
         return false;
     }
 
-    private static boolean IsSolid(float x, float y) {
+    public static boolean IsSolid(float x, float y) {
         // Esta funcion se encarga de si una coordenada (x, y) está fuera de los límites del área de juego.
         if (x < 0 || x >= Game.GAME_WIDTH)
             return true;
