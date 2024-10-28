@@ -14,7 +14,7 @@ import static utilz.Constants.EnemyConstants.*;
 public class EnemyManager {
 
     // ====================> ATRIBUTOS <====================
-    private Playing playing;
+    private Playing playing; // Traemos el State Playing
     private BufferedImage[][] alien1Arr; // Matriz con las animaciones del Alien1
 
     private ArrayList<Alien1> aliens1 = new ArrayList<>(); // ArrayList con los aliens
