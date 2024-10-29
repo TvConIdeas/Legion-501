@@ -19,7 +19,7 @@ public abstract class Enemy extends Entity{
         return aniIndex;
     }
 
-    // ====================> METODOS <====================
+    // ====================> METODOS <==================== 
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= ANI_SPEED) {
