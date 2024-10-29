@@ -30,7 +30,7 @@ public class BulletManager {
         for (int i = 0; i < bulletArr.size(); i++) {
             Bullet bullet = bulletArr.get(i);
             if (!bullet.active) {
-                g.drawRect((int)bullet.x, (int)bullet.y, bullet.width, bullet.height);
+                g.fillRect((int)bullet.x, (int)bullet.y, bullet.width, bullet.height);
             }
         }
     }

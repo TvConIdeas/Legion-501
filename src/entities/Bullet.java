@@ -12,6 +12,7 @@ public class Bullet extends Entity {
     public Bullet(float x, float y, int width, int height) {
         super(x, y, width, height);
         active = false;
+        initHitbox(x, y, width, height);
     }
 
     // ====================> GET | SET <====================

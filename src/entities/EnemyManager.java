@@ -45,6 +45,7 @@ public class EnemyManager {
 
     public void draw(Graphics g){
         drawAlien1(g);
+
     }
 
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
