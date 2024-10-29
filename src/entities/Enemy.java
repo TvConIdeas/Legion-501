@@ -1,13 +1,12 @@
 package entities;
 
+import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.EnemyConstants.*;
 
-public abstract class Enemy  extends Entity{
+public abstract class Enemy extends Entity{
 
     // ====================> ATRIBUTOS <====================
-    private int enemyState, enemyType; // Estado del enemigo || Tipo de enemigo
-    private int aniIndex, aniTick, aniSpeed = 25; // Posiblemente pasar a Entity
-
+    private int enemyType; // Estado del enemigo || Tipo de enemigo
 
     // ====================> CONSTRUCTOR <====================
     public Enemy(float x, float y, int width, int height, int enemyType) {
@@ -16,21 +15,21 @@ public abstract class Enemy  extends Entity{
     }
 
     // ====================> GETTER|SETTERS <====================
-    public int getEnemyState() {
-        return enemyState;
-    }
     public int getAniIndex() {
         return aniIndex;
     }
 
-    // ====================> METODOS <====================
-    private void updateAnimationTick(){
-        aniTick++; // Contador de tiempo para la animación
-        if(aniTick >= aniSpeed){ // Cuando el contador llegue al límite de tiempo (30)
+    // ====================> METODOS <==================== 
+    protected void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= ANI_SPEED) {
             aniTick = 0;
-            aniIndex++; // Indice de qué sprite se va a mostrar
-            if(aniIndex >= GetSpriteAmount(enemyType,enemyState)){ // Si se pasa de la cantidad máxima de sprites...
-                aniIndex = 0; // Vuelve al primer sprite
+            aniIndex++;
+            if (aniIndex >= GetSpriteAmount(enemyType, state)) {
+                aniIndex = 0;
+                switch (state) {
+                    case DEAD -> active = false;
+                }
             }
         }
     }
