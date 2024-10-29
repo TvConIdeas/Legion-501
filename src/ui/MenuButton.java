@@ -30,7 +30,7 @@ public class MenuButton {
         initBounds(); // Cargar Hitbox
     }
 
-    // ====================> GET || SET <====================
+    // ====================> GET | SET <====================
     public boolean isMouseOver() {
         return mouseOver;
     }

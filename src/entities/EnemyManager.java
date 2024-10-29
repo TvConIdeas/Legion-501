@@ -30,7 +30,7 @@ public class EnemyManager {
         createAliens();
     }
 
-    // ====================> GETTER <====================
+    // ====================> GET | SET <====================
     public int getAlienCount() {
         return alienCount;
     }
@@ -57,7 +57,7 @@ public class EnemyManager {
                 // SI el alien toca con su Hitbox.X las paredes
                 if (alien.hitbox.x + alien.width >= GAME_WIDTH || alien.hitbox.x <= 0) {
                     alienVelocityX *= -1;
-                    alien.hitbox.x += alienVelocityX*5; // eeeee revisar
+                    alien.hitbox.x += alienVelocityX*2; // eeeee revisar
 
                     // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < enemies.size(); j++) {

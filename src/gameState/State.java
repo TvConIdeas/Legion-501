@@ -20,7 +20,7 @@ public abstract class State implements Statemethods{
         this.game = game;
     }
 
-    // ====================> GETTER <====================
+    // ====================> GET | SET <====================
     public Game getGame() {
         return game;
     }

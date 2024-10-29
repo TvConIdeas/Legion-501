@@ -12,6 +12,9 @@ public class Alien2 extends Enemy{
         super(x, y, Alien_WIDTH, Alien_HEIGHT, Alien1);
     }
 
+    // ====================> GET | SET <====================
+
+
     // ====================> METODOS <====================
 
 }

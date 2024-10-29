@@ -17,7 +17,7 @@ public abstract class Entity {
     protected int aniTick, aniIndex; // Variables para animación
     protected int state;
     protected Rectangle2D.Float hitbox;
-    protected float speed= 1.0f; // CAMIBAR A ENTITY
+    protected float speed= 1.0f;
     protected boolean active = true;
 
     // ====================> CONSTRUCTOR <====================
@@ -28,7 +28,7 @@ public abstract class Entity {
         this.height = height;
     }
 
-    // ====================> GET/SET <====================
+    // ====================> GET | SET <====================
     public void setX(float x){
         this.x = x;
     }

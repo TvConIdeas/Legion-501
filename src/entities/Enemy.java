@@ -14,7 +14,7 @@ public abstract class Enemy extends Entity{
         initHitbox(x,y,width,height);
     }
 
-    // ====================> GETTER|SETTERS <====================
+    // ====================> GET | SET <====================
     public int getAniIndex() {
         return aniIndex;
     }

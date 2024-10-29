@@ -31,7 +31,7 @@ public class Player extends Entity {
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
     }
 
-    // ====================> SET/GET <====================
+    // ====================> GET | SET <====================
     // Moving, VER
     public void setMoving(boolean moving) {
         this.moving = moving;
@@ -88,7 +88,6 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-
         if(!left && !right) // Esta línea es una optimización, para no hacer
             return;         // cálculos innecesarios si no hay input del jugador.
 
@@ -96,9 +95,9 @@ public class Player extends Entity {
 
         // Movimiento
         if (left && !right)
-            xSpeed = -speed;
+            xSpeed = -speed*3;
         else if (right && !left)
-            xSpeed = speed;
+            xSpeed = speed*3;
 
 
         // Comprobación de Colision
