@@ -28,7 +28,7 @@ public abstract class Entity {
         this.height = height;
     }
 
-    // ====================> GET/SET <====================
+    // ====================> GET | SET <====================
     public void setX(float x){
         this.x = x;
     }

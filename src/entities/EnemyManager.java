@@ -22,6 +22,8 @@ public class EnemyManager {
     private int alienColumns = 6; // Cantidad de Columnas de aliens
     private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.1f; // Velocidad de los aliens (Revisar)
+    private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
+    private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -30,9 +32,13 @@ public class EnemyManager {
         createAliens();
     }
 
-    // ====================> GETTER <====================
+    // ====================> GET | SET <====================
     public int getAlienCount() {
         return alienCount;
+    }
+
+    public ArrayList<entities.Alien1> getEnemies() {
+        return enemies;
     }
 
     // ====================> METODOS <====================
@@ -40,6 +46,7 @@ public class EnemyManager {
         for(Alien1 alien1 : enemies){
             alien1.update(); // Revisar
             move();
+
         }
     }
 
@@ -57,7 +64,7 @@ public class EnemyManager {
                 // SI el alien toca con su Hitbox.X las paredes
                 if (alien.hitbox.x + alien.width >= GAME_WIDTH || alien.hitbox.x <= 0) {
                     alienVelocityX *= -1;
-                    alien.hitbox.x += alienVelocityX*5; // eeeee revisar
+                    alien.hitbox.x += alienVelocityX*2; // eeeee revisar
 
                     // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < enemies.size(); j++) {
@@ -72,11 +79,14 @@ public class EnemyManager {
     private void drawAlien1(Graphics g){
          for(Alien1 alien1 : enemies){ // Hasta que se recorra el Array completo
              if (alien1.active){ // Si esta vivo
-                 g.drawImage(alien1Arr[alien1.state][alien1.getAniIndex()],
-                         (int)alien1.getHitbox().x,
-                         (int)alien1.getHitbox().y,
+                 alien1.drawHitbox(g);
+                 g.drawImage(
+                         alien1Arr[alien1.state][alien1.getAniIndex()],
+                         (int)(alien1.hitbox.x - xDrawOffset),
+                         (int)(alien1.hitbox.y - yDrawOffset),
                          Alien_WIDTH,
-                         Alien_HEIGHT, null);
+                         Alien_HEIGHT,
+                         null);
              } // Dibuja en Alien, UTILIZANDO SU HITBOX
         }
     }
@@ -86,7 +96,6 @@ public class EnemyManager {
     public void createAliens() {
         for (int i = 0; i < alienColumns; i++) {
             for (int j = 0; j < alienRows; j++) {
-
                 Alien1 alien = new Alien1(
                         Game.TILES_SIZE + i * Alien_WIDTH,
                         Game.TILES_SIZE + j * Alien_HEIGHT);

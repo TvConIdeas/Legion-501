@@ -22,6 +22,9 @@ public class Menu extends State {
         loadButtons();
     }
 
+    // ====================> GET | SET <====================
+
+
     // ====================> METODOS <====================
     private void loadButtons() {
         buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (100*Game.SCALE),0,GameState.PLAYING);

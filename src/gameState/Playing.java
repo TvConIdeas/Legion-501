@@ -1,12 +1,12 @@
 package gameState;
 
-import entities.EnemyManager;
-import entities.Player;
+import entities.*;
 import main.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * Playing ==>
@@ -17,7 +17,9 @@ public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
     private Player player;
-    private EnemyManager enemyManager;
+    public EnemyManager enemyManager;
+    private BulletManager bulletManager;
+    private int score;
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -25,11 +27,17 @@ public class Playing extends State {
         initClasses();
     }
 
-    // ====================> GETTER <====================
+    // ====================> GET | SET <====================
     public Player getPlayer() {
         return player;
     }
-
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+    public BulletManager getBulletManager() {
+        return bulletManager;
+    }
+    
     // ====================> METODOS <====================
 
     private void initClasses(){
@@ -40,6 +48,7 @@ public class Playing extends State {
                 game.TILES_SIZE);
 
         enemyManager = new EnemyManager(this);
+        bulletManager = new BulletManager(this);
     }
 
     public void windowFocusLost() {
@@ -51,12 +60,14 @@ public class Playing extends State {
     public void update() {
         player.update();
         enemyManager.update();
+        bulletManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
         player.draw(g);
         enemyManager.draw(g);
+        bulletManager.draw(g);
     }
 
     @Override
@@ -102,6 +113,9 @@ public class Playing extends State {
                 break;
             case KeyEvent.VK_D:
                 player.setRight(false);
+                break;
+            case KeyEvent.VK_E:
+                bulletManager.createBullet();
                 break;
         }
     }

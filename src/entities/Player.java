@@ -31,7 +31,7 @@ public class Player extends Entity {
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
     }
 
-    // ====================> SET/GET <====================
+    // ====================> GET | SET <====================
     // Moving, VER
     public void setMoving(boolean moving) {
         this.moving = moving;
@@ -61,9 +61,12 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics g){
-        g.drawImage(animations[state][aniIndex], (int)(hitbox.x - xDrawOffset),
-                (int)(hitbox.y - yDrawOffset), width,height,null);
-//        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+        g.drawImage(animations[state][aniIndex],
+                (int)(hitbox.x - xDrawOffset),
+                (int)(hitbox.y - yDrawOffset),
+                width,
+                height,null);
+        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
     }
 
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
@@ -88,7 +91,6 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-
         if(!left && !right) // Esta línea es una optimización, para no hacer
             return;         // cálculos innecesarios si no hay input del jugador.
 
@@ -96,12 +98,12 @@ public class Player extends Entity {
 
         // Movimiento
         if (left && !right)
-            xSpeed = -speed;
+            xSpeed = -speed*3;
         else if (right && !left)
-            xSpeed = speed;
+            xSpeed = speed*3;
 
 
-        // Comprobación de Colision
+        // Comprobación de Colision con las Paredes
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height)) {
             hitbox.x += xSpeed;
             hitbox.y += ySpeed;

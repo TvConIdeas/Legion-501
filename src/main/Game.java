@@ -51,7 +51,7 @@ public class Game implements Runnable {
         startGameLoop();
     }
 
-    // ====================> GETTERS <====================
+    // ====================> GET | SET <====================
     public Playing getPlaying() {
         return playing;
     }

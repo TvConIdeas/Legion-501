@@ -36,7 +36,7 @@ public class GamePanel extends JPanel {
         addMouseMotionListener(mouseInputs);
     }
 
-    // ====================> GETTERS <====================
+    // ====================> GET | SET <====================
     public Game getGame() {
         return game;
     }
