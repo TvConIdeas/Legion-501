@@ -10,8 +10,6 @@ import utilz.LoadSave;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.Constants.PlayerConstants.IDLE;
-import static utilz.Constants.PlayerConstants.MOVING;
 
 public class EnemyManager {
 
@@ -24,6 +22,8 @@ public class EnemyManager {
     private int alienColumns = 6; // Cantidad de Columnas de aliens
     private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.1f; // Velocidad de los aliens (Revisar)
+    private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
+    private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -46,6 +46,7 @@ public class EnemyManager {
         for(Alien1 alien1 : enemies){
             alien1.update(); // Revisar
             move();
+
         }
     }
 
@@ -78,10 +79,11 @@ public class EnemyManager {
     private void drawAlien1(Graphics g){
          for(Alien1 alien1 : enemies){ // Hasta que se recorra el Array completo
              if (alien1.active){ // Si esta vivo
+                 alien1.drawHitbox(g);
                  g.drawImage(
                          alien1Arr[alien1.state][alien1.getAniIndex()],
-                         (int)alien1.getHitbox().x,
-                         (int)alien1.getHitbox().y,
+                         (int)(alien1.hitbox.x - xDrawOffset),
+                         (int)(alien1.hitbox.y - yDrawOffset),
                          Alien_WIDTH,
                          Alien_HEIGHT,
                          null);

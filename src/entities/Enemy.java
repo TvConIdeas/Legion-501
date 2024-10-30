@@ -27,12 +27,17 @@ public abstract class Enemy extends Entity{
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {
                 aniIndex = 0;
-
                 switch (state) {
                     case DEAD -> active = false;
                 }
             }
         }
+    }
+
+    protected void newState(int enemyState){
+        this.state = enemyState;
+        aniIndex = 0;
+        aniTick = 0;
     }
 
     public void update(){

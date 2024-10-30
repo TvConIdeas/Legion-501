@@ -1,8 +1,5 @@
 package entities;
-import gameState.Playing;
 import main.Game;
-
-import java.util.ArrayList;
 
 public class Bullet extends Entity {
     // ====================> ATRIBUTOS <====================
@@ -12,7 +9,7 @@ public class Bullet extends Entity {
     public Bullet(float x, float y, int width, int height) {
         super(x, y, width, height);
         active = false;
-        initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+        initHitbox(x, y, Game.TILES_SIZE / 8, Game.TILES_SIZE / 8);
     }
 
     // ====================> GET | SET <====================

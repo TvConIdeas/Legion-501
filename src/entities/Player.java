@@ -61,8 +61,11 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics g){
-        g.drawImage(animations[state][aniIndex], (int)(hitbox.x - xDrawOffset),
-                (int)(hitbox.y - yDrawOffset), width,height,null);
+        g.drawImage(animations[state][aniIndex],
+                (int)(hitbox.x - xDrawOffset),
+                (int)(hitbox.y - yDrawOffset),
+                width,
+                height,null);
         drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
     }
 
