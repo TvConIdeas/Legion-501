@@ -27,6 +27,7 @@ public abstract class Enemy extends Entity{
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {
                 aniIndex = 0;
+
                 switch (state) {
                     case DEAD -> active = false;
                 }

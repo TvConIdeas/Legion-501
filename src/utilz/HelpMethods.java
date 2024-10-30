@@ -40,7 +40,7 @@ public class HelpMethods {
 
     /// IsSolid ==> Comprueba si la posición (x, y) está fuera de los límites del juego.
     public static boolean IsSolid(float x, float y) {
-        
+
     // Si (x, y) está fuera de los límites, retorna true; si está dentro, retorna false.
         if (x < 0 || x >= Game.GAME_WIDTH) return true;  // Fuera del ancho permitido
         if (y < 0 || y >= Game.GAME_HEIGHT) return true;  // Fuera del alto permitido

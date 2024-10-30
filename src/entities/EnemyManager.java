@@ -10,6 +10,8 @@ import utilz.LoadSave;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.PlayerConstants.IDLE;
+import static utilz.Constants.PlayerConstants.MOVING;
 
 public class EnemyManager {
 
@@ -76,11 +78,13 @@ public class EnemyManager {
     private void drawAlien1(Graphics g){
          for(Alien1 alien1 : enemies){ // Hasta que se recorra el Array completo
              if (alien1.active){ // Si esta vivo
-                 g.drawImage(alien1Arr[alien1.state][alien1.getAniIndex()],
+                 g.drawImage(
+                         alien1Arr[alien1.state][alien1.getAniIndex()],
                          (int)alien1.getHitbox().x,
                          (int)alien1.getHitbox().y,
                          Alien_WIDTH,
-                         Alien_HEIGHT, null);
+                         Alien_HEIGHT,
+                         null);
              } // Dibuja en Alien, UTILIZANDO SU HITBOX
         }
     }

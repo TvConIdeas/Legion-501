@@ -44,19 +44,20 @@ public class BulletManager {
 
 
     public void move() {
-        for (int i = 0; i < bulletArr.size(); i++) {
+        for (int i = 0; i < bulletArr.size(); i++) { // Bucle para detectar todas las balas
             Bullet bullet = bulletArr.get(i);
-            bullet.getHitbox().y -= bulletSpeed;
+            bullet.getHitbox().y -= bulletSpeed; // Movimiento hacia arriba
 
+            // Detecta la Colision con Enemigos
             for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
                 Alien1 alien = playing.enemyManager.getEnemies().get(j);
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
                     bullet.active = true;
                     alien.state = DEAD;
-                    alien.active = false;
                 }
             }
 
+            // Remueve las balas que lleguen al limite
             while (bulletArr.size() > 0 && (bulletArr.get(0).active || bulletArr.get(0).y < 0)) {
                 bulletArr.remove(0);
             }
