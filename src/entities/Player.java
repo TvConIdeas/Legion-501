@@ -100,7 +100,7 @@ public class Player extends Entity {
             xSpeed = speed*3;
 
 
-        // Comprobación de Colision
+        // Comprobación de Colision con las Paredes
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height)) {
             hitbox.x += xSpeed;
             hitbox.y += ySpeed;

@@ -35,6 +35,10 @@ public class EnemyManager {
         return alienCount;
     }
 
+    public ArrayList<entities.Alien1> getEnemies() {
+        return enemies;
+    }
+
     // ====================> METODOS <====================
     public void update(){
         for(Alien1 alien1 : enemies){
@@ -45,7 +49,6 @@ public class EnemyManager {
 
     public void draw(Graphics g){
         drawAlien1(g);
-
     }
 
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
@@ -87,7 +90,6 @@ public class EnemyManager {
     public void createAliens() {
         for (int i = 0; i < alienColumns; i++) {
             for (int j = 0; j < alienRows; j++) {
-
                 Alien1 alien = new Alien1(
                         Game.TILES_SIZE + i * Alien_WIDTH,
                         Game.TILES_SIZE + j * Alien_HEIGHT);

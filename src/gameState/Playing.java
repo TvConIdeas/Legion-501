@@ -1,9 +1,6 @@
 package gameState;
 
-import entities.Bullet;
-import entities.BulletManager;
-import entities.EnemyManager;
-import entities.Player;
+import entities.*;
 import main.Game;
 
 import java.awt.*;
@@ -20,8 +17,9 @@ public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
     private Player player;
-    private EnemyManager enemyManager;
+    public EnemyManager enemyManager;
     private BulletManager bulletManager;
+    private int score;
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {

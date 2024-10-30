@@ -1,5 +1,6 @@
 package utilz;
 
+import entities.Entity;
 import main.Game;
 
 public class HelpMethods {
@@ -12,6 +13,8 @@ public class HelpMethods {
             - Abajo a la izquierda.
             Si alguna es sólida retorna false y no se permite el movimiento.
             Si todas las posiciones están libres, entonces retorna true.
+            Este metodo lo utilizaremos para detectar la colision CON LA PARED
+            (Revisar)
          */
 
         if (!IsSolid(x, y))
@@ -20,6 +23,14 @@ public class HelpMethods {
                     if (!IsSolid(x, y + height))
                         return true;
         return false;
+    }
+
+    /// Metodo para detectar Colisiones con otras Entidades
+    public static boolean DetectCollision(Entity a, Entity b) {
+        return  a.getHitbox().x < b.getHitbox().x + b.getHitbox().width &&
+                a.getHitbox().x + a.getHitbox().width > b.getHitbox().x &&
+                a.getHitbox().y < b.getHitbox().y + b.getHitbox().height &&
+                a.getHitbox().y + a.getHitbox().height > b.getHitbox().y;
     }
 
     public static boolean IsSolid(float x, float y) {

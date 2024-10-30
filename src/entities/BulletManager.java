@@ -6,6 +6,9 @@ import main.Game;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static utilz.Constants.EnemyConstants.DEAD;
+import static utilz.HelpMethods.DetectCollision;
+
 public class BulletManager {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
@@ -20,6 +23,10 @@ public class BulletManager {
 
     // ====================> GET | SET <====================
 
+    public ArrayList<Bullet> getBulletArr() {
+        return bulletArr;
+    }
+
     // ====================> METODOS <====================
     public void update(){
         move();
@@ -30,7 +37,7 @@ public class BulletManager {
         for (int i = 0; i < bulletArr.size(); i++) {
             Bullet bullet = bulletArr.get(i);
             if (!bullet.active) {
-                g.fillRect((int)bullet.x, (int)bullet.y, bullet.width, bullet.height);
+                g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
             }
         }
     }
@@ -39,7 +46,20 @@ public class BulletManager {
     public void move() {
         for (int i = 0; i < bulletArr.size(); i++) {
             Bullet bullet = bulletArr.get(i);
-            bullet.y -= bulletSpeed;
+            bullet.getHitbox().y -= bulletSpeed;
+
+            for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
+                Alien1 alien = playing.enemyManager.getEnemies().get(j);
+                if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
+                    bullet.active = true;
+                    alien.state = DEAD;
+                    alien.active = false;
+                }
+            }
+
+            while (bulletArr.size() > 0 && (bulletArr.get(0).active || bulletArr.get(0).y < 0)) {
+                bulletArr.remove(0);
+            }
         }
     }
 
