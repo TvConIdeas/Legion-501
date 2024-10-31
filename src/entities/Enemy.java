@@ -34,12 +34,6 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    protected void newState(int enemyState){
-        this.state = enemyState;
-        aniIndex = 0;
-        aniTick = 0;
-    }
-
     public void update(){
         updateAnimationTick();
     }

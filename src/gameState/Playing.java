@@ -58,16 +58,16 @@ public class Playing extends State {
     /// Interface StateMethods
     @Override
     public void update() {
+        bulletManager.update();
         player.update();
         enemyManager.update();
-        bulletManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
+        bulletManager.draw(g);
         player.draw(g);
         enemyManager.draw(g);
-        bulletManager.draw(g);
     }
 
     @Override

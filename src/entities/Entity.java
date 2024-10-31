@@ -54,6 +54,12 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 
+    protected void newState(int state){
+        this.state = state;
+        aniIndex = 0;
+        aniTick = 0;
+    }
+
     /** updateHitbox() ==> Actualiza la posición de la hitbox. */
     protected void updateHitbox() {
         hitbox.x = (int)x;
