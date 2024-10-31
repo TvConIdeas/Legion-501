@@ -12,8 +12,8 @@ import static utilz.HelpMethods.DetectCollision;
 public class BulletManager {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
-    private ArrayList<Bullet> bulletArr = new ArrayList<>(); ;
-    private float bulletSpeed = 5.0f;
+    private ArrayList<Bullet> bulletArr = new ArrayList<>(); // Arraylist con las balas
+    private float bulletSpeed = 5.0f; // Velocidad de la bala
 
     // ====================> CONSTRUCTOR <====================
 
@@ -22,10 +22,6 @@ public class BulletManager {
     }
 
     // ====================> GET | SET <====================
-
-    public ArrayList<Bullet> getBulletArr() {
-        return bulletArr;
-    }
 
     // ====================> METODOS <====================
     public void update(){
@@ -37,7 +33,6 @@ public class BulletManager {
         for (int i = 0; i < bulletArr.size(); i++) {
             Bullet bullet = bulletArr.get(i);
             if (!bullet.active) {
-                bullet.drawHitbox(g);
                 g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
             }
         }
@@ -52,8 +47,9 @@ public class BulletManager {
             // Detecta la Colision con Enemigos
             for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
                 Alien1 alien = playing.enemyManager.getEnemies().get(j);
+
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-                    alien.newState(DEAD);
+                    alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD y
                     bullet.active = true;
                 }
             }

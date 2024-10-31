@@ -1,6 +1,7 @@
 package entities;
 
 import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.EnemyConstants.DEAD;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
 import java.awt.Graphics;
@@ -61,12 +62,13 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics g){
-        g.drawImage(animations[state][aniIndex],
-                (int)(hitbox.x - xDrawOffset),
-                (int)(hitbox.y - yDrawOffset),
-                width,
-                height,null);
         drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+        g.drawImage(animations[state][aniIndex],
+                (int) (hitbox.x - xDrawOffset),
+                (int) (hitbox.y - yDrawOffset),
+                width,
+                height, null);
+
     }
 
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
@@ -77,6 +79,9 @@ public class Player extends Entity {
             aniIndex++; // Indice de qué sprite se va a mostrar
             if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...
                 aniIndex = 0; // Vuelve al primer sprite
+                switch (state) {
+                    case DEAD -> active = false;
+                }
             }
         }
     }
