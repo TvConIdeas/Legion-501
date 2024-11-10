@@ -17,8 +17,8 @@ public class EnemyManager <T extends Enemy> {
     private Playing playing; // Traemos el State Playing
 
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
-    private int alienRows = 4; // Cantidad de Filas de aliens
-    private int alienColumns = 6; // Cantidad de Columnas de aliens
+    private int alienRows = 5; // Cantidad de Filas de aliens
+    private int alienColumns = 5; // Cantidad de Columnas de aliens
     private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.05f; // Velocidad de los aliens (Revisar)
 
@@ -49,7 +49,7 @@ public class EnemyManager <T extends Enemy> {
     public void draw(Graphics g){ // cambiar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for(T alien : enemies){
             if(alien.active){
-//                alien.drawHitbox(g);
+                alien.drawHitbox(g);
                 alien.draw(g);
             }
         }
@@ -84,17 +84,29 @@ public class EnemyManager <T extends Enemy> {
     /** createAliens() ==> Ubica los aliens según las filas y columnas y los agrega al
      * ArrayList. */
     public void createAliens() {
-        /*for (int i = 0; i < alienColumns; i++) {
+        int cantAlien1 = 15;
+        int cantAlien2 = 10;
+        T alien = null;
+
+        for (int i = 0; i < alienColumns; i++) {
             for (int j = 0; j < alienRows; j++) {
-                T alien = (T) new Alien1(
-                        Game.TILES_SIZE + i * Alien_WIDTH,
-                        Game.TILES_SIZE + j * Alien_HEIGHT);
+                if(cantAlien1 > 0){
+                    alien = (T) new Alien1(
+                            Game.TILES_SIZE + i * Alien_WIDTH,
+                            Game.TILES_SIZE + j * Alien_HEIGHT);
+                    cantAlien1--;
+                } else if (cantAlien2 > 0) {
+                    alien = (T) new Alien2(
+                            Game.TILES_SIZE + i * Alien_WIDTH,
+                            Game.TILES_SIZE + j * Alien_HEIGHT);
+                    cantAlien2--;
+                }
                 enemies.add(alien); // Lo agregamos al ArrayList
             }
-        }*/
+        }
 
-        enemies.add((T) new Alien1(100, 200));
-        enemies.add((T) new Alien2(150, 200));
+//        enemies.add((T) new Alien1(100, 200));
+//        enemies.add((T) new Alien2(150, 200));
 
         alienCount = enemies.size(); // Lo agregamos al contador
     }

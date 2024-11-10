@@ -55,14 +55,7 @@ public class Playing extends State {
         player.resetDirBooleans();
     }
 
-    /// Interface StateMethods
-    @Override
-    public void update() {
-        bulletManager.update();
-        player.update();
-        enemyManager.update();
-    }
-
+    /// Interface IRenderable
     @Override
     public void draw(Graphics g) {
         bulletManager.draw(g);
@@ -73,6 +66,14 @@ public class Playing extends State {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+    }
+
+    /// Interface StateMethods
+    @Override
+    public void update() {
+        bulletManager.update();
+        player.update();
+        enemyManager.update();
     }
 
     @Override
