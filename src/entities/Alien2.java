@@ -12,16 +12,14 @@ public class Alien2 extends Enemy{
 
     // ====================> ATRIBUTOS <====================
 
-
     // ====================> CONTRUCTOR <====================
     public Alien2(float x, float y) {
         super(x, y, Alien_WIDTH, Alien_HEIGHT, Alien2);
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
-        loadEnemyImgs();
+        loadImgs();
     }
 
     // ====================> GET | SET <====================
-
 
     // ====================> METODOS <====================
     public void draw(Graphics g){
@@ -32,10 +30,10 @@ public class Alien2 extends Enemy{
                 Alien_WIDTH,
                 Alien_HEIGHT,
                 null);
-    } // Dibuja en Alien, UTILIZANDO SU HITBOX
+    }
 
-    /** loadEnemyImgs() ==> Separa el SpriteSheat y los ubica en una matriz. */
-    private void loadEnemyImgs() {
+    /** loadImgs() ==> Separa el SpriteSheat y los ubica en una matriz. */
+    private void loadImgs() {
         animations = new BufferedImage[2][5];
         BufferedImage temp = LoadSave.GetSpritesAtlas(LoadSave.Alien2_ATLAS);
         for (int j = 0; j < animations.length; j++)

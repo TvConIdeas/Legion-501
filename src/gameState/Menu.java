@@ -24,7 +24,6 @@ public class Menu extends State {
 
     // ====================> GET | SET <====================
 
-
     // ====================> METODOS <====================
     private void loadButtons() {
         buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (100*Game.SCALE),0,GameState.PLAYING);
@@ -39,6 +38,7 @@ public class Menu extends State {
         }
     }
 
+    /// Interface StateMethods
     @Override
     public void update() {
         for(MenuButton mb : buttons) {
@@ -75,7 +75,6 @@ public class Menu extends State {
         resetButtons();
     }
 
-
     @Override
     public void mouseMoved(MouseEvent e) {
         for (MenuButton mb : buttons)
@@ -92,7 +91,6 @@ public class Menu extends State {
     public void mouseClicked(MouseEvent e) {
         // Sin uso (todavia)
     }
-
 
     @Override
     public void keyPressed(KeyEvent e) { // BORRAR LUEGO

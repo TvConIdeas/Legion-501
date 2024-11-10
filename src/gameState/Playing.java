@@ -2,11 +2,12 @@ package gameState;
 
 import entities.*;
 import main.Game;
+import utilz.LevelConfig;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Playing ==>
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
+    private int score;
     private Player player;
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
-    private int score;
+
+    public HashMap<String, LevelConfig> levelManager = new HashMap<>();
+    private String curretLevel = "Easy"; // Nivel actual por defecto
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -31,24 +35,32 @@ public class Playing extends State {
     public Player getPlayer() {
         return player;
     }
-    public EnemyManager getEnemyManager() {
-        return enemyManager;
-    }
-    public BulletManager getBulletManager() {
-        return bulletManager;
-    }
-    
-    // ====================> METODOS <====================
 
+    // ====================> METODOS <====================
     private void initClasses(){
         player = new Player(
-                game.GAME_WIDTH/2 - game.TILES_SIZE / 2,
-                game.GAME_HEIGHT - game.TILES_SIZE * 2,
-                game.TILES_SIZE,
-                game.TILES_SIZE);
+                (float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2,
+                Game.GAME_HEIGHT - Game.TILES_SIZE * 2,
+                Game.TILES_SIZE,
+                Game.TILES_SIZE);
 
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
+
+        enemyManager.loadConfigLevel(levelManager);
+        startLevel(curretLevel); // Iniciar el primer nivel con dificultad "Easy"
+    }
+
+    /** startLevel() ==> Configurar nivel con la dificultad actual. */
+    public void startLevel(String dificultad) {
+        if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
+            curretLevel = dificultad; // Actualiza el nivel actual
+            enemyManager.setCurretLevel(dificultad); // Cambia la dificultad en EnemyManager
+            enemyManager.createAliens(); // Crea los aliens con la nueva configuración
+            score = 0; // Reinicia el puntaje si es necesario
+        } else {
+            System.out.println("Nivel no encontrado: " + dificultad);
+        }
     }
 
     public void windowFocusLost() {
@@ -64,33 +76,20 @@ public class Playing extends State {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    /// Interface StateMethods
-    @Override
     public void update() {
         bulletManager.update();
         player.update();
         enemyManager.update();
+
+        // Ejemplo de lógica para cambiar de nivel basado en el puntaje
+        if (score >= 100 && curretLevel.equals("Easy")) {
+            startLevel("Medium");
+        } else if (score >= 200 && curretLevel.equals("Medium")) {
+            startLevel("Hard");
+        }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
+    /// Interface StateMethods
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -119,5 +118,25 @@ public class Playing extends State {
                 bulletManager.createBullet();
                 break;
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
 }
