@@ -1,5 +1,8 @@
 package entities;
 
+import main.Game;
+import utilz.IRenderable;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
@@ -19,6 +22,9 @@ public abstract class Entity {
     protected Rectangle2D.Float hitbox;
     protected float speed= 1.0f;
     protected boolean active = true;
+
+    protected float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
+    protected float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 
     // ====================> CONSTRUCTOR <====================
     public Entity(float x, float y, int width, int height) {

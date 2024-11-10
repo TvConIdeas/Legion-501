@@ -55,6 +55,6 @@ public class GamePanel extends JPanel {
         super.paintComponent(g); /* Obligatorio siempre en esta función. Llama al method de la superclase
                                  para que el Panel funcione correctamente. */
 
-        game.render(g);
+        game.draw(g);
     }
 }

@@ -1,12 +1,17 @@
 package entities;
 
+import utilz.IRenderable;
+
+import java.awt.image.BufferedImage;
+
 import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.EnemyConstants.*;
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity implements IRenderable {
 
     // ====================> ATRIBUTOS <====================
     private int enemyType; // Estado del enemigo || Tipo de enemigo
+    protected BufferedImage[][] animations;
 
     // ====================> CONSTRUCTOR <====================
     public Enemy(float x, float y, int width, int height, int enemyType) {

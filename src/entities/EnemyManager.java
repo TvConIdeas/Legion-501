@@ -1,7 +1,6 @@
 package entities;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import gameState.Playing;
@@ -12,24 +11,20 @@ import static main.Game.GAME_WIDTH;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.HelpMethods.DetectCollision;
 
-public class EnemyManager {
+public class EnemyManager <T extends Enemy> {
 
     // ====================> ATRIBUTOS <====================
     private Playing playing; // Traemos el State Playing
-    private BufferedImage[][] alien1Arr, alien2Arr; // Matriz con las animaciones del Alien1
 
-    private ArrayList<Alien1> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
-    private int alienRows = 4; // Cantidad de Filas de aliens
-    private int alienColumns = 6; // Cantidad de Columnas de aliens
+    private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
+    private int alienRows = 5; // Cantidad de Filas de aliens
+    private int alienColumns = 5; // Cantidad de Columnas de aliens
     private int alienCount = 0; // Numero de Aliens a vencer
-    private float alienVelocityX = 0.1f; // Velocidad de los aliens (Revisar)
-    private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
-    private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
+    private float alienVelocityX = 0.05f; // Velocidad de los aliens (Revisar)
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
         this.playing = playing;
-        loadEnemyImgs();
         createAliens();
     }
 
@@ -38,27 +33,32 @@ public class EnemyManager {
         return alienCount;
     }
 
-    public ArrayList<entities.Alien1> getEnemies() {
+    public ArrayList<T> getEnemies() {
         return enemies;
     }
 
     // ====================> METODOS <====================
     public void update(){
-        for(Alien1 alien1 : enemies){
-            alien1.update(); // Revisar
+        for(T alien : enemies){
+            alien.update(); // Revisar
             move();
 
         }
     }
 
-    public void draw(Graphics g){
-        drawAlien1(g);
+    public void draw(Graphics g){ // cambiar !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        for(T alien : enemies){
+            if(alien.active){
+                alien.drawHitbox(g);
+                alien.draw(g);
+            }
+        }
     }
 
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
         for (int i = 0; i < enemies.size(); i++) {
-            Alien1 alien = enemies.get(i);
+            T alien = enemies.get(i);
             if (alien.active) { // Si el Alien esta vivo
                 alien.hitbox.x += alienVelocityX;
 
@@ -78,46 +78,36 @@ public class EnemyManager {
                     playing.getPlayer().newState(DEAD);
                 }
             }
-
-        }
-    }
-
-    /** drawAlien1() ==> Method "sub-draw" para dibujar los Aliens 1*/
-    private void drawAlien1(Graphics g){
-         for(Alien1 alien1 : enemies){ // Hasta que se recorra el Array completo
-             if (alien1.active){ // Si esta vivo
-                 alien1.drawHitbox(g);
-                 g.drawImage(
-                         alien1Arr[alien1.state][alien1.getAniIndex()],
-                         (int)(alien1.hitbox.x - xDrawOffset),
-                         (int)(alien1.hitbox.y - yDrawOffset),
-                         Alien_WIDTH,
-                         Alien_HEIGHT,
-                         null);
-             } // Dibuja en Alien, UTILIZANDO SU HITBOX
         }
     }
 
     /** createAliens() ==> Ubica los aliens según las filas y columnas y los agrega al
      * ArrayList. */
     public void createAliens() {
+        int cantAlien1 = 15;
+        int cantAlien2 = 10;
+        T alien = null;
+
         for (int i = 0; i < alienColumns; i++) {
             for (int j = 0; j < alienRows; j++) {
-                Alien1 alien = new Alien1(
-                        Game.TILES_SIZE + i * Alien_WIDTH,
-                        Game.TILES_SIZE + j * Alien_HEIGHT);
+                if(cantAlien1 > 0){
+                    alien = (T) new Alien1(
+                            Game.TILES_SIZE + i * Alien_WIDTH,
+                            Game.TILES_SIZE + j * Alien_HEIGHT);
+                    cantAlien1--;
+                } else if (cantAlien2 > 0) {
+                    alien = (T) new Alien2(
+                            Game.TILES_SIZE + i * Alien_WIDTH,
+                            Game.TILES_SIZE + j * Alien_HEIGHT);
+                    cantAlien2--;
+                }
                 enemies.add(alien); // Lo agregamos al ArrayList
             }
         }
-        alienCount = enemies.size(); // Lo agregamos al contador
-    }
 
-    /** loadEnemyImgs() ==> Separa el SpriteSheat y los ubica en una matriz. */
-    private void loadEnemyImgs() {
-        alien1Arr = new BufferedImage[2][7];
-        BufferedImage temp = LoadSave.GetSpritesAtlas(LoadSave.Alien1_ATLAS);
-        for (int j = 0; j < alien1Arr.length; j++)
-            for (int i = 0; i < alien1Arr[j].length; i++)
-                alien1Arr[j][i] = temp.getSubimage(i * Alien_WIDHT_DEFAULT, j * Alien_HEIGHT_DEFAULT, Alien_WIDHT_DEFAULT, Alien_HEIGHT_DEFAULT);
+//        enemies.add((T) new Alien1(100, 200));
+//        enemies.add((T) new Alien2(150, 200));
+
+        alienCount = enemies.size(); // Lo agregamos al contador
     }
 }

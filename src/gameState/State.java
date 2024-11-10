@@ -2,6 +2,7 @@ package gameState;
 
 import main.Game;
 import ui.MenuButton;
+import utilz.IRenderable;
 
 import java.awt.event.MouseEvent;
 
@@ -10,7 +11,7 @@ import java.awt.event.MouseEvent;
  * Clase padre abstracta de los estados del juego.
  */
 
-public abstract class State implements Statemethods{
+public abstract class State implements Statemethods, IRenderable {
 
     // ====================> ATRIBUTOS <====================
     protected Game game;
