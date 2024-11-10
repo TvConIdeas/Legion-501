@@ -2,6 +2,7 @@ package entities;
 
 import gameState.Playing;
 import main.Game;
+import utilz.IRenderable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import static utilz.Constants.EnemyConstants.DEAD;
 import static utilz.HelpMethods.DetectCollision;
 
-public class BulletManager {
+public class BulletManager implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
     private ArrayList<Bullet> bulletArr = new ArrayList<>(); // Arraylist con las balas
@@ -46,7 +47,7 @@ public class BulletManager {
 
             // Detecta la Colision con Enemigos
             for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
-                Alien1 alien = playing.enemyManager.getEnemies().get(j);
+                Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
 
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
                     alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD y

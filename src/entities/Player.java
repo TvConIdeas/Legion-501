@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.Game;
+import utilz.IRenderable;
 import utilz.LoadSave;
 
 /**
@@ -16,14 +17,12 @@ import utilz.LoadSave;
  * (animación, movimiento, ataque, etc).
  */
 
-public class Player extends Entity {
+public class Player extends Entity implements IRenderable {
 
     // ====================> ATRIBUTOS <====================
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
-    private float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
-    private float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
 
     // ====================> CONSTRUCTOR <====================
     public Player(float x, float y, int width, int height) {
@@ -62,7 +61,7 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics g){
-        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+//        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
         g.drawImage(animations[state][aniIndex],
                 (int) (hitbox.x - xDrawOffset),
                 (int) (hitbox.y - yDrawOffset),

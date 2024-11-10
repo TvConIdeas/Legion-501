@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import gameState.GameState;
 import gameState.Menu;
 import gameState.Playing;
+import utilz.IRenderable;
 
 /***
  * Game ==>
@@ -16,7 +17,7 @@ import gameState.Playing;
  * Una vez que un hilo se inicia, no para hasta que se lo quiera detener.
  */
 
-public class Game implements Runnable {
+public class Game implements Runnable, IRenderable {
 
     // ====================> ATRIBUTOS <====================
     private GameWindow gameWindow;
@@ -74,6 +75,7 @@ public class Game implements Runnable {
     }
 
     /** update() ==> Actualizar la información por momento. */
+    @Override
     public void update(){
         switch (GameState.state){ // Llamar method update() según el gameState
             case MENU:
@@ -91,7 +93,8 @@ public class Game implements Runnable {
     }
 
     /*** render() ==> Renderiza cada clase. Dibuja la ventana, con la informacion actualizada. */
-    public void render(Graphics g){
+    @Override
+    public void draw(Graphics g){
         switch (GameState.state){
             case MENU:
                 menu.draw(g);
