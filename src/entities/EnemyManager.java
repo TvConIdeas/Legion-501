@@ -11,6 +11,7 @@ import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -18,7 +19,7 @@ public class EnemyManager <T extends Enemy> {
     private Playing playing; // Traemos el State Playing
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
     private int alienColumns = 5; // Cantidad de Columnas de aliens
-    private float alienVelocityX = 0.1f; // Velocidad de los aliens
+    private float alienVelocityX = 0.2f; // Velocidad de los aliens
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -51,7 +52,8 @@ public class EnemyManager <T extends Enemy> {
 
                 if (DetectCollision(alien, playing.getPlayer())) {
                     System.out.println("Colision Jugador");
-//                    playing.getPlayer().newState(DEAD);
+                    playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
+                    playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
                 }
 
                 alien.updateHitbox();

@@ -61,19 +61,19 @@ public class Player extends Entity implements IRenderable {
             if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...
                 aniIndex = 0; // Vuelve al primer sprite
                 switch (state) {
-                    case DEAD -> active = false;
+                    case EXPLODE -> active = false;
                 }
             }
         }
     }
 
     /** setAnimation() ==> Settea el estado del jugador. */
-    private void setAnimation() {
+    /*private void setAnimation() {
         if (moving) // En caso de estar en movimiento
-            state = IDLE;
-        /*else // En caso de estar inactivo
-            state = IDLE;*/
-    }
+            state = EXPLODE;
+        if(!active)
+            state = EXPLODE;
+    }*/
 
     /** move() ==> Movimiento del jugador. */
     private void move() {
@@ -103,7 +103,7 @@ public class Player extends Entity implements IRenderable {
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpritesAtlas(LoadSave.Player_ATLAS); // Cargar el SpriteSheat
 
-        animations = new BufferedImage[1][7]; // Instanciar el SpriteSheat
+        animations = new BufferedImage[2][11]; // Instanciar el SpriteSheat
 
         // Ubicar a través de un bucle los diferentes sprites dentro de la matriz
         for (int j = 0; j < animations.length; j++)
@@ -121,16 +121,18 @@ public class Player extends Entity implements IRenderable {
     public void update(){
         move();
         updateAnimationTick();
-        setAnimation();
+//        setAnimation();
     }
 
     public void draw(Graphics g){
 //        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
-        g.drawImage(animations[state][aniIndex],
-                (int) (x - xDrawOffset),
-                (int) (y - yDrawOffset),
-                width,
-                height, null);
+        if(active){
+            g.drawImage(animations[state][aniIndex],
+                    (int) (x - xDrawOffset),
+                    (int) (y - yDrawOffset),
+                    width,
+                    height, null);
+        }
 
     }
 

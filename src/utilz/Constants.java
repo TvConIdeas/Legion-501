@@ -69,17 +69,14 @@ public class Constants {
     public static class PlayerConstants {
         // Constante de Estados del Jugador
         public static final int IDLE = 0;
-//        public static final int MOVING = 1;
-        public static final int EXPLODE = 2;
+        public static final int EXPLODE = 1;
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
                 case IDLE:
                     return 7; // La cantidad de sprites para esa accion (Actualizar)
-                /*case MOVING:
-                    return 7;*/
                 case EXPLODE:
-                    return 1;
+                    return 11;
                 default:
                     return 1;
             }
