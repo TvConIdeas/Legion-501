@@ -31,22 +31,6 @@ public class EnemyManager <T extends Enemy> {
     }
 
     // ====================> METODOS <====================
-    public void update(){
-        for(T alien : enemies){
-            alien.update();
-            move();
-        }
-    }
-
-    public void draw(Graphics g){
-        for(T alien : enemies){
-            if(alien.active){
-//                alien.drawHitbox(g);
-                alien.draw(g);
-            }
-        }
-    }
-
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
         for (int i = 0; i < enemies.size(); i++) {
@@ -141,4 +125,22 @@ public class EnemyManager <T extends Enemy> {
         };
         return alien;
     }
+
+    /// Interface IRenderable
+    public void update(){
+        for(T alien : enemies){
+            alien.update();
+            move();
+        }
+    }
+
+    public void draw(Graphics g){
+        for(T alien : enemies){
+            if(alien.active){
+//                alien.drawHitbox(g);
+                alien.draw(g);
+            }
+        }
+    }
+
 }

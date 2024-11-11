@@ -17,7 +17,6 @@ public class BulletManager implements IRenderable {
     private float bulletSpeed = 5.0f; // Velocidad de la bala
 
     // ====================> CONSTRUCTOR <====================
-
     public BulletManager(Playing playing) {
         this.playing = playing;
     }
@@ -25,20 +24,7 @@ public class BulletManager implements IRenderable {
     // ====================> GET | SET <====================
 
     // ====================> METODOS <====================
-    public void update(){
-        move();
-    }
-
-    public void draw(Graphics g){
-        g.setColor(Color.yellow);
-        for (int i = 0; i < bulletArr.size(); i++) {
-            Bullet bullet = bulletArr.get(i);
-            if (!bullet.active) {
-                g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
-            }
-        }
-    }
-
+    /** move() ==> Movimiento de la bala y verificacion de colisiones */
     public void move() {
         for (int i = 0; i < bulletArr.size(); i++) { // Bucle para detectar todas las balas
             Bullet bullet = bulletArr.get(i);
@@ -64,6 +50,7 @@ public class BulletManager implements IRenderable {
         }
     }
 
+    /** createBullet() ==> Crea una bala en el jugador */
     public void createBullet() {
         Bullet bullet = new Bullet(
                 playing.getPlayer().x + (float) Game.TILES_SIZE / 2 - (float) (Game.TILES_SIZE / 8)*2,
@@ -71,5 +58,20 @@ public class BulletManager implements IRenderable {
                 Game.TILES_SIZE / 8,
                 Game.TILES_SIZE / 2);
         bulletArr.add(bullet);
+    }
+
+    /// Interface IRenderable
+    public void update(){
+        move();
+    }
+
+    public void draw(Graphics g){
+        g.setColor(Color.yellow);
+        for (int i = 0; i < bulletArr.size(); i++) {
+            Bullet bullet = bulletArr.get(i);
+            if (!bullet.active) {
+                g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
+            }
+        }
     }
 }

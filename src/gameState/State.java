@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
  * State ==>
  * Clase padre abstracta de los estados del juego.
  */
-
 public abstract class State implements Statemethods, IRenderable {
 
     // ====================> ATRIBUTOS <====================

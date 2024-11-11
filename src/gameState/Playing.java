@@ -22,7 +22,6 @@ public class Playing extends State {
     private Player player;
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
-
     public HashMap<String, LevelConfig> levelManager;
     private String currentLevel = "easy"; // Nivel actual por defecto
 
@@ -42,6 +41,7 @@ public class Playing extends State {
     }
 
     // ====================> METODOS <====================
+    /** initClasses() ==> Inicializa todas las clases */
     private void initClasses(){
         player = new Player(
                 (float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2,
@@ -85,9 +85,9 @@ public class Playing extends State {
         }
     }
 
+    /** windowFocusLost() ==> Cuando se pierde el foco del programa */
     public void windowFocusLost() {
         player.resetDirBooleans();
-        score = 0;
     }
 
     /// Interface IRenderable

@@ -16,7 +16,6 @@ import utilz.LoadSave;
  * Clase que contiene los atributos y métodos necesarios para el funcionamiento del jugador
  * (animación, movimiento, ataque, etc).
  */
-
 public class Player extends Entity implements IRenderable {
 
     // ====================> ATRIBUTOS <====================
@@ -32,7 +31,6 @@ public class Player extends Entity implements IRenderable {
     }
 
     // ====================> GET | SET <====================
-    // Moving, VER
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
@@ -54,22 +52,6 @@ public class Player extends Entity implements IRenderable {
     }
 
     // ====================> METODOS <====================
-    public void update(){
-        updatePos();
-        updateAnimationTick();
-        setAnimation();
-    }
-
-    public void draw(Graphics g){
-        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
-        g.drawImage(animations[state][aniIndex],
-                (int) (x - xDrawOffset),
-                (int) (y - yDrawOffset),
-                width,
-                height, null);
-
-    }
-
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
     private void updateAnimationTick(){
         aniTick++; // Contador de tiempo para la animación
@@ -93,7 +75,8 @@ public class Player extends Entity implements IRenderable {
             state = IDLE;
     }
 
-    private void updatePos() {
+    /** move() ==> Movimiento del jugador. */
+    private void move() {
         moving = false;
         if(!left && !right) // Esta línea es una optimización, para no hacer
             return;         // cálculos innecesarios si no hay input del jugador.
@@ -133,4 +116,23 @@ public class Player extends Entity implements IRenderable {
         left = false;
         right = false;
     }
+
+    /// Interface IRenderable
+    public void update(){
+        move();
+        updateAnimationTick();
+        setAnimation();
+    }
+
+    public void draw(Graphics g){
+        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+        g.drawImage(animations[state][aniIndex],
+                (int) (x - xDrawOffset),
+                (int) (y - yDrawOffset),
+                width,
+                height, null);
+
+    }
+
+
 }
