@@ -4,7 +4,7 @@ import utilz.IRenderable;
 
 import java.awt.image.BufferedImage;
 
-import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.ANI_SPEED_ALIEN;
 import static utilz.Constants.EnemyConstants.*;
 
 public abstract class Enemy extends Entity implements IRenderable {
@@ -27,7 +27,7 @@ public abstract class Enemy extends Entity implements IRenderable {
     // ====================> METODOS <==================== 
     protected void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED) {
+        if (aniTick >= ANI_SPEED_ALIEN) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount(enemyType, state)) {

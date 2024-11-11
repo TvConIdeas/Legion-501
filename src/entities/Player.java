@@ -1,6 +1,6 @@
 package entities;
 
-import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.DEAD;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
@@ -55,7 +55,7 @@ public class Player extends Entity implements IRenderable {
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
     private void updateAnimationTick(){
         aniTick++; // Contador de tiempo para la animación
-        if(aniTick >= ANI_SPEED){ // Cuando el contador llegue al límite de tiempo (30)
+        if(aniTick >= ANI_SPEED_PLAYER){ // Cuando el contador llegue al límite de tiempo (30)
             aniTick = 0;
             aniIndex++; // Indice de qué sprite se va a mostrar
             if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...

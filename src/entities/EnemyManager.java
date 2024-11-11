@@ -19,7 +19,7 @@ public class EnemyManager <T extends Enemy> {
     private Playing playing; // Traemos el State Playing
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
     private int alienColumns = 5; // Cantidad de Columnas de aliens
-    private float alienVelocityX = 0.2f; // Velocidad de los aliens
+    private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {

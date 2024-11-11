@@ -4,7 +4,8 @@ import main.Game;
 
 public class Constants {
 
-    public static final int ANI_SPEED = 20;
+    public static final int ANI_SPEED_PLAYER = 10;
+    public static final int ANI_SPEED_ALIEN = 20;
 
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
