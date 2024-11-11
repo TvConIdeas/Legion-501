@@ -142,9 +142,9 @@ public class EnemyManager <T extends Enemy> {
     }
 
     /** spawnAlien() ==> Crea una instancia de un alien específico según el tipo dado. */
-    private T spawnAlien(String tipoAlien, int x, int y) {
+    private T spawnAlien(String alienType, int x, int y) {
         T alien = null;
-        switch (tipoAlien) {
+        switch (alienType) {
             case "alien1":
                 alien = (T) new Alien1(x, y);
                 break;

@@ -6,9 +6,6 @@ public class Constants {
 
     public static final int ANI_SPEED = 20;
 
-
-
-
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
         public static final int Alien2 = 1; // Numero para identificar el Alien

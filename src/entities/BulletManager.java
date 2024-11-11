@@ -39,7 +39,6 @@ public class BulletManager implements IRenderable {
         }
     }
 
-
     public void move() {
         for (int i = 0; i < bulletArr.size(); i++) { // Bucle para detectar todas las balas
             Bullet bullet = bulletArr.get(i);

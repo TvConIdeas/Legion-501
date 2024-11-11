@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
-    private int score;
+    public int score;
     private Player player;
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
@@ -46,6 +46,7 @@ public class Playing extends State {
 
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
+        score = 0;
 
         enemyManager.loadConfigLevel(levelManager);
         startLevel(curretLevel); // Iniciar el primer nivel con dificultad "Easy"
@@ -65,6 +66,7 @@ public class Playing extends State {
 
     public void windowFocusLost() {
         player.resetDirBooleans();
+        score = 0;
     }
 
     /// Interface IRenderable
