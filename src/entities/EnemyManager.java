@@ -20,7 +20,6 @@ public class EnemyManager <T extends Enemy> {
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
 
     private int alienColumns = 5; // Cantidad de Columnas de aliens
-    private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     // ====================> CONSTRUCTOR <====================
@@ -29,10 +28,6 @@ public class EnemyManager <T extends Enemy> {
     }
 
     // ====================> GET | SET <====================
-    public int getAlienCount() {
-        return alienCount;
-    }
-
     public ArrayList<T> getEnemies() {
         return enemies;
     }
@@ -48,7 +43,7 @@ public class EnemyManager <T extends Enemy> {
     public void draw(Graphics g){
         for(T alien : enemies){
             if(alien.active){
-//                alien.drawHitbox(g);
+                alien.drawHitbox(g);
                 alien.draw(g);
             }
         }
@@ -134,7 +129,7 @@ public class EnemyManager <T extends Enemy> {
                 }
             }
         }
-        alienCount = enemies.size(); // Actualizamos el contador total de aliens
+        playing.alienCount = enemies.size(); // Actualizamos el contador total de aliens
     }
 
     /** spawnAlien() ==> Crea una instancia de un alien específico según el tipo dado. */

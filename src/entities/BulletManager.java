@@ -49,7 +49,10 @@ public class BulletManager implements IRenderable {
                 Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
 
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-                    alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD y
+                    alien.disableHitbox();
+                    alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
+                    playing.alienCount--;
+                    playing.score += 10;
                     bullet.active = true;
                 }
             }

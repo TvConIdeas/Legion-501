@@ -71,4 +71,10 @@ public abstract class Entity {
         hitbox.x = (int)x;
         hitbox.y = (int)y;
     }
+
+    /** disableHitbox() ==> Actualiza la hitbox, por vacio */
+    protected void disableHitbox(){
+        hitbox = new Rectangle2D.Float(0, 0, 0, 0);
+    }
+
 }

@@ -18,6 +18,7 @@ public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
     public int score;
+    public int alienCount;
     private Player player;
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
@@ -79,6 +80,10 @@ public class Playing extends State {
         bulletManager.draw(g);
         player.draw(g);
         enemyManager.draw(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+        g.drawString("Score: " + score + "\n Enemy´s: " + alienCount, 10, 20);
     }
 
     @Override
