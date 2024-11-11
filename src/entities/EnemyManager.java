@@ -78,7 +78,7 @@ public class EnemyManager <T extends Enemy> {
         Map<String, Integer> aliensHard = new HashMap<>();
         aliensHard.put("alien2", 5);
         aliensHard.put("alien3", 10);
-//        aliensHard.put("alien4", 5);
+        aliensHard.put("alien4", 5);
         levelManager.put("hard", new LevelConfig(aliensHard));
     }
 
@@ -120,7 +120,7 @@ public class EnemyManager <T extends Enemy> {
             case "alien1" -> (T) new Alien1(x, y);
             case "alien2" -> (T) new Alien2(x, y);
             case "alien3" -> (T) new Alien3(x, y);
-            //case "alien4" -> (T) new Alien4(x, y);
+            case "alien4" -> (T) new Alien4(x, y);
             default -> null;
         };
         return alien;

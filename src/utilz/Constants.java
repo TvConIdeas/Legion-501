@@ -45,6 +45,13 @@ public class Constants {
                         case DEAD:
                             return 1;
                     }
+                case Alien4:
+                    switch (enemy_state){
+                        case MOVING:
+                            return 5;
+                        case DEAD:
+                            return 1;
+                    }
             }
             return 0;
         }
