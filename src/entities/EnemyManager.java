@@ -86,21 +86,22 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new HashMap<>();
-        aliensEasy.put("alien1", 8);
-        aliensEasy.put("alien2", 2);
-        aliensEasy.put("alien3", 10);
+        aliensEasy.put("alien1", 10);
+        aliensEasy.put("alien2", 5);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
         Map<String, Integer> aliensMedium = new HashMap<>();
-        aliensMedium.put("alien1", 10);
-        aliensMedium.put("alien2", 5);
+        aliensMedium.put("alien1", 5);
+        aliensMedium.put("alien2", 10);
+        aliensMedium.put("alien3", 5);
         levelManager.put("medium", new LevelConfig(aliensMedium));
 
         // Dificil
         Map<String, Integer> aliensHard = new HashMap<>();
-        aliensHard.put("alien1", 8);
-        aliensHard.put("alien2", 12);
+        aliensHard.put("alien2", 5);
+        aliensHard.put("alien3", 10);
+//        aliensHard.put("alien4", 5);
         levelManager.put("hard", new LevelConfig(aliensHard));
     }
 
