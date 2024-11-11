@@ -3,11 +3,15 @@ package gameState;
 import entities.*;
 import main.Game;
 import utilz.LevelConfig;
+import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import static utilz.LoadSave.PLAYING_BACKGROUD;
 
 /**
  * Playing ==>
@@ -52,7 +56,6 @@ public class Playing extends State {
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
         score = 0;
-
         levelManager = new HashMap<>();
         enemyManager.loadConfigLevel(levelManager);
         startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
@@ -93,6 +96,9 @@ public class Playing extends State {
     /// Interface IRenderable
     @Override
     public void draw(Graphics g) {
+        BufferedImage image = LoadSave.GetSpritesAtlas(PLAYING_BACKGROUD);;
+        g.drawImage(image, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        
         bulletManager.draw(g);
         player.draw(g);
         enemyManager.draw(g);

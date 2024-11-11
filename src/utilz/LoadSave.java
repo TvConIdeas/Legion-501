@@ -13,6 +13,7 @@ public class LoadSave {
     public static final String Alien2_ATLAS = "alien2_sprites.png";
     public static final String Alien3_ATLAS = "alien3_sprites.png";
     public static final String Alien4_ATLAS = "alien4_sprites.png";
+    public static final String PLAYING_BACKGROUD = "playing_background.jpg";
     public static final String MENU_BUTTONS = "button_atlas.png";
 
     // Funcion que retorna esas imagenes
