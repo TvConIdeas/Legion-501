@@ -70,9 +70,9 @@ public class Player extends Entity implements IRenderable {
     /** setAnimation() ==> Settea el estado del jugador. */
     private void setAnimation() {
         if (moving) // En caso de estar en movimiento
-            state = MOVING;
-        else // En caso de estar inactivo
             state = IDLE;
+        /*else // En caso de estar inactivo
+            state = IDLE;*/
     }
 
     /** move() ==> Movimiento del jugador. */
@@ -103,7 +103,7 @@ public class Player extends Entity implements IRenderable {
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpritesAtlas(LoadSave.Player_ATLAS); // Cargar el SpriteSheat
 
-        animations = new BufferedImage[3][7]; // Instanciar el SpriteSheat
+        animations = new BufferedImage[1][7]; // Instanciar el SpriteSheat
 
         // Ubicar a través de un bucle los diferentes sprites dentro de la matriz
         for (int j = 0; j < animations.length; j++)
