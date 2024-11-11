@@ -125,7 +125,7 @@ public class Player extends Entity implements IRenderable {
     }
 
     public void draw(Graphics g){
-        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+//        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
         g.drawImage(animations[state][aniIndex],
                 (int) (x - xDrawOffset),
                 (int) (y - yDrawOffset),
