@@ -15,6 +15,7 @@ public class Constants {
 
         public static final int MOVING = 0; // State = En movimiento
         public static final int DEAD = 1; // State = Muerto
+        public static final int HIT = 2; // State = Golpe
 
         public static final int Alien_WIDHT_DEFAULT = 32; // Tamaño por default
         public static final int Alien_HEIGHT_DEFAULT = 32;
@@ -38,6 +39,8 @@ public class Constants {
                             return 5;
                         case DEAD:
                             return 1;
+                        case HIT:
+                            return 5;
                     }
                 case Alien3:
                     switch (enemy_state){
@@ -52,6 +55,8 @@ public class Constants {
                             return 5;
                         case DEAD:
                             return 1;
+//                        case HIT:
+//                            return 1;
                     }
             }
             return 0;

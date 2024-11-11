@@ -15,6 +15,7 @@ public class Alien3 extends Enemy {
     // ====================> CONTRUCTOR <====================
     public Alien3(float x, float y) {
         super(x, y, Alien_WIDTH, Alien_HEIGHT, Alien3);
+        lives = 1;
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
         loadImgs();
     }

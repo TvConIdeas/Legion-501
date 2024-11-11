@@ -10,8 +10,9 @@ import static utilz.Constants.EnemyConstants.*;
 public abstract class Enemy extends Entity implements IRenderable {
 
     // ====================> ATRIBUTOS <====================
-    private int enemyType; // Estado del enemigo || Tipo de enemigo
+    private int enemyType; // Tipo de enemigo
     protected BufferedImage[][] animations;
+    protected int lives;
 
     // ====================> CONSTRUCTOR <====================
     public Enemy(float x, float y, int width, int height, int enemyType) {
