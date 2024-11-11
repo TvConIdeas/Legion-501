@@ -16,11 +16,8 @@ import static utilz.HelpMethods.DetectCollision;
 public class EnemyManager <T extends Enemy> {
     // ====================> ATRIBUTOS <====================
     private Playing playing; // Traemos el State Playing
-
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
-
     private int alienColumns = 5; // Cantidad de Columnas de aliens
-    private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     // ====================> CONSTRUCTOR <====================
@@ -29,31 +26,11 @@ public class EnemyManager <T extends Enemy> {
     }
 
     // ====================> GET | SET <====================
-    public int getAlienCount() {
-        return alienCount;
-    }
-
     public ArrayList<T> getEnemies() {
         return enemies;
     }
 
     // ====================> METODOS <====================
-    public void update(){
-        for(T alien : enemies){
-            alien.update();
-            move();
-        }
-    }
-
-    public void draw(Graphics g){
-        for(T alien : enemies){
-            if(alien.active){
-//                alien.drawHitbox(g);
-                alien.draw(g);
-            }
-        }
-    }
-
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
         for (int i = 0; i < enemies.size(); i++) {
@@ -134,26 +111,36 @@ public class EnemyManager <T extends Enemy> {
                 }
             }
         }
-        alienCount = enemies.size(); // Actualizamos el contador total de aliens
+        playing.alienCount = enemies.size(); // Actualizamos el contador total de aliens
     }
 
     /** spawnAlien() ==> Crea una instancia de un alien específico según el tipo dado. */
     private T spawnAlien(String alienType, int x, int y) {
-        T alien = null;
-        switch (alienType) {
-            case "alien1":
-                alien = (T) new Alien1(x, y);
-                break;
-            case "alien2":
-                alien = (T) new Alien2(x, y);
-                break;
-            case "alien3":
-                alien = (T) new Alien3(x, y);
-                break;
-//            case "alien4":
-//                alien = (T) new Alien4(x, y);
-//                break;
-        }
+        T alien = switch (alienType) {
+            case "alien1" -> (T) new Alien1(x, y);
+            case "alien2" -> (T) new Alien2(x, y);
+            case "alien3" -> (T) new Alien3(x, y);
+            //case "alien4" -> (T) new Alien4(x, y);
+            default -> null;
+        };
         return alien;
     }
+
+    /// Interface IRenderable
+    public void update(){
+        for(T alien : enemies){
+            alien.update();
+            move();
+        }
+    }
+
+    public void draw(Graphics g){
+        for(T alien : enemies){
+            if(alien.active){
+//                alien.drawHitbox(g);
+                alien.draw(g);
+            }
+        }
+    }
+
 }

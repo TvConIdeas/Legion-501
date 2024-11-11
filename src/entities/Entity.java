@@ -48,7 +48,7 @@ public abstract class Entity {
     }
 
     // ====================> METODOS <====================
-    //COMENTAR DESPUES!!!!!!!!!!!
+    /** drawHitbox() ==> Metodo Auxiliar para visualizar la hitbox */
     protected void drawHitbox(Graphics g) {
         // Unicamente sirve para ver la Hitbox
         g.setColor(Color.RED);
@@ -60,6 +60,7 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 
+    /** newState() ==> Actualiza el estado y resetea los tick de la animacion */
     protected void newState(int state){
         this.state = state;
         aniIndex = 0;
@@ -71,4 +72,10 @@ public abstract class Entity {
         hitbox.x = (int)x;
         hitbox.y = (int)y;
     }
+
+    /** disableHitbox() ==> Actualiza la hitbox, por vacio */
+    protected void disableHitbox(){
+        hitbox = new Rectangle2D.Float(0, 0, 0, 0);
+    }
+
 }

@@ -10,6 +10,7 @@ public class Constants {
         public static final int Alien1 = 0; // Numero para identificar el Alien
         public static final int Alien2 = 1; // Numero para identificar el Alien
         public static final int Alien3 = 2; // Numero para identificar el Alien
+        public static final int Alien4 = 3; // Numero para identificar el Alien
 
         public static final int MOVING = 0; // State = En movimiento
         public static final int DEAD = 1; // State = Muerto

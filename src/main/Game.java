@@ -106,7 +106,6 @@ public class Game implements Runnable, IRenderable {
         }
     }
 
-
     /** run() ==> Se crea el GameLoop (núcleo del juego). Una vez creado un Thread (Hilo), automáticamente usa este método. */
     @Override
     public void run() {

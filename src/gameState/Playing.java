@@ -18,10 +18,10 @@ public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
     public int score;
+    public int alienCount;
     private Player player;
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
-
     public HashMap<String, LevelConfig> levelManager;
     private String currentLevel = "easy"; // Nivel actual por defecto
 
@@ -41,6 +41,7 @@ public class Playing extends State {
     }
 
     // ====================> METODOS <====================
+    /** initClasses() ==> Inicializa todas las clases */
     private void initClasses(){
         player = new Player(
                 (float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2,
@@ -61,16 +62,32 @@ public class Playing extends State {
     public void startLevel(String dificultad) {
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
+            bulletManager.bulletArr.clear();
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
-            score = 0; // Reinicia el puntaje si es necesario
         } else {
             System.out.println("Nivel no encontrado: " + dificultad);
         }
     }
 
+    /** verifyLevel() ==> Verificacion por si no hay mas enemigos o para cambiar de dificultad */
+    public void verifyLevel(){
+        if (levelManager.containsKey(currentLevel)) {
+            if (alienCount == 0){
+                if (score >= 300 && currentLevel.equals("easy")) {
+                    startLevel("medium");
+                } else if (score >= 500 && currentLevel.equals("medium")) {
+                    startLevel("hard");
+                }
+                else{
+                    startLevel(currentLevel);
+                }
+            }
+        }
+    }
+
+    /** windowFocusLost() ==> Cuando se pierde el foco del programa */
     public void windowFocusLost() {
         player.resetDirBooleans();
-        score = 0;
     }
 
     /// Interface IRenderable
@@ -79,6 +96,11 @@ public class Playing extends State {
         bulletManager.draw(g);
         player.draw(g);
         enemyManager.draw(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+        g.drawString("Score: " + score, 10, 20);
+        g.drawString("Enemy´s: " + alienCount, 10, 35);
     }
 
     @Override
@@ -86,13 +108,7 @@ public class Playing extends State {
         bulletManager.update();
         player.update();
         enemyManager.update();
-
-        // Ejemplo de lógica para cambiar de nivel basado en el puntaje
-        if (score >= 100 && currentLevel.equals("easy")) {
-            startLevel("medium");
-        } else if (score >= 200 && currentLevel.equals("medium")) {
-            startLevel("hard");
-        }
+        verifyLevel();
     }
 
     /// Interface StateMethods
