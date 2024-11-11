@@ -61,10 +61,10 @@ public class Player extends Entity implements IRenderable {
     }
 
     public void draw(Graphics g){
-//        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
         g.drawImage(animations[state][aniIndex],
-                (int) (hitbox.x - xDrawOffset),
-                (int) (hitbox.y - yDrawOffset),
+                (int) (x - xDrawOffset),
+                (int) (y - yDrawOffset),
                 width,
                 height, null);
 
@@ -109,8 +109,9 @@ public class Player extends Entity implements IRenderable {
 
         // Comprobación de Colision con las Paredes
         if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height)) {
-            hitbox.x += xSpeed;
-            hitbox.y += ySpeed;
+            x += xSpeed;
+            y += ySpeed;
+            updateHitbox();
             moving = true;
         }
     }

@@ -13,7 +13,7 @@ import static utilz.HelpMethods.DetectCollision;
 public class BulletManager implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
-    private ArrayList<Bullet> bulletArr = new ArrayList<>(); // Arraylist con las balas
+    public ArrayList<Bullet> bulletArr = new ArrayList<>(); // Arraylist con las balas
     private float bulletSpeed = 5.0f; // Velocidad de la bala
 
     // ====================> CONSTRUCTOR <====================
@@ -58,16 +58,16 @@ public class BulletManager implements IRenderable {
             }
 
             // Remueve las balas que lleguen al limite
-            while (bulletArr.size() > 0 && (bulletArr.get(0).active || bulletArr.get(0).y < 0)) {
-                bulletArr.remove(0);
+            while (!bulletArr.isEmpty() && (bulletArr.getFirst().active || bulletArr.getFirst().y < 0)) {
+                bulletArr.removeFirst();
             }
         }
     }
 
     public void createBullet() {
         Bullet bullet = new Bullet(
-                playing.getPlayer().hitbox.x,
-                playing.getPlayer().hitbox.y,
+                playing.getPlayer().x + (float) Game.TILES_SIZE / 2 - (float) (Game.TILES_SIZE / 8)*2,
+                playing.getPlayer().y,
                 Game.TILES_SIZE / 8,
                 Game.TILES_SIZE / 2);
         bulletArr.add(bullet);

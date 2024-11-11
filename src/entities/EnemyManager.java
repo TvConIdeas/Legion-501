@@ -16,9 +16,7 @@ import static utilz.HelpMethods.DetectCollision;
 public class EnemyManager <T extends Enemy> {
     // ====================> ATRIBUTOS <====================
     private Playing playing; // Traemos el State Playing
-
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
-
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
@@ -43,7 +41,7 @@ public class EnemyManager <T extends Enemy> {
     public void draw(Graphics g){
         for(T alien : enemies){
             if(alien.active){
-                alien.drawHitbox(g);
+//                alien.drawHitbox(g);
                 alien.draw(g);
             }
         }
@@ -134,21 +132,13 @@ public class EnemyManager <T extends Enemy> {
 
     /** spawnAlien() ==> Crea una instancia de un alien específico según el tipo dado. */
     private T spawnAlien(String alienType, int x, int y) {
-        T alien = null;
-        switch (alienType) {
-            case "alien1":
-                alien = (T) new Alien1(x, y);
-                break;
-            case "alien2":
-                alien = (T) new Alien2(x, y);
-                break;
-            case "alien3":
-                alien = (T) new Alien3(x, y);
-                break;
-//            case "alien4":
-//                alien = (T) new Alien4(x, y);
-//                break;
-        }
+        T alien = switch (alienType) {
+            case "alien1" -> (T) new Alien1(x, y);
+            case "alien2" -> (T) new Alien2(x, y);
+            case "alien3" -> (T) new Alien3(x, y);
+            //case "alien4" -> (T) new Alien4(x, y);
+            default -> null;
+        };
         return alien;
     }
 }
