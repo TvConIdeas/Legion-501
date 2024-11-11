@@ -23,7 +23,7 @@ public class EnemyManager <T extends Enemy> {
     private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
-    private String curretLevel = "Easy"; // Nivel actual (inicializado en "Easy")
+    private String currentLevel = "Easy"; // Nivel actual (inicializado en "Easy"), INICIALIAR ESTA DE MAS
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -39,8 +39,8 @@ public class EnemyManager <T extends Enemy> {
         return enemies;
     }
 
-    public void setCurretLevel(String curretLevel) {
-        this.curretLevel = curretLevel;
+    public void setCurrentLevel(String currentLevel) {
+        this.currentLevel = currentLevel;
     }
 
     // ====================> METODOS <====================
@@ -54,7 +54,7 @@ public class EnemyManager <T extends Enemy> {
     public void draw(Graphics g){
         for(T alien : enemies){
             if(alien.active){
-                alien.drawHitbox(g);
+//                alien.drawHitbox(g);
                 alien.draw(g);
             }
         }
@@ -92,8 +92,9 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new HashMap<>();
-        aliensEasy.put("alien1", 8);
+//        aliensEasy.put("alien1", 8);
         aliensEasy.put("alien2", 2);
+        aliensEasy.put("alien3", 10);
         levelManager.put("Easy", new LevelConfig(aliensEasy));
 
         // Medio
@@ -113,7 +114,7 @@ public class EnemyManager <T extends Enemy> {
     public void createAliens() {
         enemies.clear(); // Limpiamos la lista de enemigos de niveles anteriores
 
-        LevelConfig config = playing.levelManager.get(curretLevel); // Obtenemos la configuración actual
+        LevelConfig config = playing.levelManager.get(currentLevel); // Obtenemos la configuración actual
         Map<String, Integer> alienCounts = config.getAlienTypes(); // Tipos y cantidades de aliens
 
         int i = 0, j = 0; // 'i' para las filas y 'j' para las columnas en cada fila
@@ -151,9 +152,9 @@ public class EnemyManager <T extends Enemy> {
             case "alien2":
                 alien = (T) new Alien2(x, y);
                 break;
-//            case "alien3":
-//                alien = (T) new Alien3(x, y);
-//                break;
+            case "alien3":
+                alien = (T) new Alien3(x, y);
+                break;
 //            case "alien4":
 //                alien = (T) new Alien4(x, y);
 //                break;

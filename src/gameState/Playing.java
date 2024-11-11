@@ -22,8 +22,8 @@ public class Playing extends State {
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
 
-    public HashMap<String, LevelConfig> levelManager = new HashMap<>();
-    private String curretLevel = "Easy"; // Nivel actual por defecto
+    public HashMap<String, LevelConfig> levelManager = new HashMap<>(); // INSTANCIAR EN initClasses
+    private String currentLevel = "Easy"; // Nivel actual por defecto
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -49,14 +49,14 @@ public class Playing extends State {
         score = 0;
 
         enemyManager.loadConfigLevel(levelManager);
-        startLevel(curretLevel); // Iniciar el primer nivel con dificultad "Easy"
+        startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
     }
 
     /** startLevel() ==> Configurar nivel con la dificultad actual. */
     public void startLevel(String dificultad) {
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
-            curretLevel = dificultad; // Actualiza el nivel actual
-            enemyManager.setCurretLevel(dificultad); // Cambia la dificultad en EnemyManager
+            currentLevel = dificultad; // Actualiza el nivel actual
+            enemyManager.setCurrentLevel(dificultad); // Cambia la dificultad en EnemyManager
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
             score = 0; // Reinicia el puntaje si es necesario
         } else {
@@ -84,9 +84,9 @@ public class Playing extends State {
         enemyManager.update();
 
         // Ejemplo de lógica para cambiar de nivel basado en el puntaje
-        if (score >= 100 && curretLevel.equals("Easy")) {
+        if (score >= 100 && currentLevel.equals("Easy")) {
             startLevel("Medium");
-        } else if (score >= 200 && curretLevel.equals("Medium")) {
+        } else if (score >= 200 && currentLevel.equals("Medium")) {
             startLevel("Hard");
         }
     }

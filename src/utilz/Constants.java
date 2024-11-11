@@ -9,6 +9,7 @@ public class Constants {
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
         public static final int Alien2 = 1; // Numero para identificar el Alien
+        public static final int Alien3 = 2; // Numero para identificar el Alien
 
         public static final int MOVING = 0; // State = En movimiento
         public static final int DEAD = 1; // State = Muerto
@@ -30,6 +31,13 @@ public class Constants {
                             return 1;
                     }
                 case Alien2:
+                    switch (enemy_state){
+                        case MOVING:
+                            return 5;
+                        case DEAD:
+                            return 1;
+                    }
+                case Alien3:
                     switch (enemy_state){
                         case MOVING:
                             return 5;
