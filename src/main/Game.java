@@ -39,7 +39,6 @@ public class Game implements Runnable, IRenderable {
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH; // Ancho en pixeles, 576
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT; // Alto en pixeles, 720
 
-
     // ====================> CONSTRUCTOR <====================
     public Game(){
         initClasses();
