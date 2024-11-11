@@ -4,7 +4,8 @@ import main.Game;
 
 public class Constants {
 
-    public static final int ANI_SPEED = 20;
+    public static final int ANI_SPEED_PLAYER = 10;
+    public static final int ANI_SPEED_ALIEN = 20;
 
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
@@ -14,6 +15,7 @@ public class Constants {
 
         public static final int MOVING = 0; // State = En movimiento
         public static final int DEAD = 1; // State = Muerto
+        public static final int HIT = 2; // State = Golpe
 
         public static final int Alien_WIDHT_DEFAULT = 32; // Tamaño por default
         public static final int Alien_HEIGHT_DEFAULT = 32;
@@ -37,6 +39,8 @@ public class Constants {
                             return 5;
                         case DEAD:
                             return 1;
+                        case HIT:
+                            return 5;
                     }
                 case Alien3:
                     switch (enemy_state){
@@ -51,6 +55,8 @@ public class Constants {
                             return 5;
                         case DEAD:
                             return 1;
+                        case HIT:
+                            return 5;
                     }
             }
             return 0;
@@ -69,17 +75,14 @@ public class Constants {
     public static class PlayerConstants {
         // Constante de Estados del Jugador
         public static final int IDLE = 0;
-        public static final int MOVING = 1;
-        public static final int EXPLODE = 2;
+        public static final int EXPLODE = 1;
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
                 case IDLE:
-                    return 6; // La cantidad de sprites para esa accion (Actualizar)
-                case MOVING:
-                    return 6;
+                    return 7; // La cantidad de sprites para esa accion (Actualizar)
                 case EXPLODE:
-                    return 7;
+                    return 11;
                 default:
                     return 1;
             }

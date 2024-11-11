@@ -1,6 +1,6 @@
 package entities;
 
-import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.DEAD;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
@@ -55,25 +55,25 @@ public class Player extends Entity implements IRenderable {
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
     private void updateAnimationTick(){
         aniTick++; // Contador de tiempo para la animación
-        if(aniTick >= ANI_SPEED){ // Cuando el contador llegue al límite de tiempo (30)
+        if(aniTick >= ANI_SPEED_PLAYER){ // Cuando el contador llegue al límite de tiempo (30)
             aniTick = 0;
             aniIndex++; // Indice de qué sprite se va a mostrar
             if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...
                 aniIndex = 0; // Vuelve al primer sprite
                 switch (state) {
-                    case DEAD -> active = false;
+                    case EXPLODE -> active = false;
                 }
             }
         }
     }
 
     /** setAnimation() ==> Settea el estado del jugador. */
-    private void setAnimation() {
+    /*private void setAnimation() {
         if (moving) // En caso de estar en movimiento
-            state = MOVING;
-        else // En caso de estar inactivo
-            state = IDLE;
-    }
+            state = EXPLODE;
+        if(!active)
+            state = EXPLODE;
+    }*/
 
     /** move() ==> Movimiento del jugador. */
     private void move() {
@@ -103,7 +103,7 @@ public class Player extends Entity implements IRenderable {
     private void loadAnimations() {
         BufferedImage img = LoadSave.GetSpritesAtlas(LoadSave.Player_ATLAS); // Cargar el SpriteSheat
 
-        animations = new BufferedImage[3][7]; // Instanciar el SpriteSheat
+        animations = new BufferedImage[2][11]; // Instanciar el SpriteSheat
 
         // Ubicar a través de un bucle los diferentes sprites dentro de la matriz
         for (int j = 0; j < animations.length; j++)
@@ -121,16 +121,18 @@ public class Player extends Entity implements IRenderable {
     public void update(){
         move();
         updateAnimationTick();
-        setAnimation();
+//        setAnimation();
     }
 
     public void draw(Graphics g){
 //        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
-        g.drawImage(animations[state][aniIndex],
-                (int) (x - xDrawOffset),
-                (int) (y - yDrawOffset),
-                width,
-                height, null);
+        if(active){
+            g.drawImage(animations[state][aniIndex],
+                    (int) (x - xDrawOffset),
+                    (int) (y - yDrawOffset),
+                    width,
+                    height, null);
+        }
 
     }
 

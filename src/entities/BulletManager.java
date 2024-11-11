@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static utilz.Constants.EnemyConstants.DEAD;
+import static utilz.Constants.EnemyConstants.HIT;
 import static utilz.HelpMethods.DetectCollision;
 
 public class BulletManager implements IRenderable {
@@ -35,10 +36,15 @@ public class BulletManager implements IRenderable {
                 Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
 
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-                    alien.disableHitbox();
-                    alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
-                    playing.alienCount--;
-                    playing.score += 10;
+                    alien.lives--;
+                    if(alien.lives == 1){
+                        alien.newState(HIT);
+                    } else if(alien.lives == 0){
+                        alien.disableHitbox();
+                        alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
+                        playing.alienCount--;
+                        playing.score += 10;
+                    }
                     bullet.active = true;
                 }
             }

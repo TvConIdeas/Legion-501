@@ -11,6 +11,7 @@ import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -51,7 +52,8 @@ public class EnemyManager <T extends Enemy> {
 
                 if (DetectCollision(alien, playing.getPlayer())) {
                     System.out.println("Colision Jugador");
-                    playing.getPlayer().newState(DEAD);
+                    playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
+                    playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
                 }
 
                 alien.updateHitbox();
