@@ -55,8 +55,8 @@ public class Constants {
                             return 5;
                         case DEAD:
                             return 1;
-//                        case HIT:
-//                            return 1;
+                        case HIT:
+                            return 5;
                     }
             }
             return 0;

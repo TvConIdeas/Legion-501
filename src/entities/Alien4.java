@@ -35,7 +35,7 @@ public class Alien4 extends Enemy {
 
     /** loadImgs() ==> Separa el SpriteSheat y los ubica en una matriz. */
     private void loadImgs() {
-        animations = new BufferedImage[2][5];
+        animations = new BufferedImage[3][5];
         BufferedImage temp = LoadSave.GetSpritesAtlas(LoadSave.Alien4_ATLAS);
         for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++)
