@@ -19,11 +19,9 @@ public class EnemyManager <T extends Enemy> {
 
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
 
-    private int alienRows = 5; // Cantidad de Filas de aliens
+    private int alienColumns = 5; // Cantidad de Columnas de aliens
     private int alienCount = 0; // Numero de Aliens a vencer
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
-
-    private String currentLevel = "Easy"; // Nivel actual (inicializado en "Easy"), INICIALIAR ESTA DE MAS
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -37,10 +35,6 @@ public class EnemyManager <T extends Enemy> {
 
     public ArrayList<T> getEnemies() {
         return enemies;
-    }
-
-    public void setCurrentLevel(String currentLevel) {
-        this.currentLevel = currentLevel;
     }
 
     // ====================> METODOS <====================
@@ -92,29 +86,29 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new HashMap<>();
-//        aliensEasy.put("alien1", 8);
+        aliensEasy.put("alien1", 8);
         aliensEasy.put("alien2", 2);
         aliensEasy.put("alien3", 10);
-        levelManager.put("Easy", new LevelConfig(aliensEasy));
+        levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
         Map<String, Integer> aliensMedium = new HashMap<>();
         aliensMedium.put("alien1", 10);
         aliensMedium.put("alien2", 5);
-        levelManager.put("Medium", new LevelConfig(aliensMedium));
+        levelManager.put("medium", new LevelConfig(aliensMedium));
 
         // Dificil
         Map<String, Integer> aliensHard = new HashMap<>();
         aliensHard.put("alien1", 8);
         aliensHard.put("alien2", 12);
-        levelManager.put("Hard", new LevelConfig(aliensHard));
+        levelManager.put("hard", new LevelConfig(aliensHard));
     }
 
     /** createAliens() ==> Generar y organiza los aliens de acuerdo con la configuración del nivel actual.*/
     public void createAliens() {
         enemies.clear(); // Limpiamos la lista de enemigos de niveles anteriores
 
-        LevelConfig config = playing.levelManager.get(currentLevel); // Obtenemos la configuración actual
+        LevelConfig config = playing.levelManager.get(playing.getCurrentLevel()); // Obtenemos la configuración actual
         Map<String, Integer> alienCounts = config.getAlienTypes(); // Tipos y cantidades de aliens
 
         int i = 0, j = 0; // 'i' para las filas y 'j' para las columnas en cada fila
@@ -132,7 +126,7 @@ public class EnemyManager <T extends Enemy> {
                 if (alien != null) {
                     enemies.add(alien);
                     j++;
-                    if (j >= alienRows) {
+                    if (j >= alienColumns) {
                         j = 0;
                         i++;
                     }
@@ -161,5 +155,4 @@ public class EnemyManager <T extends Enemy> {
         }
         return alien;
     }
-
 }

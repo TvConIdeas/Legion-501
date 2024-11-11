@@ -22,8 +22,8 @@ public class Playing extends State {
     public EnemyManager enemyManager;
     private BulletManager bulletManager;
 
-    public HashMap<String, LevelConfig> levelManager = new HashMap<>(); // INSTANCIAR EN initClasses
-    private String currentLevel = "Easy"; // Nivel actual por defecto
+    public HashMap<String, LevelConfig> levelManager;
+    private String currentLevel = "easy"; // Nivel actual por defecto
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -34,6 +34,10 @@ public class Playing extends State {
     // ====================> GET | SET <====================
     public Player getPlayer() {
         return player;
+    }
+
+    public String getCurrentLevel(){
+        return currentLevel;
     }
 
     // ====================> METODOS <====================
@@ -48,6 +52,7 @@ public class Playing extends State {
         bulletManager = new BulletManager(this);
         score = 0;
 
+        levelManager = new HashMap<>();
         enemyManager.loadConfigLevel(levelManager);
         startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
     }
@@ -56,7 +61,6 @@ public class Playing extends State {
     public void startLevel(String dificultad) {
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
-            enemyManager.setCurrentLevel(dificultad); // Cambia la dificultad en EnemyManager
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
             score = 0; // Reinicia el puntaje si es necesario
         } else {
@@ -84,10 +88,10 @@ public class Playing extends State {
         enemyManager.update();
 
         // Ejemplo de lógica para cambiar de nivel basado en el puntaje
-        if (score >= 100 && currentLevel.equals("Easy")) {
-            startLevel("Medium");
-        } else if (score >= 200 && currentLevel.equals("Medium")) {
-            startLevel("Hard");
+        if (score >= 100 && currentLevel.equals("easy")) {
+            startLevel("medium");
+        } else if (score >= 200 && currentLevel.equals("medium")) {
+            startLevel("hard");
         }
     }
 
