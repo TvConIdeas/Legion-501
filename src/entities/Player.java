@@ -67,14 +67,6 @@ public class Player extends Entity implements IRenderable {
         }
     }
 
-    /** setAnimation() ==> Settea el estado del jugador. */
-    /*private void setAnimation() {
-        if (moving) // En caso de estar en movimiento
-            state = EXPLODE;
-        if(!active)
-            state = EXPLODE;
-    }*/
-
     /** move() ==> Movimiento del jugador. */
     private void move() {
         moving = false;

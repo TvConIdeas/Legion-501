@@ -3,6 +3,7 @@ package entities;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import gameState.Playing;
@@ -64,23 +65,23 @@ public class EnemyManager <T extends Enemy> {
     /** loadConfigLevel() ==> Se encarga de Cargar la configuracion por dificultad del nivel. */
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
-        Map<String, Integer> aliensEasy = new HashMap<>();
-        aliensEasy.put("alien1", 10);
+        Map<String, Integer> aliensEasy = new LinkedHashMap<>();
         aliensEasy.put("alien2", 5);
+        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
-        Map<String, Integer> aliensMedium = new HashMap<>();
-        aliensMedium.put("alien1", 5);
-        aliensMedium.put("alien2", 10);
+        Map<String, Integer> aliensMedium = new LinkedHashMap<>();
         aliensMedium.put("alien3", 5);
+        aliensMedium.put("alien2", 10);
+        aliensMedium.put("alien1", 5);
         levelManager.put("medium", new LevelConfig(aliensMedium));
 
         // Dificil
-        Map<String, Integer> aliensHard = new HashMap<>();
-        aliensHard.put("alien2", 5);
-        aliensHard.put("alien3", 10);
+        Map<String, Integer> aliensHard = new LinkedHashMap<>();
         aliensHard.put("alien4", 5);
+        aliensHard.put("alien3", 10);
+        aliensHard.put("alien2", 5);
         levelManager.put("hard", new LevelConfig(aliensHard));
     }
 
@@ -137,7 +138,7 @@ public class EnemyManager <T extends Enemy> {
     }
 
     public void draw(Graphics g){
-        for(T alien : enemies){
+          for(T alien : enemies){
             if(alien.active){
 //                alien.drawHitbox(g);
                 alien.draw(g);
