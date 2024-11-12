@@ -84,43 +84,43 @@ public class Playing extends State {
 
     /** verifyLevel() ==> Verificacion por si no hay mas enemigos o para cambiar de dificultad */
     public void verifyLevel(){
-        if (levelManager.containsKey(currentLevel)) {
-            if (alienCount == 0){
-                if (score >= 150 && currentLevel.equals("easy")) {
+        if (levelManager.containsKey(currentLevel)) { // Verifica si existe el nivel
+            if (alienCount == 0){ // Si se mataron todos los enemigos, pasa de nivel
+                if (score >= 150 && currentLevel.equals("easy")) { // Cambiar de nivel en caso de pasar puntos necesarios
                     startLevel("medium");
                 } else if (score >= 500 && currentLevel.equals("medium")) {
                     startLevel("hard");
                 }
                 else{
-                    startLevel(currentLevel);
+                    startLevel(currentLevel); // Comenzar mismo nivel en caso de no superar puntos
                 }
             }
             if(hitPlayer){ // Si el jugador es golpeado
                 playerHit();
             }
 
-            if(player.getState() == EXPLODE){ // Si el jugador Explota
+            if(player.lives == 0){ // Si no hay mas vidas
+                gameOver = true;
+            } else if(player.getState() == EXPLODE){ // Si el jugador Explota
                 restartLevel();
             }
 
-            if(player.lives == 0){ // Si no hay mas vidas
-                gameOver = true;
-            }
         }
     }
 
-    /** playerHit() ==> Si el jugador es golpeado por una bala */
+    /** playerHit() ==> Si el jugador es golpeado por una bala. */
     public void playerHit(){
-        enemyManager.stopEnemys = true; // Detenmos el disparo de los enemigos
+        enemyManager.stopEnemys = true; // Detenmos el disparo y movimiento de los enemigos
         bulletManager.bulletPlayerArr.clear();  // Limpiamos las
-        bulletManager.bulletAlienArr.clear();   // Balas en pantalla
+        bulletManager.bulletAlienArr.clear();   // balas en pantalla
         player.disableHitbox(); // Desactivamos la Hitbox
+        player.resetDirBooleans();
         player.newState(EXPLODE); // Explota el jugador
         player.lives--; // Sacamos una vida
         hitPlayer = false;
     }
 
-    /** restartLevel() ==> Cuando el jugador explota, el nivel se reinicia */
+    /** restartLevel() ==> Cuando el jugador explota, el nivel se reinicia. */
     public void restartLevel(){
         aniTick++;
         if(aniTick >= ANI_RESTART_LEVEL){ // Si el contador llega al limite
@@ -128,6 +128,7 @@ public class Playing extends State {
             player.newState(IDLE); // Jugador a State IDLE
             player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2); // Ubicando el jugador
             player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);                 // en el centro de vuelta
+            player.initHitbox(player.getX(), player.getY(), (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
             enemyManager.stopEnemys = false; // Reactivamos a los enemigos
             startLevel(currentLevel); // Comenzar nivel
         }

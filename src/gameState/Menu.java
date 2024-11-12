@@ -99,9 +99,7 @@ public class Menu extends State {
 
     @Override
     public void keyPressed(KeyEvent e) { // BORRAR LUEGO
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            GameState.state = GameState.PLAYING;
-        }
+        // Sin uso
     }
 
     @Override
