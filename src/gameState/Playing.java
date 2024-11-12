@@ -168,6 +168,7 @@ public class Playing extends State {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.drawString("Press BackSpace for Back To Menu", 70, 400);
+            g.drawString("Score: " + score, Game.GAME_WIDTH/2 - 50, 430);
         }
     }
 

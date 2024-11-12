@@ -96,6 +96,12 @@ public class Game implements Runnable, IRenderable {
     @Override
     public void draw(Graphics g){
         switch (GameState.state){
+            case REGISTER:
+                // register.draw(g);
+                break;
+            case LOGIN:
+                // login.draw(g);
+                break;
             case MENU:
                 menu.draw(g);
                 break;
