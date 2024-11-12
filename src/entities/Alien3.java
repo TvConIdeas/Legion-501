@@ -5,6 +5,8 @@ import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static utilz.Constants.EnemyConstants.*;
 
@@ -16,6 +18,7 @@ public class Alien3 extends Enemy {
     public Alien3(float x, float y) {
         super(x, y, Alien_WIDTH, Alien_HEIGHT, Alien3);
         lives = 1;
+        attack = true;
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
         loadImgs();
     }
@@ -41,4 +44,5 @@ public class Alien3 extends Enemy {
             for (int i = 0; i < animations[j].length; i++)
                 animations[j][i] = temp.getSubimage(i * Alien_WIDHT_DEFAULT, j * Alien_HEIGHT_DEFAULT, Alien_WIDHT_DEFAULT, Alien_HEIGHT_DEFAULT);
     }
+
 }

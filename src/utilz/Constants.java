@@ -6,6 +6,7 @@ public class Constants {
 
     public static final int ANI_SPEED_PLAYER = 10;
     public static final int ANI_SPEED_ALIEN = 20;
+    public static final int ANI_SPEED_ATTACK = 2000; // Temporizador Disparo de Enemy || 2000 Milisegundos (2 segundos)
 
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
@@ -66,9 +67,9 @@ public class Constants {
     public static class UI {
         public static class Buttons {
             public static final int B_WIDTH_DEFAULT = 140;
-            public static final int B_HEIGHT_DEFAULT = 56;
-            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.SCALE);
-            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.SCALE);
+            public static final int B_HEIGHT_DEFAULT = 62;
+            public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * (Game.SCALE+0.3));
+            public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * (Game.SCALE+0.3));
         }
     }
 

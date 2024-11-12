@@ -3,6 +3,7 @@ import main.Game;
 
 public class Bullet extends Entity {
     // ====================> ATRIBUTOS <====================
+    public boolean isEnemyBullet = false;
 
     // ====================> CONSTRUCTOR <====================
 

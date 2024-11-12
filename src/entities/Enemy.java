@@ -14,6 +14,8 @@ public abstract class Enemy extends Entity implements IRenderable {
     protected BufferedImage[][] animations;
     protected int lives;
 
+    protected boolean attack = false; // Capacidad de disparar
+
     // ====================> CONSTRUCTOR <====================
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);

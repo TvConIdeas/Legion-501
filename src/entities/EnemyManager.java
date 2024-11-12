@@ -1,17 +1,18 @@
 package entities;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import gameState.Playing;
 import main.Game;
 import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
+import static utilz.Constants.ANI_SPEED_ATTACK;
+import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.PlayerConstants.EXPLODE;
+import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -20,6 +21,8 @@ public class EnemyManager <T extends Enemy> {
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
+
+    private int aniTick;
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -39,10 +42,10 @@ public class EnemyManager <T extends Enemy> {
             if (alien.active) { // Si el Alien esta vivo
                 alien.x += alienVelocityX;
 
-                // SI el alien toca con su Hitbox.X las paredes
+                // Si el alien toca con su Hitbox.X las paredes
                 if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
                     alienVelocityX *= -1;
-                    alien.x += alienVelocityX * 2; // eeeee revisar
+                    alien.x += alienVelocityX * 2;
 
                     // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < enemies.size(); j++) {
@@ -50,6 +53,7 @@ public class EnemyManager <T extends Enemy> {
                     }
                 }
 
+                // Colision con Jugador
                 if (DetectCollision(alien, playing.getPlayer())) {
                     System.out.println("Colision Jugador");
                     playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
@@ -61,26 +65,50 @@ public class EnemyManager <T extends Enemy> {
         }
     }
 
+    /** shootEnemy() ==> Disparar enemigo */
+    public void shootEnemy(T alien){
+        aniTick++;
+        if(aniTick >= ANI_SPEED_ATTACK){
+            aniTick = 0;
+            playing.bulletManager.createBulletAlien(alien);
+        }
+    }
+
+    public void HitEnemy(T alien){
+        alien.lives--;
+        if(alien.lives == 1){
+            alien.newState(HIT);
+        } else if(alien.lives == 0){
+            alien.disableHitbox();
+            alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
+            playing.alienCount--;
+            playing.score += 10;
+        }
+    }
+
     /** loadConfigLevel() ==> Se encarga de Cargar la configuracion por dificultad del nivel. */
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
-        Map<String, Integer> aliensEasy = new HashMap<>();
-        aliensEasy.put("alien1", 10);
+        Map<String, Integer> aliensEasy = new LinkedHashMap<>();
+        aliensEasy.put("alien4", 5);
+        aliensEasy.put("alien3", 5);
         aliensEasy.put("alien2", 5);
+        aliensEasy.put("alien1", 5);
+//        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
-        Map<String, Integer> aliensMedium = new HashMap<>();
-        aliensMedium.put("alien1", 5);
-        aliensMedium.put("alien2", 10);
+        Map<String, Integer> aliensMedium = new LinkedHashMap<>();
         aliensMedium.put("alien3", 5);
+        aliensMedium.put("alien2", 10);
+        aliensMedium.put("alien1", 5);
         levelManager.put("medium", new LevelConfig(aliensMedium));
 
         // Dificil
-        Map<String, Integer> aliensHard = new HashMap<>();
-        aliensHard.put("alien2", 5);
-        aliensHard.put("alien3", 10);
+        Map<String, Integer> aliensHard = new LinkedHashMap<>();
         aliensHard.put("alien4", 5);
+        aliensHard.put("alien3", 10);
+        aliensHard.put("alien2", 5);
         levelManager.put("hard", new LevelConfig(aliensHard));
     }
 
@@ -133,11 +161,14 @@ public class EnemyManager <T extends Enemy> {
         for(T alien : enemies){
             alien.update();
             move();
+            if (alien.attack){ // Si el Alien puede atacar (3 y 4)
+                shootEnemy(alien);
+            }
         }
     }
 
     public void draw(Graphics g){
-        for(T alien : enemies){
+          for(T alien : enemies){
             if(alien.active){
 //                alien.drawHitbox(g);
                 alien.draw(g);

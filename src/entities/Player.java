@@ -22,6 +22,7 @@ public class Player extends Entity implements IRenderable {
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
+    private int lives = 3;
 
     // ====================> CONSTRUCTOR <====================
     public Player(float x, float y, int width, int height) {
@@ -51,6 +52,14 @@ public class Player extends Entity implements IRenderable {
         this.right = right;
     }
 
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     // ====================> METODOS <====================
     /** updateAnimationTick() ==> Genera el efecto de animación, utilizando los sprite. */
     private void updateAnimationTick(){
@@ -66,14 +75,6 @@ public class Player extends Entity implements IRenderable {
             }
         }
     }
-
-    /** setAnimation() ==> Settea el estado del jugador. */
-    /*private void setAnimation() {
-        if (moving) // En caso de estar en movimiento
-            state = EXPLODE;
-        if(!active)
-            state = EXPLODE;
-    }*/
 
     /** move() ==> Movimiento del jugador. */
     private void move() {
@@ -135,6 +136,5 @@ public class Player extends Entity implements IRenderable {
         }
 
     }
-
 
 }
