@@ -22,7 +22,7 @@ public class EnemyManager <T extends Enemy> {
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
-    private int aniTick;
+    private int aniTick; // Contador para el disparo de enemigo
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -65,21 +65,23 @@ public class EnemyManager <T extends Enemy> {
         }
     }
 
-    /** shootEnemy() ==> Disparar enemigo */
-    public void shootEnemy(T alien){
-        aniTick++;
-        if(aniTick >= ANI_SPEED_ATTACK){
-            aniTick = 0;
-            playing.bulletManager.createBulletAlien(alien);
-        }
+    /** shootEnemy() ==> Disparo de enemigo. */
+    public void shootEnemy(){
+
+            Random random = new Random();
+            int num = random.nextInt(enemies.size() - 1 ); // Generar nro random de posicion de ArrayList
+            if(enemies.get(num).attack && enemies.get(num).active){ // Si puede atacar y esta activo
+                playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
+            }
     }
 
-    public void HitEnemy(T alien){
+    /*** hitEnemy() ==> En caso de que una bala de Player colisione con un enemigo, le resta una vida. */
+    public void hitEnemy(T alien){
         alien.lives--;
-        if(alien.lives == 1){
-            alien.newState(HIT);
+        if(alien.lives == 1){ // Si el queda una vida (para Aliens 2 y 4)
+            alien.newState(HIT); // Cambiar estado a HIT
         } else if(alien.lives == 0){
-            alien.disableHitbox();
+            alien.disableHitbox(); // Desactivar hitbox para que no haya mas colisiones
             alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
             playing.alienCount--;
             playing.score += 10;
@@ -90,11 +92,8 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new LinkedHashMap<>();
-        aliensEasy.put("alien4", 5);
-        aliensEasy.put("alien3", 5);
         aliensEasy.put("alien2", 5);
-        aliensEasy.put("alien1", 5);
-//        aliensEasy.put("alien1", 10);
+        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
@@ -161,9 +160,12 @@ public class EnemyManager <T extends Enemy> {
         for(T alien : enemies){
             alien.update();
             move();
-            if (alien.attack){ // Si el Alien puede atacar (3 y 4)
-                shootEnemy(alien);
-            }
+        }
+
+        aniTick++;
+        if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
+            aniTick = 0;
+            shootEnemy(); // Llama method disparar
         }
     }
 
