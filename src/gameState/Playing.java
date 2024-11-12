@@ -11,7 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import static utilz.Constants.ANI_RESTART_LEVEL;
 import static utilz.Constants.PlayerConstants.EXPLODE;
+import static utilz.Constants.PlayerConstants.IDLE;
 import static utilz.LoadSave.PLAYING_BACKGROUD;
 
 /**
@@ -32,6 +34,7 @@ public class Playing extends State {
 
     private boolean gameOver = false;
     public boolean hitPlayer = false;
+    private int aniTick; // Contador para reiniciar el nivel
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -66,6 +69,7 @@ public class Playing extends State {
     }
     /** startLevel() ==> Configurar nivel con la dificultad actual. */
     public void startLevel(String dificultad) {
+        enemyManager.getEnemies().clear();
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
             bulletManager.bulletPlayerArr.clear();
@@ -89,13 +93,41 @@ public class Playing extends State {
                 }
             }
             if(hitPlayer){
+                enemyManager.stopFire = true;
+                bulletManager.bulletPlayerArr.clear();
+                bulletManager.bulletAlienArr.clear();
                 player.disableHitbox();
                 player.newState(EXPLODE);
+                enemyManager.setAlienVelocityX(0.0f);
                 player.lives--;
                 hitPlayer = false;
             }
+
+            if(player.getState() == EXPLODE){
+                restartLevel();
+            }
+
+            if(player.lives == 0){
+                gameOver = true;
+            }
         }
     }
+
+    public void restartLevel(){
+        aniTick++;
+        if(aniTick >= ANI_RESTART_LEVEL){ // Si el contador llega al limite
+            aniTick = 0;
+            player.newState(IDLE);
+            player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2);
+            player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);
+            System.out.println("Aparece Jugador");
+            enemyManager.stopFire = false;
+            enemyManager.setAlienVelocityX(0.05f);
+            System.out.println("Reinicia el Nivel");
+            startLevel(currentLevel);
+        }
+    }
+
 
     /** windowFocusLost() ==> Cuando se pierde el foco del programa */
     public void windowFocusLost() {
@@ -124,19 +156,21 @@ public class Playing extends State {
         // Cartel de Game Over
         if(gameOver){
             g.setColor(Color.RED);
-            g.setFont(new Font("Arial", Font.BOLD, 15));
-            g.drawString("GAME OVER", 200, 350);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("GAME OVER", 90, 350);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            g.drawString("Press BackSpace for Back To Menu", 70, 400);
         }
-
     }
 
     @Override
     public void update() {
         if(!gameOver){
+            verifyLevel();
             bulletManager.update();
             player.update();
             enemyManager.update();
-            verifyLevel();
         }
     }
 

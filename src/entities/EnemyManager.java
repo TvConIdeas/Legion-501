@@ -23,6 +23,7 @@ public class EnemyManager <T extends Enemy> {
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     private int aniTick; // Contador para el disparo de enemigo
+    public boolean stopFire;
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -32,6 +33,14 @@ public class EnemyManager <T extends Enemy> {
     // ====================> GET | SET <====================
     public ArrayList<T> getEnemies() {
         return enemies;
+    }
+
+    public float getAlienVelocityX() {
+        return alienVelocityX;
+    }
+
+    public void setAlienVelocityX(float alienVelocityX) {
+        this.alienVelocityX = alienVelocityX;
     }
 
     // ====================> METODOS <====================
@@ -163,10 +172,12 @@ public class EnemyManager <T extends Enemy> {
             move();
         }
 
-        aniTick++;
-        if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
-            aniTick = 0;
-            shootEnemy(); // Llama method disparar
+        if(!stopFire){
+            aniTick++;
+            if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
+                aniTick = 0;
+                shootEnemy(); // Llama method disparar
+            }
         }
     }
 

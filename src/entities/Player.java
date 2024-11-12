@@ -30,6 +30,7 @@ public class Player extends Entity implements IRenderable {
         super(x, y, width, height);
         loadAnimations();
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+        state = IDLE;
     }
 
     // ====================> GET | SET <====================
@@ -59,7 +60,13 @@ public class Player extends Entity implements IRenderable {
             if(aniIndex >= GetSpriteAmount(state)){ // Si se pasa de la cantidad máxima de sprites...
                 aniIndex = 0; // Vuelve al primer sprite
                 switch (state) {
-                    case EXPLODE -> active = false;
+                    case EXPLODE -> {
+                        active = false;
+                    }
+                    case IDLE -> {
+                        active = true;
+                        initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+                    }
                 }
             }
         }
@@ -67,25 +74,27 @@ public class Player extends Entity implements IRenderable {
 
     /** move() ==> Movimiento del jugador. */
     private void move() {
-        moving = false;
-        if(!left && !right) // Esta línea es una optimización, para no hacer
-            return;         // cálculos innecesarios si no hay input del jugador.
+        if (state == IDLE) {
+            moving = false;
+            if(!left && !right) // Esta línea es una optimización, para no hacer
+                return;         // cálculos innecesarios si no hay input del jugador.
 
-        float xSpeed = 0, ySpeed = 0; // Variable temporal de la velocidad del jugador
+            float xSpeed = 0, ySpeed = 0; // Variable temporal de la velocidad del jugador
 
-        // Movimiento
-        if (left && !right)
-            xSpeed = -speed*3;
-        else if (right && !left)
-            xSpeed = speed*3;
+            // Movimiento
+            if (left && !right)
+                xSpeed = -speed*3;
+            else if (right && !left)
+                xSpeed = speed*3;
 
 
-        // Comprobación de Colision con las Paredes
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height)) {
-            x += xSpeed;
-            y += ySpeed;
-            updateHitbox();
-            moving = true;
+            // Comprobación de Colision con las Paredes
+            if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height)) {
+                x += xSpeed;
+                y += ySpeed;
+                updateHitbox();
+                moving = true;
+            }
         }
     }
 

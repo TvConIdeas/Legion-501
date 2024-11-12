@@ -51,6 +51,10 @@ public abstract class Entity {
         return y;
     }
 
+    public int getState() {
+        return state;
+    }
+
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
