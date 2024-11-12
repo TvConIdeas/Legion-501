@@ -8,8 +8,11 @@ import main.Game;
 import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
+import static utilz.Constants.ANI_SPEED_ATTACK;
+import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.PlayerConstants.EXPLODE;
+import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -18,7 +21,8 @@ public class EnemyManager <T extends Enemy> {
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
-    private Timer timer = new Timer();
+
+    private int aniTick;
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -49,11 +53,6 @@ public class EnemyManager <T extends Enemy> {
                     }
                 }
 
-                // Si el alien dispara
-                if(alien.attack){
-                    shootEnemy(alien);
-                }
-
                 // Colision con Jugador
                 if (DetectCollision(alien, playing.getPlayer())) {
                     System.out.println("Colision Jugador");
@@ -66,15 +65,13 @@ public class EnemyManager <T extends Enemy> {
         }
     }
 
+    /** shootEnemy() ==> Disparar enemigo */
     public void shootEnemy(T alien){
-        TimerTask taskShoot = new TimerTask() {
-            @Override
-            public void run() {
-                playing.bulletManager.createBulletAlien(alien);
-            }
-        };
-
-        timer.scheduleAtFixedRate(taskShoot, 0, 20000);
+        aniTick++;
+        if(aniTick >= ANI_SPEED_ATTACK){
+            aniTick = 0;
+            playing.bulletManager.createBulletAlien(alien);
+        }
     }
 
     public void HitEnemy(T alien){
@@ -164,6 +161,9 @@ public class EnemyManager <T extends Enemy> {
         for(T alien : enemies){
             alien.update();
             move();
+            if (alien.attack){ // Si el Alien puede atacar (3 y 4)
+                shootEnemy(alien);
+            }
         }
     }
 

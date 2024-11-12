@@ -107,7 +107,7 @@ public class Playing extends State {
         g.setFont(new Font("Arial", Font.BOLD, 15));
         g.drawString("Score: " + score, 10, 20);
         g.drawString("Enemies: " + alienCount, 10, 35);
-        g.drawString("Lives: " + alienCount, 10, 35);
+        g.drawString("Lives: " + 3, 10, 50);
     }
 
     @Override
@@ -145,9 +145,6 @@ public class Playing extends State {
                 break;
             case KeyEvent.VK_E:
                 bulletManager.createBullet();
-                break;
-            case KeyEvent.VK_U:
-//                bulletManager.createBulletAlien();
                 break;
         }
     }
