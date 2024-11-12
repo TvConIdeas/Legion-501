@@ -65,8 +65,6 @@ public class Player extends Entity implements IRenderable {
                     }
                     case IDLE -> {
                         active = true;
-                        initHitbox(x, y, (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
-                        System.out.println("Hitbox inicializada");
                     }
                 }
             }
@@ -124,7 +122,7 @@ public class Player extends Entity implements IRenderable {
     }
 
     public void draw(Graphics g){
-//      drawHitbox(g);
+      drawHitbox(g);
         if(active){
             g.drawImage(animations[state][aniIndex],
                     (int) (x - xDrawOffset),

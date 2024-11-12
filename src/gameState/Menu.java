@@ -99,8 +99,8 @@ public class Menu extends State {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        // Sin uso todavia
+    public void keyPressed(KeyEvent e) { // BORRAR LUEGO
+        // Sin uso
     }
 
     @Override
