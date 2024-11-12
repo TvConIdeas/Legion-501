@@ -59,9 +59,7 @@ public class BulletManager implements IRenderable {
             }
 
             if(!bullet.active && DetectCollision(playing.getPlayer(), bullet)){
-                playing.getPlayer().disableHitbox(); // Hitbox descativada para que no haya mas colisiones
-                playing.getPlayer().newState(EXPLODE);
-                bullet.active = true; // Bala desactivada
+                playing.hitPlayer = true;
             }
 
             // Remueve las balas que lleguen al limite
@@ -98,6 +96,7 @@ public class BulletManager implements IRenderable {
     }
 
     public void draw(Graphics g){
+        // Balas Jugadador
         g.setColor(Color.yellow);
         for (int i = 0; i < bulletPlayerArr.size(); i++) {
             Bullet bullet = bulletPlayerArr.get(i);
@@ -106,6 +105,7 @@ public class BulletManager implements IRenderable {
             }
         }
 
+        // Balas Aliens
         g.setColor(Color.red);
         for (int i = 0; i < bulletAlienArr.size(); i++) {
             Bullet bullet = bulletAlienArr.get(i);

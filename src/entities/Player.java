@@ -2,6 +2,7 @@ package entities;
 
 import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.DEAD;
+import static utilz.Constants.EnemyConstants.HIT;
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
 import java.awt.Graphics;
@@ -22,7 +23,7 @@ public class Player extends Entity implements IRenderable {
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
-    private int lives = 3;
+    public int lives = 3;
 
     // ====================> CONSTRUCTOR <====================
     public Player(float x, float y, int width, int height) {
@@ -46,12 +47,6 @@ public class Player extends Entity implements IRenderable {
     }
     public void setRight(boolean right) {
         this.right = right;
-    }
-    public int getLives() {
-        return lives;
-    }
-    public void setLives(int lives) {
-        this.lives = lives;
     }
 
     // ====================> METODOS <====================
@@ -104,12 +99,6 @@ public class Player extends Entity implements IRenderable {
         for (int j = 0; j < animations.length; j++)
             for (int i = 0; i < animations[j].length; i++)
                 animations[j][i] = img.getSubimage(i * 32, j * 32, 32, 32);
-    }
-
-    private void hitPlayer(){
-        lives--;
-
-
     }
 
     /** resetDirBooleans() ==> Reset Booleanos a False. */

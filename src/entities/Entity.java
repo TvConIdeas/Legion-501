@@ -68,21 +68,21 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    /** newState() ==> Actualiza el estado y resetea los tick de la animacion */
-    protected void newState(int state){
-        this.state = state;
-        aniIndex = 0;
-        aniTick = 0;
-    }
-
     /** updateHitbox() ==> Actualiza la posición de la hitbox. */
     protected void updateHitbox() {
         hitbox.x = (int)x;
         hitbox.y = (int)y;
     }
 
+    /** newState() ==> Actualiza el estado y resetea los tick de la animacion */
+    public void newState(int state){
+        this.state = state;
+        aniIndex = 0;
+        aniTick = 0;
+    }
+
     /** disableHitbox() ==> Actualiza la hitbox, por vacio */
-    protected void disableHitbox(){
+    public void disableHitbox(){
         hitbox = new Rectangle2D.Float(0, 0, 0, 0);
     }
 

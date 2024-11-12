@@ -91,8 +91,10 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new LinkedHashMap<>();
-        aliensEasy.put("alien2", 5);
-        aliensEasy.put("alien1", 10);
+        aliensEasy.put("alien4", 10);
+        aliensEasy.put("alien3", 10);
+//        aliensEasy.put("alien2", 5);
+//        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
