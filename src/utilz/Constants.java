@@ -7,6 +7,8 @@ public class Constants {
     public static final int ANI_SPEED_PLAYER = 10;
     public static final int ANI_SPEED_ALIEN = 20;
     public static final int ANI_SPEED_ATTACK = 50; // Temporizador Disparo de Enemy || 2000 Milisegundos (2 segundos)
+    public static final int ANI_RESTART_LEVEL = 300; // Temporizador para reiniciar nivel
+
 
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien

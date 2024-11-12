@@ -9,10 +9,8 @@ import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.ANI_SPEED_ATTACK;
-import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.PlayerConstants.EXPLODE;
-import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -23,6 +21,7 @@ public class EnemyManager <T extends Enemy> {
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     private int aniTick; // Contador para el disparo de enemigo
+    public boolean stopEnemys = false; // Variable para controlar el disparo
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -34,45 +33,54 @@ public class EnemyManager <T extends Enemy> {
         return enemies;
     }
 
+    public float getAlienVelocityX() {
+        return alienVelocityX;
+    }
+
+    public void setAlienVelocityX(float alienVelocityX) {
+        this.alienVelocityX = alienVelocityX;
+    }
+
     // ====================> METODOS <====================
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
-        for (int i = 0; i < enemies.size(); i++) {
-            T alien = enemies.get(i);
-            if (alien.active) { // Si el Alien esta vivo
-                alien.x += alienVelocityX;
+        if(!stopEnemys){
+            for (int i = 0; i < enemies.size(); i++) {
+                T alien = enemies.get(i);
+                if (alien.active) { // Si el Alien esta vivo
+                    alien.x += alienVelocityX;
 
-                // Si el alien toca con su Hitbox.X las paredes
-                if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
-                    alienVelocityX *= -1;
-                    alien.x += alienVelocityX * 2;
+                    // Si el alien toca con su Hitbox.X las paredes
+                    if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
+                        alienVelocityX *= -1;
+                        alien.x += alienVelocityX * 2;
 
-                    // Movemos todos los aliens una fila con su Hitbox.Y
-                    for (int j = 0; j < enemies.size(); j++) {
-                        enemies.get(j).y += Alien_HEIGHT;
+                        // Movemos todos los aliens una fila con su Hitbox.Y
+                        for (int j = 0; j < enemies.size(); j++) {
+                            enemies.get(j).y += Alien_HEIGHT;
+                        }
                     }
-                }
 
-                // Colision con Jugador
-                if (DetectCollision(alien, playing.getPlayer())) {
-                    System.out.println("Colision Jugador");
-                    playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
-                    playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
-                }
+                    // Colision con Jugador
+                    if (DetectCollision(alien, playing.getPlayer())) {
+                        System.out.println("Colision Jugador");
+                        playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
+                        playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
+                    }
 
-                alien.updateHitbox();
+                    alien.updateHitbox();
+                }
             }
         }
     }
 
     /** shootEnemy() ==> Disparo de enemigo. */
     public void shootEnemy(){
-
-            Random random = new Random();
-            int num = random.nextInt(enemies.size() - 1 ); // Generar nro random de posicion de ArrayList
-            if(enemies.get(num).attack && enemies.get(num).active){ // Si puede atacar y esta activo
-                playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
-            }
+        Random random = new Random();
+        int num = random.nextInt(enemies.size() - 1); // Generar nro random de posicion de ArrayList
+        if (enemies.get(num).attack && enemies.get(num).active) { // Si puede atacar y esta activo
+            playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
+        }
     }
 
     /*** hitEnemy() ==> En caso de que una bala de Player colisione con un enemigo, le resta una vida. */
@@ -157,15 +165,17 @@ public class EnemyManager <T extends Enemy> {
 
     /// Interface IRenderable
     public void update(){
-        for(T alien : enemies){
+        for(T alien : enemies){ // Por cada alien del ArrayList
             alien.update();
             move();
         }
 
-        aniTick++;
-        if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
-            aniTick = 0;
-            shootEnemy(); // Llama method disparar
+        if(!stopEnemys){ // Dejan de disparar cuando sea TRUE
+            aniTick++;
+            if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
+                aniTick = 0;
+                shootEnemy(); // Llama method disparar
+            }
         }
     }
 
