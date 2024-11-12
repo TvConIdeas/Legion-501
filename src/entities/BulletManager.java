@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import static utilz.Constants.EnemyConstants.DEAD;
 import static utilz.Constants.EnemyConstants.HIT;
+import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
 public class BulletManager implements IRenderable {
@@ -39,7 +40,7 @@ public class BulletManager implements IRenderable {
                 Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
 
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-                    playing.enemyManager.HitEnemy(alien);
+                    playing.enemyManager.hitEnemy(alien);
                     bullet.active = true; // Desvanece la bala
                 }
             }
@@ -57,15 +58,11 @@ public class BulletManager implements IRenderable {
                 bullet.getHitbox().y += bulletSpeed; // Movimiento hacia arriba
             }
 
-            // Detecta colision Bala con Enemigos (Balas Jugador)
-//            for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
-//                Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
-//
-//                if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-//                    playing.enemyManager.HitEnemy(alien);
-//                    bullet.active = true; // Desvanece la bala
-//                }
-//            }
+            if(!bullet.active && DetectCollision(playing.getPlayer(), bullet)){
+                playing.getPlayer().disableHitbox(); // Hitbox descativada para que no haya mas colisiones
+                playing.getPlayer().newState(EXPLODE);
+                bullet.active = true; // Bala desactivada
+            }
 
             // Remueve las balas que lleguen al limite
             while (!bulletAlienArr.isEmpty() && (bulletAlienArr.getFirst().active || bulletAlienArr.getFirst().y < 0)) {
