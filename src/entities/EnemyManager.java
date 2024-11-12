@@ -9,10 +9,8 @@ import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
 import static utilz.Constants.ANI_SPEED_ATTACK;
-import static utilz.Constants.ANI_SPEED_PLAYER;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.PlayerConstants.EXPLODE;
-import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.HelpMethods.DetectCollision;
 
 public class EnemyManager <T extends Enemy> {
@@ -23,7 +21,7 @@ public class EnemyManager <T extends Enemy> {
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
 
     private int aniTick; // Contador para el disparo de enemigo
-    public boolean stopFire;
+    public boolean stopEnemys = false; // Variable para controlar el disparo
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -46,30 +44,32 @@ public class EnemyManager <T extends Enemy> {
     // ====================> METODOS <====================
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
-        for (int i = 0; i < enemies.size(); i++) {
-            T alien = enemies.get(i);
-            if (alien.active) { // Si el Alien esta vivo
-                alien.x += alienVelocityX;
+        if(!stopEnemys){
+            for (int i = 0; i < enemies.size(); i++) {
+                T alien = enemies.get(i);
+                if (alien.active) { // Si el Alien esta vivo
+                    alien.x += alienVelocityX;
 
-                // Si el alien toca con su Hitbox.X las paredes
-                if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
-                    alienVelocityX *= -1;
-                    alien.x += alienVelocityX * 2;
+                    // Si el alien toca con su Hitbox.X las paredes
+                    if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
+                        alienVelocityX *= -1;
+                        alien.x += alienVelocityX * 2;
 
-                    // Movemos todos los aliens una fila con su Hitbox.Y
-                    for (int j = 0; j < enemies.size(); j++) {
-                        enemies.get(j).y += Alien_HEIGHT;
+                        // Movemos todos los aliens una fila con su Hitbox.Y
+                        for (int j = 0; j < enemies.size(); j++) {
+                            enemies.get(j).y += Alien_HEIGHT;
+                        }
                     }
-                }
 
-                // Colision con Jugador
-                if (DetectCollision(alien, playing.getPlayer())) {
-                    System.out.println("Colision Jugador");
-                    playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
-                    playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
-                }
+                    // Colision con Jugador
+                    if (DetectCollision(alien, playing.getPlayer())) {
+                        System.out.println("Colision Jugador");
+                        playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
+                        playing.getPlayer().newState(EXPLODE); // Se cambia el estado de jugador a muerto, mostrando animacion
+                    }
 
-                alien.updateHitbox();
+                    alien.updateHitbox();
+                }
             }
         }
     }
@@ -100,10 +100,8 @@ public class EnemyManager <T extends Enemy> {
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new LinkedHashMap<>();
-        aliensEasy.put("alien4", 10);
-        aliensEasy.put("alien3", 10);
-//        aliensEasy.put("alien2", 5);
-//        aliensEasy.put("alien1", 10);
+        aliensEasy.put("alien2", 5);
+        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
@@ -167,12 +165,12 @@ public class EnemyManager <T extends Enemy> {
 
     /// Interface IRenderable
     public void update(){
-        for(T alien : enemies){
+        for(T alien : enemies){ // Por cada alien del ArrayList
             alien.update();
             move();
         }
 
-        if(!stopFire){
+        if(!stopEnemys){ // Dejan de disparar cuando sea TRUE
             aniTick++;
             if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
                 aniTick = 0;

@@ -29,15 +29,15 @@ public class GameWindow extends JFrame{
         setLocationRelativeTo(null); // Abre la ventana en el centro de la pantalla
         setVisible(true); // Para que sea visible la ventana. Importante de que este vaya al final
 
-        addWindowFocusListener(new WindowFocusListener() { // Detecta cuándo la ventana pierde o gana el foco
-                                                           // (es decir, cuándo el usuario interactúa con ella).
-
-            @Override
-            public void windowLostFocus(WindowEvent e) { // Cuando la ventana pierde el foco
-                gamePanel.getGame().windowFocusLost();
-            }
-            @Override
-            public void windowGainedFocus(WindowEvent e) {} // Method innecesario para el programa
-        });
+//        addWindowFocusListener(new WindowFocusListener() { // Detecta cuándo la ventana pierde o gana el foco
+//                                                           // (es decir, cuándo el usuario interactúa con ella).
+//
+//            @Override
+//            public void windowLostFocus(WindowEvent e) { // Cuando la ventana pierde el foco
+//                gamePanel.getGame().windowFocusLost();
+//            }
+//            @Override
+//            public void windowGainedFocus(WindowEvent e) {} // Method innecesario para el programa
+//        });
     }
 }

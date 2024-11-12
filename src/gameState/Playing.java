@@ -24,17 +24,18 @@ import static utilz.LoadSave.PLAYING_BACKGROUD;
 public class Playing extends State {
 
     // ====================> ATRIBUTOS <====================
-    public int score;
-    public int alienCount;
-    private Player player;
-    public EnemyManager enemyManager;
-    public BulletManager bulletManager;
-    public HashMap<String, LevelConfig> levelManager;
-    private String currentLevel = "easy"; // Nivel actual por defecto
-
-    private boolean gameOver = false;
-    public boolean hitPlayer = false;
+    public int score; // Puntaje
+    public int alienCount; // Contador de Aliento
     private int aniTick; // Contador para reiniciar el nivel
+    private String currentLevel = "easy"; // Nivel actual por defecto
+    private Player player; // Jugador
+    public boolean hitPlayer = false; // Booleano para cuando se golpea al Jugador
+    private boolean gameOver = false; // Booleano para Game Over
+
+    // Managers
+    public EnemyManager enemyManager; // Enemy Manager, controla los enemigos
+    public BulletManager bulletManager; // Bullet Manager, controla las balas
+    public HashMap<String, LevelConfig> levelManager; // Level Manager, controla el nivel
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -92,47 +93,50 @@ public class Playing extends State {
                     startLevel(currentLevel);
                 }
             }
-            if(hitPlayer){
-                enemyManager.stopFire = true;
-                bulletManager.bulletPlayerArr.clear();
-                bulletManager.bulletAlienArr.clear();
-                player.disableHitbox();
-                player.newState(EXPLODE);
-                enemyManager.setAlienVelocityX(0.0f);
-                player.lives--;
-                hitPlayer = false;
+            if(hitPlayer){ // Si el jugador es golpeado
+                playerHit();
             }
 
-            if(player.getState() == EXPLODE){
+            if(player.getState() == EXPLODE){ // Si el jugador Explota
                 restartLevel();
             }
 
-            if(player.lives == 0){
+            if(player.lives == 0){ // Si no hay mas vidas
                 gameOver = true;
             }
         }
     }
 
+    /** playerHit() ==> Si el jugador es golpeado por una bala */
+    public void playerHit(){
+        enemyManager.stopEnemys = true; // Detenmos el disparo de los enemigos
+        bulletManager.bulletPlayerArr.clear();  // Limpiamos las
+        bulletManager.bulletAlienArr.clear();   // Balas en pantalla
+        //enemyManager.setAlienVelocityX(0.0f); // Detenemos a los enemigos
+        player.disableHitbox(); // Desactivamos la Hitbox
+        player.newState(EXPLODE); // Explota el jugador
+        player.lives--; // Sacamos una vida
+        hitPlayer = false;
+    }
+
+    /** restartLevel() ==> Cuando el jugador explota, el nivel se reinicia */
     public void restartLevel(){
         aniTick++;
         if(aniTick >= ANI_RESTART_LEVEL){ // Si el contador llega al limite
-            aniTick = 0;
-            player.newState(IDLE);
-            player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2);
-            player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);
-            System.out.println("Aparece Jugador");
-            enemyManager.stopFire = false;
-            enemyManager.setAlienVelocityX(0.05f);
-            System.out.println("Reinicia el Nivel");
-            startLevel(currentLevel);
+            aniTick = 0; // Fin Contador
+            player.newState(IDLE); // Jugador a State IDLE
+            player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2); // Ubicando el jugador
+            player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);                 // en el centro de vuelta
+            enemyManager.stopEnemys = false; // Reactivamos el disparo de los enemigos
+            enemyManager.setAlienVelocityX(0.05f); // Devolvemos el movimiento de los enemigos
+            startLevel(currentLevel); // Comenzar nivel
         }
     }
 
-
     /** windowFocusLost() ==> Cuando se pierde el foco del programa */
-    public void windowFocusLost() {
-        player.resetDirBooleans();
-    }
+//    public void windowFocusLost() {
+//        player.resetDirBooleans();
+//    }
 
     /// Interface IRenderable
     @Override
@@ -153,8 +157,10 @@ public class Playing extends State {
         g.drawString("Enemies: " + alienCount, 10, 35);
         g.drawString("Lives: " + player.lives, 10, 50);
 
-        // Cartel de Game Over
+        // Pantalla de Game Over
         if(gameOver){
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));
             g.drawString("GAME OVER", 90, 350);
@@ -166,7 +172,7 @@ public class Playing extends State {
 
     @Override
     public void update() {
-        if(!gameOver){
+        if(!gameOver){ // Mientras no este Game Over
             verifyLevel();
             bulletManager.update();
             player.update();
@@ -176,32 +182,37 @@ public class Playing extends State {
 
     /// Interface StateMethods
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                player.setLeft(true);
-                break;
-            case KeyEvent.VK_D:
-                player.setRight(true);
-                break;
-            case KeyEvent.VK_BACK_SPACE:
-                GameState.state = GameState.MENU;
-                break;
+    public void keyPressed(KeyEvent e) { // Solo cuando el jugador este IDLE
+        if(player.getState() == IDLE){
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A:
+                    player.setLeft(true);
+                    break;
+                case KeyEvent.VK_D:
+                    player.setRight(true);
+                    break;
+            }
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) { // Regresar a Menu en cualquier momento
+            GameState.state = GameState.MENU;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                player.setLeft(false);
-                break;
-            case KeyEvent.VK_D:
-                player.setRight(false);
-                break;
-            case KeyEvent.VK_E:
-                bulletManager.createBullet();
-                break;
+        if(player.getState() == IDLE) { // Solo cuando el jugador este IDLE
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A:
+                    player.setLeft(false);
+                    break;
+                case KeyEvent.VK_D:
+                    player.setRight(false);
+                    break;
+                case KeyEvent.VK_E:
+                    bulletManager.createBullet();
+                    break;
+            }
         }
     }
 
