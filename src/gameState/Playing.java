@@ -68,12 +68,14 @@ public class Playing extends State {
         enemyManager.loadConfigLevel(levelManager);
         startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
     }
+
     /** startLevel() ==> Configurar nivel con la dificultad actual. */
     public void startLevel(String dificultad) {
-        enemyManager.getEnemies().clear();
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
-            bulletManager.bulletPlayerArr.clear();
+            bulletManager.bulletPlayerArr.clear(); // Limpia las balas del jugador
+            bulletManager.bulletAlienArr.clear(); // Limpia las balas de los enemigos
+            enemyManager.getEnemies().clear(); // Limpia los enemigos anteriores
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
         } else {
             System.out.println("Nivel no encontrado: " + dificultad);
@@ -112,7 +114,6 @@ public class Playing extends State {
         enemyManager.stopEnemys = true; // Detenmos el disparo de los enemigos
         bulletManager.bulletPlayerArr.clear();  // Limpiamos las
         bulletManager.bulletAlienArr.clear();   // Balas en pantalla
-        //enemyManager.setAlienVelocityX(0.0f); // Detenemos a los enemigos
         player.disableHitbox(); // Desactivamos la Hitbox
         player.newState(EXPLODE); // Explota el jugador
         player.lives--; // Sacamos una vida
@@ -127,16 +128,15 @@ public class Playing extends State {
             player.newState(IDLE); // Jugador a State IDLE
             player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2); // Ubicando el jugador
             player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);                 // en el centro de vuelta
-            enemyManager.stopEnemys = false; // Reactivamos el disparo de los enemigos
-            enemyManager.setAlienVelocityX(0.05f); // Devolvemos el movimiento de los enemigos
+            enemyManager.stopEnemys = false; // Reactivamos a los enemigos
             startLevel(currentLevel); // Comenzar nivel
         }
     }
 
     /** windowFocusLost() ==> Cuando se pierde el foco del programa */
-//    public void windowFocusLost() {
-//        player.resetDirBooleans();
-//    }
+    public void windowFocusLost() {
+        player.resetDirBooleans();
+    }
 
     /// Interface IRenderable
     @Override
@@ -159,7 +159,7 @@ public class Playing extends State {
 
         // Pantalla de Game Over
         if(gameOver){
-            g.setColor(Color.BLACK);
+            g.setColor(new Color(47, 70, 100));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));

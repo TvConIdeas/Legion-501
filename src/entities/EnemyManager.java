@@ -16,12 +16,11 @@ import static utilz.HelpMethods.DetectCollision;
 public class EnemyManager <T extends Enemy> {
     // ====================> ATRIBUTOS <====================
     private Playing playing; // Traemos el State Playing
-    private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
+    private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens
     private int alienColumns = 5; // Cantidad de Columnas de aliens
-    private float alienVelocityX = 0.05f; // Velocidad de los aliens
-
     private int aniTick; // Contador para el disparo de enemigo
-    public boolean stopEnemys = false; // Variable para controlar el disparo
+    private float alienVelocityX = 1f; // Velocidad de los aliens
+    public boolean stopEnemys = false; // Booleano para frenar a los enemigos
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -76,8 +75,10 @@ public class EnemyManager <T extends Enemy> {
 
     /** shootEnemy() ==> Disparo de enemigo. */
     public void shootEnemy(){
+        if (enemies.isEmpty()) return; // Si no hay enemigos, salir del méthod
+
         Random random = new Random();
-        int num = random.nextInt(enemies.size() - 1); // Generar nro random de posicion de ArrayList
+        int num = random.nextInt(enemies.size()); // Generar nro random de posicion de ArrayList
         if (enemies.get(num).attack && enemies.get(num).active) { // Si puede atacar y esta activo
             playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
         }
@@ -165,24 +166,30 @@ public class EnemyManager <T extends Enemy> {
 
     /// Interface IRenderable
     public void update(){
-        for(T alien : enemies){ // Por cada alien del ArrayList
+        // Remover enemigos inactivos antes de actualizar
+        enemies.removeIf(enemy -> !enemy.active); // Elimina enemigos inactivos
+
+        for (T alien : enemies) {
             alien.update();
-            move();
         }
 
-        if(!stopEnemys){ // Dejan de disparar cuando sea TRUE
+        move();
+
+        if (!stopEnemys) {
             aniTick++;
-            if(aniTick >= ANI_SPEED_ATTACK){ // Si el contador llega al limite
+            if (aniTick >= ANI_SPEED_ATTACK) {
                 aniTick = 0;
-                shootEnemy(); // Llama method disparar
+                shootEnemy();
             }
         }
     }
 
     public void draw(Graphics g){
-          for(T alien : enemies){
-            if(alien.active){
-//                alien.drawHitbox(g);
+        // Crear una copia inmutable de la lista de enemigos activos
+        List<T> enemiesSnapshot = List.copyOf(enemies);
+
+        for (T alien : enemiesSnapshot) {
+            if (alien.active) {
                 alien.draw(g);
             }
         }
