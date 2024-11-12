@@ -1,10 +1,7 @@
 package entities;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import gameState.Playing;
 import main.Game;
@@ -21,6 +18,7 @@ public class EnemyManager <T extends Enemy> {
     private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens, (revisar, cambiar a Enemy)
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private float alienVelocityX = 0.05f; // Velocidad de los aliens
+    private Timer timer = new Timer();
 
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
@@ -40,10 +38,10 @@ public class EnemyManager <T extends Enemy> {
             if (alien.active) { // Si el Alien esta vivo
                 alien.x += alienVelocityX;
 
-                // SI el alien toca con su Hitbox.X las paredes
+                // Si el alien toca con su Hitbox.X las paredes
                 if (alien.x + alien.width >= GAME_WIDTH || alien.x <= 0) {
                     alienVelocityX *= -1;
-                    alien.x += alienVelocityX * 2; // eeeee revisar
+                    alien.x += alienVelocityX * 2;
 
                     // Movemos todos los aliens una fila con su Hitbox.Y
                     for (int j = 0; j < enemies.size(); j++) {
@@ -51,6 +49,12 @@ public class EnemyManager <T extends Enemy> {
                     }
                 }
 
+                // Si el alien dispara
+                if(alien.attack){
+                    shootEnemy(alien);
+                }
+
+                // Colision con Jugador
                 if (DetectCollision(alien, playing.getPlayer())) {
                     System.out.println("Colision Jugador");
                     playing.getPlayer().disableHitbox(); // Se desactiva la hitbox para que no siga habiendo colisión
@@ -62,12 +66,38 @@ public class EnemyManager <T extends Enemy> {
         }
     }
 
+    public void shootEnemy(T alien){
+        TimerTask taskShoot = new TimerTask() {
+            @Override
+            public void run() {
+                playing.bulletManager.createBulletAlien(alien);
+            }
+        };
+
+        timer.scheduleAtFixedRate(taskShoot, 0, 20000);
+    }
+
+    public void HitEnemy(T alien){
+        alien.lives--;
+        if(alien.lives == 1){
+            alien.newState(HIT);
+        } else if(alien.lives == 0){
+            alien.disableHitbox();
+            alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
+            playing.alienCount--;
+            playing.score += 10;
+        }
+    }
+
     /** loadConfigLevel() ==> Se encarga de Cargar la configuracion por dificultad del nivel. */
     public void loadConfigLevel(Map<String, LevelConfig> levelManager){
         // Facil
         Map<String, Integer> aliensEasy = new LinkedHashMap<>();
+        aliensEasy.put("alien4", 5);
+        aliensEasy.put("alien3", 5);
         aliensEasy.put("alien2", 5);
-        aliensEasy.put("alien1", 10);
+        aliensEasy.put("alien1", 5);
+//        aliensEasy.put("alien1", 10);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio

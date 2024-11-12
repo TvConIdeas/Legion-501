@@ -25,7 +25,7 @@ public class Playing extends State {
     public int alienCount;
     private Player player;
     public EnemyManager enemyManager;
-    private BulletManager bulletManager;
+    public BulletManager bulletManager;
     public HashMap<String, LevelConfig> levelManager;
     private String currentLevel = "easy"; // Nivel actual por defecto
 
@@ -65,7 +65,7 @@ public class Playing extends State {
     public void startLevel(String dificultad) {
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
-            bulletManager.bulletArr.clear();
+            bulletManager.bulletPlayerArr.clear();
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
         } else {
             System.out.println("Nivel no encontrado: " + dificultad);
@@ -106,7 +106,8 @@ public class Playing extends State {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 15));
         g.drawString("Score: " + score, 10, 20);
-        g.drawString("Enemy´s: " + alienCount, 10, 35);
+        g.drawString("Enemies: " + alienCount, 10, 35);
+        g.drawString("Lives: " + alienCount, 10, 35);
     }
 
     @Override
@@ -144,6 +145,9 @@ public class Playing extends State {
                 break;
             case KeyEvent.VK_E:
                 bulletManager.createBullet();
+                break;
+            case KeyEvent.VK_U:
+//                bulletManager.createBulletAlien();
                 break;
         }
     }

@@ -14,7 +14,8 @@ import static utilz.HelpMethods.DetectCollision;
 public class BulletManager implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
-    public ArrayList<Bullet> bulletArr = new ArrayList<>(); // Arraylist con las balas
+    public ArrayList<Bullet> bulletPlayerArr = new ArrayList<>(); // Arraylist con las balas
+    public ArrayList<Bullet> bulletAlienArr = new ArrayList<>(); // Arraylist con las balas
     private float bulletSpeed = 5.0f; // Velocidad de la bala
 
     // ====================> CONSTRUCTOR <====================
@@ -27,31 +28,48 @@ public class BulletManager implements IRenderable {
     // ====================> METODOS <====================
     /** move() ==> Movimiento de la bala y verificacion de colisiones */
     public void move() {
-        for (int i = 0; i < bulletArr.size(); i++) { // Bucle para detectar todas las balas
-            Bullet bullet = bulletArr.get(i);
+
+        /// Balas Jugador ====================================>
+        for (int i = 0; i < bulletPlayerArr.size(); i++) { // Bucle para detectar todas las balas
+            Bullet bullet = bulletPlayerArr.get(i);
             bullet.getHitbox().y -= bulletSpeed; // Movimiento hacia arriba
 
-            // Detecta la Colision con Enemigos
+            // Detecta colision Bala con Enemigos (Balas Jugador)
             for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
                 Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
 
                 if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
-                    alien.lives--;
-                    if(alien.lives == 1){
-                        alien.newState(HIT);
-                    } else if(alien.lives == 0){
-                        alien.disableHitbox();
-                        alien.newState(DEAD); // Metodo para hacer que empiece la animacion de DEAD
-                        playing.alienCount--;
-                        playing.score += 10;
-                    }
-                    bullet.active = true;
+                    playing.enemyManager.HitEnemy(alien);
+                    bullet.active = true; // Desvanece la bala
                 }
             }
 
             // Remueve las balas que lleguen al limite
-            while (!bulletArr.isEmpty() && (bulletArr.getFirst().active || bulletArr.getFirst().y < 0)) {
-                bulletArr.removeFirst();
+            while (!bulletPlayerArr.isEmpty() && (bulletPlayerArr.getFirst().active || bulletPlayerArr.getFirst().y < 0)) {
+                bulletPlayerArr.removeFirst();
+            }
+        }
+
+        /// Balas Enemigos ====================================>
+        for (int i = 0; i < bulletAlienArr.size(); i++) { // Bucle para detectar todas las balas
+            Bullet bullet = bulletAlienArr.get(i);
+            if(bullet.isEnemyBullet){
+                bullet.getHitbox().y += bulletSpeed; // Movimiento hacia arriba
+            }
+
+            // Detecta colision Bala con Enemigos (Balas Jugador)
+//            for (int j = 0; j < playing.enemyManager.getEnemies().size(); j++) {
+//                Enemy alien = (Enemy) playing.enemyManager.getEnemies().get(j);
+//
+//                if (!bullet.active && alien.active && DetectCollision(alien, bullet)) {
+//                    playing.enemyManager.HitEnemy(alien);
+//                    bullet.active = true; // Desvanece la bala
+//                }
+//            }
+
+            // Remueve las balas que lleguen al limite
+            while (!bulletAlienArr.isEmpty() && (bulletAlienArr.getFirst().active || bulletAlienArr.getFirst().y < 0)) {
+                bulletAlienArr.removeFirst();
             }
         }
     }
@@ -63,18 +81,37 @@ public class BulletManager implements IRenderable {
                 playing.getPlayer().y,
                 Game.TILES_SIZE / 8,
                 Game.TILES_SIZE / 2);
-        bulletArr.add(bullet);
+        bulletPlayerArr.add(bullet);
     }
 
-    /// Interface IRenderable
+    /** createBulletAlien() ==> Crea una bala en el Enemigo */
+    public <T extends Enemy> void createBulletAlien(T alien) {
+        Bullet bullet = new Bullet(
+                alien.x + (float) Game.TILES_SIZE / 2 - (float) (Game.TILES_SIZE / 8)*2,
+                alien.y + (float) Game.TILES_SIZE,
+                Game.TILES_SIZE / 8,
+                Game.TILES_SIZE / 2);
+        bullet.isEnemyBullet = true;
+        bulletAlienArr.add(bullet);
+    }
+
+    /** Interface IRenderable */
     public void update(){
         move();
     }
 
     public void draw(Graphics g){
         g.setColor(Color.yellow);
-        for (int i = 0; i < bulletArr.size(); i++) {
-            Bullet bullet = bulletArr.get(i);
+        for (int i = 0; i < bulletPlayerArr.size(); i++) {
+            Bullet bullet = bulletPlayerArr.get(i);
+            if (!bullet.active) {
+                g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
+            }
+        }
+
+        g.setColor(Color.red);
+        for (int i = 0; i < bulletAlienArr.size(); i++) {
+            Bullet bullet = bulletAlienArr.get(i);
             if (!bullet.active) {
                 g.fillRect((int)bullet.getHitbox().x, (int)bullet.getHitbox().y, bullet.width, bullet.height);
             }

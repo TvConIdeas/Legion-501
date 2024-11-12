@@ -22,6 +22,7 @@ public class Player extends Entity implements IRenderable {
     private BufferedImage[][] animations; // Matriz con animaciones (SpriteSheat)
     private boolean moving = false; // Si el jugador se está moviendo o no
     private boolean left, right; // Direcciones del jugador
+    private int lives = 3;
 
     // ====================> CONSTRUCTOR <====================
     public Player(float x, float y, int width, int height) {
@@ -49,6 +50,14 @@ public class Player extends Entity implements IRenderable {
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     // ====================> METODOS <====================
@@ -127,6 +136,5 @@ public class Player extends Entity implements IRenderable {
         }
 
     }
-
 
 }

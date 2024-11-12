@@ -43,6 +43,14 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
