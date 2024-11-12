@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 
 public class Menu extends State {
     // ====================> ATRIBUTOS <====================
-    private MenuButton[] buttons = new MenuButton[3]; // Lo iniciamos porque ya sabemos la cantidad de botones que utilizamos
+    private MenuButton[] buttons = new MenuButton[4]; // Lo iniciamos porque ya sabemos la cantidad de botones que utilizamos
 
     // ====================> CONSTRUCTOR <====================
     public Menu(Game game) {
@@ -26,9 +26,10 @@ public class Menu extends State {
 
     // ====================> METODOS <====================
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150*Game.SCALE),0,GameState.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE),1,GameState.OPTIONS);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (310*Game.SCALE),2,GameState.QUIT);
+        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150*Game.SCALE),0,GameState.PLAYING); // Primero (y = 150)
+        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (310*Game.SCALE),1,GameState.OPTIONS); // Tercero (y = 310)
+        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (390*Game.SCALE),2,GameState.QUIT); // Cuarto (y = 390)
+        buttons[3] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE),3,GameState.RANKING); // Segundo (y = 230)
         // La yPos, se debe editar manualmente y le agregamos al final a que state pertene el boton
     }
 
@@ -98,14 +99,12 @@ public class Menu extends State {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) { // BORRAR LUEGO
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            GameState.state = GameState.PLAYING;
-        }
+    public void keyPressed(KeyEvent e) {
+        // Sin uso todavia
     }
 
     @Override
-    public void keyReleased(KeyEvent e) { // BORRAR LUEGO
+    public void keyReleased(KeyEvent e) {
         // Sin uso (todavia)
     }
 }
