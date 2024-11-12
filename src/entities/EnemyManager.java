@@ -67,12 +67,11 @@ public class EnemyManager <T extends Enemy> {
 
     /** shootEnemy() ==> Disparo de enemigo. */
     public void shootEnemy(){
-
-            Random random = new Random();
-            int num = random.nextInt(enemies.size() - 1 ); // Generar nro random de posicion de ArrayList
-            if(enemies.get(num).attack && enemies.get(num).active){ // Si puede atacar y esta activo
-                playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
-            }
+        Random random = new Random();
+        int num = random.nextInt(enemies.size() - 1); // Generar nro random de posicion de ArrayList
+        if (enemies.get(num).attack && enemies.get(num).active) { // Si puede atacar y esta activo
+            playing.bulletManager.createBulletAlien(enemies.get(num)); // Disparar
+        }
     }
 
     /*** hitEnemy() ==> En caso de que una bala de Player colisione con un enemigo, le resta una vida. */

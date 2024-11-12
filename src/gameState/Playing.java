@@ -24,6 +24,7 @@ public class Playing extends State {
     public int score;
     public int alienCount;
     private Player player;
+    private boolean gameOver = false;
     public EnemyManager enemyManager;
     public BulletManager bulletManager;
     public HashMap<String, LevelConfig> levelManager;
@@ -96,18 +97,21 @@ public class Playing extends State {
     /// Interface IRenderable
     @Override
     public void draw(Graphics g) {
+        // Dibujar Fondo
         BufferedImage image = LoadSave.GetSpritesAtlas(PLAYING_BACKGROUD);;
         g.drawImage(image, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        
+
+        // Dibujar Manager y Enemigos
         bulletManager.draw(g);
         player.draw(g);
         enemyManager.draw(g);
 
+        // Estadisticas (Editar)
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 15));
         g.drawString("Score: " + score, 10, 20);
         g.drawString("Enemies: " + alienCount, 10, 35);
-        g.drawString("Lives: " + 3, 10, 50);
+        g.drawString("Lives: " + player.getLives(), 10, 50);
     }
 
     @Override

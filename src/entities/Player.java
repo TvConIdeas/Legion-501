@@ -35,27 +35,21 @@ public class Player extends Entity implements IRenderable {
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
-
     public boolean isLeft() {
         return left;
     }
-
     public void setLeft(boolean left) {
         this.left = left;
     }
-
     public boolean isRight() {
         return right;
     }
-
     public void setRight(boolean right) {
         this.right = right;
     }
-
     public int getLives() {
         return lives;
     }
-
     public void setLives(int lives) {
         this.lives = lives;
     }
@@ -112,6 +106,12 @@ public class Player extends Entity implements IRenderable {
                 animations[j][i] = img.getSubimage(i * 32, j * 32, 32, 32);
     }
 
+    private void hitPlayer(){
+        lives--;
+
+
+    }
+
     /** resetDirBooleans() ==> Reset Booleanos a False. */
     public void resetDirBooleans() {
         left = false;
@@ -122,11 +122,10 @@ public class Player extends Entity implements IRenderable {
     public void update(){
         move();
         updateAnimationTick();
-//        setAnimation();
     }
 
     public void draw(Graphics g){
-//        drawHitbox(g); // COMENTAR DESPUES !!!!!!!!!!!!!!!
+//      drawHitbox(g);
         if(active){
             g.drawImage(animations[state][aniIndex],
                     (int) (x - xDrawOffset),
