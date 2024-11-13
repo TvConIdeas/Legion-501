@@ -1,9 +1,8 @@
 package main;
 
 import java.awt.Graphics;
-import gameState.GameState;
-import gameState.Menu;
-import gameState.Playing;
+
+import gameState.*;
 import utilz.IRenderable;
 
 /***
@@ -23,6 +22,8 @@ public class Game implements Runnable, IRenderable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
+    private Register register;
+    private Login login;
     private final int FPS_SET = 60; // Frames Per Second
     private final int UPS_SET = 100; // Updates Per Second
 
@@ -70,6 +71,7 @@ public class Game implements Runnable, IRenderable {
     private void initClasses(){
         menu = new Menu(this);
         playing = new Playing(this);
+        register = new Register(this);
         login = new Login(this);
     }
 
@@ -83,6 +85,12 @@ public class Game implements Runnable, IRenderable {
     @Override
     public void update(){
         switch (GameState.state){ // Llamar method update() según el gameState
+            case REGISTER:
+                 register.update();
+                break;
+            case LOGIN:
+                 login.update();
+                break;
             case MENU:
                 menu.update();
                 break;
@@ -105,6 +113,12 @@ public class Game implements Runnable, IRenderable {
     @Override
     public void draw(Graphics g){
         switch (GameState.state){
+            case REGISTER:
+                 register.draw(g);
+                break;
+            case LOGIN:
+                 login.draw(g);
+                break;
             case MENU:
                 menu.draw(g);
                 break;
