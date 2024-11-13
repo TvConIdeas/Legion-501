@@ -40,6 +40,10 @@ public class EnemyManager <T extends Enemy> {
         this.alienVelocityX = alienVelocityX;
     }
 
+    public int getRemainingAliens() {
+        return getEnemies().size();
+    }
+
     // ====================> METODOS <====================
     /** move() ==> Se encarga de mover la ubicacion de los aliens1. */
     public void move(){
@@ -150,7 +154,6 @@ public class EnemyManager <T extends Enemy> {
                 }
             }
         }
-        playing.alienCount = enemies.size(); // Actualizamos el contador total de aliens
     }
 
     /** spawnAlien() ==> Crea una instancia de un alien específico según el tipo dado. */
