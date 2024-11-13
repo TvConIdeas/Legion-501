@@ -30,6 +30,7 @@ public class Game implements Runnable, IRenderable {
     // GameStates
     private Playing playing;
     private Menu menu;
+    private Login login;
 
     // Constantes Tiles
     public final static int TILES_DEFAULT_SIZE = 32; // 32 bits
@@ -61,7 +62,7 @@ public class Game implements Runnable, IRenderable {
         return menu;
     }
 
-    public GamePanel getGamePanel(){
+    public GamePanel getGamePanel() {
         return gamePanel;
     }
 
@@ -93,6 +94,9 @@ public class Game implements Runnable, IRenderable {
             case MENU:
                 menu.update();
                 break;
+            case LOGIN:
+                login.update();
+                break;
             case PLAYING:
                 playing.update();
                 break;
@@ -118,11 +122,14 @@ public class Game implements Runnable, IRenderable {
             case MENU:
                 menu.draw(g);
                 break;
+            case LOGIN:
+                login.draw(g);
+                break;
             case PLAYING:
                 playing.draw(g);
                 break;
             default:
-            break;
+                break;
         }
     }
 
