@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * Estado que funciona como parte principal del juego, uniendo a los diferentes estados.
  */
 
-public class Menu extends State {
+public class Menu extends State implements Statemethods {
     // ====================> ATRIBUTOS <====================
     private MenuButton[] buttons = new MenuButton[4]; // Lo iniciamos porque ya sabemos la cantidad de botones que utilizamos
 

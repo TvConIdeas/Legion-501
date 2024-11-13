@@ -122,7 +122,7 @@ public class Player extends Entity implements IRenderable {
     }
 
     public void draw(Graphics g){
-      drawHitbox(g);
+//      drawHitbox(g);
         if(active){
             g.drawImage(animations[state][aniIndex],
                     (int) (x - xDrawOffset),

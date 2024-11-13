@@ -21,7 +21,7 @@ import static utilz.LoadSave.PLAYING_BACKGROUD;
  * Clase que controla todo el funcionamiento del juego.
  */
 
-public class Playing extends State {
+public class Playing extends State implements Statemethods {
 
     // ====================> ATRIBUTOS <====================
     public int score; // Puntaje
