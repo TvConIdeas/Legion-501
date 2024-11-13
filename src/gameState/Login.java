@@ -1,50 +1,66 @@
 package gameState;
 
-import inputs.KeyboardInputs;
 import main.Game;
 import main.GamePanel;
-import utilz.IRenderable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class Login extends State {
-
     // ====================> ATRIBUTOS <====================
+    // Botones
     JButton loginButton = new JButton("Login");
-    JButton resetButton = new JButton("Reset");
-    JTextField userIDField = new JTextField();
-    JPasswordField userPasswordField = new JPasswordField();
-    JLabel userIDLabel = new JLabel("userID:");
-    JLabel userPasswordLabel = new JLabel("password:");
-    JLabel messageLabel = new JLabel();
-    HashMap<String, String> logininfo = new HashMap<String, String>();
+    JButton quitButton = new JButton("Quit");
+    JButton registerButton = new JButton("Register");
 
+    // Contenedores
+    JTextField userIDField = new JTextField();
+    JTextField adminCode = new JTextField();
+    JPasswordField userPasswordField = new JPasswordField();
+
+    // CheckBox
+    JCheckBox adminCheckBox = new JCheckBox("Admin");
+
+    // Texto
+    JLabel userIDLabel = new JLabel("Username: ");
+    JLabel userPasswordLabel = new JLabel("Password: ");
+    JLabel adminCodeLabel = new JLabel("Admin Code: ");
+
+    // Varibles
+    HashMap<String, String> logininfo = new HashMap<String, String>();
     boolean uiInitialized = false;
 
     // ====================> CONSTRUCTOR <====================
     public Login(Game game) {
         super(game);
-        // Llamamos al método para inicializar la UI
     }
 
-    // ====================> MÉTODO PARA INICIALIZAR LA UI <====================
+    // ====================> METODOS <====================
     private void uiInit() {
-
         GamePanel panel = game.getGamePanel();
 
         if(panel != null){
 
-            // Configura los componentes de la interfaz (etiquetas, campos, botones)
+            //Configurar Ubicaciones
+
+            // Usuario
             userIDLabel.setBounds(50, 100, 75, 25);
-            userPasswordLabel.setBounds(50, 150, 75, 25);
             userIDField.setBounds(125, 100, 200, 25);
+
+            // Contraseña
+            userPasswordLabel.setBounds(50, 150, 75, 25);
             userPasswordField.setBounds(125, 150, 200, 25);
+
+            // Botones
             loginButton.setBounds(125, 200, 100, 25);
-            resetButton.setBounds(225, 200, 100, 25);
+            quitButton.setBounds(225, 200, 100, 25);
+            registerButton.setBounds(Game.GAME_WIDTH-150, Game.GAME_HEIGHT-50, 100, 25);
+
+            // CheckBox
+            adminCheckBox.setBounds(225, 250, 100, 25);
+            adminCode.setBounds(225, 250, 100, 25);
+            adminCodeLabel.setBounds(225, 250, 100, 25);
 
             // Agregar los componentes al panel
             panel.setLayout(null);
@@ -53,46 +69,50 @@ public class Login extends State {
             panel.add(userPasswordLabel);
             panel.add(userPasswordField);
             panel.add(loginButton);
-            panel.add(resetButton);
+            panel.add(quitButton);
+            panel.add(adminCheckBox);
+            panel.add(registerButton);
 
-            // Agregar ActionListener al botón de login
-            loginButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Obtener el texto ingresado por el usuario en los campos de texto
-                    String userID = userIDField.getText();
-                    String password = new String(userPasswordField.getPassword());
+            // Cuando Toque el Boton Login (Crear metodo Comprobar Usuario)
+            loginButton.addActionListener(e -> {
+                String userID = userIDField.getText();
+                String password = new String(userPasswordField.getPassword());
 
-                    // Lógica para verificar si el usuario y la contraseña son correctos
-                    /*if (logininfo.containsKey(userID) && logininfo.get(userID).equals(password)) {
-                        System.out.println("Login exitoso");
-                        // Aquí puedes agregar lo que sucede cuando el login es exitoso
-                    } else {
-                        System.out.println("Usuario o contraseña incorrectos");
-                        // Aquí puedes mostrar un mensaje de error al usuario
-                    }*/
+                if (logininfo.containsKey(userID) && logininfo.get(userID).equals(password)) {
+                    System.out.println("Login exitoso");
+                    panel.removeAll();
+                    GameState.state  = GameState.MENU;
+                } else {
+                    System.out.println("Usuario: " + userID + "\nContraseña: " + password);
+                    panel.removeAll();
+                    GameState.state = GameState.MENU;
                 }
             });
 
-            // ActionListener para el botón de reset
-            resetButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Limpiar los campos de texto
-                    userIDField.setText("");
-                    userPasswordField.setText("");
-                }
+            // Cuando Toque el Boton Quit
+            quitButton.addActionListener(e -> {
+                GameState.state = GameState.QUIT;
             });
 
+            registerButton.addActionListener(e -> {
+                panel.removeAll();
+                GameState.state = GameState.REGISTER;
+            });
+
+            // Cuando se toque el CheckBox
+            adminCheckBox.addActionListener(e -> {
+                panel.add(adminCodeLabel);
+                panel.add(adminCode);
+            });
+
+            // Reanudar el Update
             uiInitialized = true;
         }
     }
 
-    // ====================> Métodos IRenderable <====================
+    // ====================> METODOS INTERFACE <====================
     @Override
     public void update() {
-        // Actualizar la interfaz si es necesario
-
         if(!uiInitialized){
             uiInit();
         }
@@ -100,7 +120,7 @@ public class Login extends State {
 
     @Override
     public void draw(Graphics g) {
-        // Dibujar los elementos gráficos si es necesario
-    }
 
+    }
 }
+
