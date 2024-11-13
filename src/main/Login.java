@@ -5,8 +5,6 @@ import gameState.State;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -19,11 +17,16 @@ public class Login extends State {
 
     // Contenedores
     JTextField userIDField = new JTextField();
+    JTextField adminCode = new JTextField();
     JPasswordField userPasswordField = new JPasswordField();
+
+    // CheckBox
+    JCheckBox adminCheckBox = new JCheckBox("Admin");
 
     // Texto
     JLabel userIDLabel = new JLabel("Username: ");
     JLabel userPasswordLabel = new JLabel("Password: ");
+    JLabel adminCodeLabel = new JLabel("Admin Code: ");
 
     // Varibles
     HashMap<String, String> logininfo = new HashMap<String, String>();
@@ -39,13 +42,25 @@ public class Login extends State {
         GamePanel panel = game.getGamePanel();
 
         if(panel != null){
-            // Configura los componentes de la interfaz (etiquetas, campos, botones)
+
+            //Configurar Ubicaciones
+
+            // Usuario
             userIDLabel.setBounds(50, 100, 75, 25);
-            userPasswordLabel.setBounds(50, 150, 75, 25);
             userIDField.setBounds(125, 100, 200, 25);
+
+            // Contraseña
+            userPasswordLabel.setBounds(50, 150, 75, 25);
             userPasswordField.setBounds(125, 150, 200, 25);
+
+            // Botones
             loginButton.setBounds(125, 200, 100, 25);
             quitButton.setBounds(225, 200, 100, 25);
+
+            // CheckBox
+            adminCheckBox.setBounds(225, 250, 100, 25);
+            adminCode.setBounds(225, 250, 100, 25);
+            adminCodeLabel.setBounds(225, 250, 100, 25);
 
             // Agregar los componentes al panel
             panel.setLayout(null);
@@ -55,8 +70,9 @@ public class Login extends State {
             panel.add(userPasswordField);
             panel.add(loginButton);
             panel.add(quitButton);
+            panel.add(adminCheckBox);
 
-            // Cuando Toque el Boton Login
+            // Cuando Toque el Boton Login (Crear metodo Comprobar Usuario)
             loginButton.addActionListener(e -> {
                 String userID = userIDField.getText();
                 String password = new String(userPasswordField.getPassword());
@@ -72,9 +88,15 @@ public class Login extends State {
                 }
             });
 
-            // Cuando Toque el Boton Reset
+            // Cuando Toque el Boton Quit
             quitButton.addActionListener(e -> {
                 GameState.state = GameState.QUIT;
+            });
+
+            // Cuando se toque el CheckBox
+            adminCheckBox.addActionListener(e -> {
+                panel.add(adminCodeLabel);
+                panel.add(adminCode);
             });
 
             // Reanudar el Update
