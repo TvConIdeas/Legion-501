@@ -29,6 +29,7 @@ public class Game implements Runnable, IRenderable {
     // GameStates
     private Playing playing;
     private Menu menu;
+    private Login login;
 
     // Constantes Tiles
     public final static int TILES_DEFAULT_SIZE = 32; // 32 bits
@@ -60,11 +61,16 @@ public class Game implements Runnable, IRenderable {
         return menu;
     }
 
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
     // ====================> METODOS <====================
     /** initClasses() ==> Instancia las clases. */
     private void initClasses(){
         menu = new Menu(this);
         playing = new Playing(this);
+        login = new Login(this);
     }
 
     /** startGameLoop() ==> Instancia el Thread e inicia el Game Loop. */
@@ -79,6 +85,9 @@ public class Game implements Runnable, IRenderable {
         switch (GameState.state){ // Llamar method update() según el gameState
             case MENU:
                 menu.update();
+                break;
+            case LOGIN:
+                login.update();
                 break;
             case PLAYING:
                 playing.update();
@@ -99,11 +108,14 @@ public class Game implements Runnable, IRenderable {
             case MENU:
                 menu.draw(g);
                 break;
+            case LOGIN:
+                login.draw(g);
+                break;
             case PLAYING:
                 playing.draw(g);
                 break;
             default:
-            break;
+                break;
         }
     }
 
