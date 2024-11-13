@@ -22,14 +22,13 @@ public class Game implements Runnable, IRenderable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
-    private Register register;
-    private Login login;
     private final int FPS_SET = 60; // Frames Per Second
     private final int UPS_SET = 100; // Updates Per Second
 
     // GameStates
     private Playing playing;
     private Menu menu;
+    private Register register;
     private Login login;
 
     // Constantes Tiles
@@ -94,9 +93,6 @@ public class Game implements Runnable, IRenderable {
             case MENU:
                 menu.update();
                 break;
-            case LOGIN:
-                login.update();
-                break;
             case PLAYING:
                 playing.update();
                 break;
@@ -121,9 +117,6 @@ public class Game implements Runnable, IRenderable {
                 break;
             case MENU:
                 menu.draw(g);
-                break;
-            case LOGIN:
-                login.draw(g);
                 break;
             case PLAYING:
                 playing.draw(g);
