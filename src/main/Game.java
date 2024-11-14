@@ -34,7 +34,6 @@ public class Game implements Runnable, IRenderable {
 
     // JSON
     protected JSONUserManager jsonUserManager;
-    public final static String nomJSON = "users.json";
 
     // Constantes Tiles
     public final static int TILES_DEFAULT_SIZE = 32; // 32 bits

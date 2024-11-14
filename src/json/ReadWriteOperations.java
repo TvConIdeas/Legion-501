@@ -28,22 +28,21 @@ public final class ReadWriteOperations {
         }
     }
 
+    public static void write(String file, JSONArray jsonArray) {
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(jsonArray.toString(4));
+            fileWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /** read() ==> Leer el archivo. */
     public static JSONArray read(String file){
         JSONArray jsonArray = new JSONArray();
-        File fileObj = new File(file);
-
-        // Si el archivo no existe, se crea vacío
-        /*if (!fileObj.exists()) {
-            try {
-                fileObj.createNewFile(); // Crea el archivo vacío si no existe
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return jsonArray; // En caso de que el archivo no exista, se devuelve el JSONArray vacío
-        }*/
 
         try {
             // Leer el archivo

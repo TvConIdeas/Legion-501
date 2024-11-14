@@ -9,10 +9,7 @@ import users.User;
 
 import javax.print.attribute.standard.Fidelity;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Clase encargada de gestionar el archivo json de usuarios.
@@ -20,6 +17,8 @@ import java.util.Set;
 public class JSONUserManager {
 
     // ====================> ATRIBUTOS <====================
+    public final static String nomJSON = "users.json";
+
 
     // ====================> CONTRUCTOR <====================
     public JSONUserManager() {
@@ -28,7 +27,7 @@ public class JSONUserManager {
     // ====================> METODOS <====================
     /** userToFile() ==> Pasar User al archivo. */
     public void userToFile(User user){
-        JSONArray jsonArray = ReadWriteOperations.read(Game.nomJSON); // Pasar el contenido a un JSONArray
+        JSONArray jsonArray = ReadWriteOperations.read(nomJSON); // Pasar el contenido a un JSONArray
 
         JSONObject userJson = serialize(user); // Serializar user
         jsonArray.put(userJson); // Agregarlo a array
@@ -36,7 +35,15 @@ public class JSONUserManager {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("users", jsonArray); // Pasar
 
-        ReadWriteOperations.write(Game.nomJSON, jsonObject);
+        ReadWriteOperations.write(nomJSON, jsonObject);
+    }
+
+    public void usersSetToFile(Set<User> users){
+        JSONArray jsonArray = new JSONArray();
+        for(User user : users){
+            jsonArray.put(serialize(user));
+        }
+        ReadWriteOperations.write(nomJSON, jsonArray);
     }
 
     /** serialize() ==> Pasar de User a JSONObject. */
@@ -59,11 +66,11 @@ public class JSONUserManager {
 
     /** fileToUser() ==> Pasar del archivo a User. */
     public Set<User> fileToUsers(){
-        Set<User> users = new HashSet<>();
+        Set<User> users = new LinkedHashSet<>();
 
         try {
             // Obtener JSONArray con contenido del archivo
-            JSONArray usersArray = ReadWriteOperations.read(Game.nomJSON);
+            JSONArray usersArray = ReadWriteOperations.read(nomJSON);
 
             // Convertir cada elemento en un JSONObject
             for(int i = 0; i< usersArray.length(); i++){
@@ -106,4 +113,28 @@ public class JSONUserManager {
         }
         return true; // Retornar true si no hay uno igual
     }
+
+    public void overwriteUser(User newUser){
+        Set<User> users = new HashSet<>();
+        users = fileToUsers();
+
+        for(User user : users){
+            if(user.getName().equals(newUser.getName())){
+                users.remove(user);
+                users.add(newUser);
+            }
+        }
+
+//        for(int i=0; i<users.size(); i++){
+//            if(users.get(i).getName().equals(newUser.getName())){
+//                users.add(i, newUser);
+//                user
+//            }
+        }
+
+        /*public void searchUser(String name){
+
+        }*/
 }
+
+
