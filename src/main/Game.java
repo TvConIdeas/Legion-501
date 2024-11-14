@@ -3,6 +3,7 @@ package main;
 import java.awt.Graphics;
 
 import gameState.*;
+import json.JSONUserManager;
 import utilz.IRenderable;
 
 /***
@@ -30,6 +31,9 @@ public class Game implements Runnable, IRenderable {
     private Menu menu;
     private Register register;
     private Login login;
+
+    // JSON
+    protected JSONUserManager jsonUserManager;
 
     // Constantes Tiles
     public final static int TILES_DEFAULT_SIZE = 32; // 32 bits
@@ -65,6 +69,10 @@ public class Game implements Runnable, IRenderable {
         return gamePanel;
     }
 
+    public JSONUserManager getJsonUserManager(){
+        return jsonUserManager;
+    }
+
     // ====================> METODOS <====================
     /** initClasses() ==> Instancia las clases. */
     private void initClasses(){
@@ -72,6 +80,8 @@ public class Game implements Runnable, IRenderable {
         playing = new Playing(this);
         register = new Register(this);
         login = new Login(this);
+
+        jsonUserManager = new JSONUserManager();
     }
 
     /** startGameLoop() ==> Instancia el Thread e inicia el Game Loop. */
@@ -170,7 +180,7 @@ public class Game implements Runnable, IRenderable {
             // Cada segundo, muestra FPS y UPS por consola y reinicia contadores
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + " | UPS: " + updates);
+//                System.out.println("FPS: " + frames + " | UPS: " + updates);
                 frames = 0;
                 updates = 0;
 

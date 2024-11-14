@@ -1,0 +1,32 @@
+{"users": [
+    {
+        "is admin": false,
+        "password": "fenoy",
+        "best score": 0,
+        "name": "delfi"
+    },
+    {
+        "is admin": false,
+        "password": "tvconideas",
+        "best score": 0,
+        "name": "ian"
+    },
+    {
+        "is admin": false,
+        "password": "fewfe",
+        "best score": 0,
+        "name": "ffwefew"
+    },
+    {
+        "is admin": false,
+        "password": "ian",
+        "best score": 0,
+        "name": "tvconideas"
+    },
+    {
+        "is admin": false,
+        "password": "jby",
+        "best score": 0,
+        "name": "buybj"
+    }
+]}
