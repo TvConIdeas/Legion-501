@@ -49,12 +49,12 @@ public class ClassButton {
     }
 
     // ====================> METODOS <====================
-    private void initBounds() {
+    public void initBounds() {
         hitbox = new Rectangle(xPos - xOffsetCenter, yPos, PB_SIZE, PB_SIZE);
     }
 
     // Cargamos las imagenes del boton
-    private void loadImgs() {
+    public void loadImgs() {
         imgs = new BufferedImage[3];
         BufferedImage temp = LoadSave.GetSpritesAtlas(LoadSave.PAUSE_BUTTONS);
         for (int i = 0; i < imgs.length; i++)
