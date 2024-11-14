@@ -2,6 +2,7 @@ package gameState;
 
 import entities.*;
 import main.Game;
+import ui.PauseOverlay;
 import utilz.LevelConfig;
 import utilz.LoadSave;
 
@@ -29,13 +30,18 @@ public class Playing extends State implements Statemethods {
     private int aniTick; // Contador para reiniciar el nivel
     private String currentLevel = "easy"; // Nivel actual por defecto
     private Player player; // Jugador
+
+    // Booleanos
     public boolean hitPlayer = false; // Booleano para cuando se golpea al Jugador
     private boolean gameOver = false; // Booleano para Game Over
+    private boolean paused = false; // Booleano para Pausa
+    private boolean backMenu = false; // Booleano para regresar al menu
 
     // Managers
     public EnemyManager enemyManager; // Enemy Manager, controla los enemigos
     public BulletManager bulletManager; // Bullet Manager, controla las balas
     public HashMap<String, LevelConfig> levelManager; // Level Manager, controla el nivel
+    public PauseOverlay pauseOverlay;
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -52,6 +58,10 @@ public class Playing extends State implements Statemethods {
         return currentLevel;
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     // ====================> METODOS <====================
     /** initClasses() ==> Inicializa todas las clases */
     private void initClasses(){
@@ -63,9 +73,10 @@ public class Playing extends State implements Statemethods {
 
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
-        score = 0;
+        pauseOverlay = new PauseOverlay(this);
         levelManager = new HashMap<>();
         enemyManager.loadConfigLevel(levelManager);
+        score = 0;
         startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
     }
 
@@ -73,8 +84,7 @@ public class Playing extends State implements Statemethods {
     public void startLevel(String dificultad) {
         if (levelManager.containsKey(dificultad)) { // Si existe la dificultad
             currentLevel = dificultad; // Actualiza el nivel actual
-            bulletManager.bulletPlayerArr.clear(); // Limpia las balas del jugador
-            bulletManager.bulletAlienArr.clear(); // Limpia las balas de los enemigos
+            bulletManager.clearBullets(); // Limpieza de balas en pantalla
             enemyManager.getEnemies().clear(); // Limpia los enemigos anteriores
             enemyManager.createAliens(); // Crea los aliens con la nueva configuración
         } else {
@@ -82,30 +92,49 @@ public class Playing extends State implements Statemethods {
         }
     }
 
-    /** verifyLevel() ==> Verificacion por si no hay mas enemigos o para cambiar de dificultad */
+    /** verifyLevel() ==> Metodo encargado de verificar que accion hacer */
     public void verifyLevel(){
+        alienCount = enemyManager.getRemainingAliens(); // Actualizamos alienCount
         if (levelManager.containsKey(currentLevel)) { // Verifica si existe el nivel
             if (alienCount == 0){ // Si se mataron todos los enemigos, pasa de nivel
-                if (score >= 150 && currentLevel.equals("easy")) { // Cambiar de nivel en caso de pasar puntos necesarios
-                    startLevel("medium");
-                } else if (score >= 500 && currentLevel.equals("medium")) {
-                    startLevel("hard");
-                }
-                else{
-                    startLevel(currentLevel); // Comenzar mismo nivel en caso de no superar puntos
-                }
+                nextLevel();
             }
             if(hitPlayer){ // Si el jugador es golpeado
                 playerHit();
             }
-
+            if(backMenu){
+                endLevel();
+            }
             if(player.lives == 0){ // Si no hay mas vidas
                 gameOver = true;
             } else if(player.getState() == EXPLODE){ // Si el jugador Explota
-                restartLevel();
+                aniTick++;
+                if(aniTick >= ANI_RESTART_LEVEL) { // Si el contador llega al limite
+                    restartLevel();
+                }
             }
-
         }
+    }
+
+    /** nextLevel() ==> Dependiendo el puntaje, cambia de dificultad*/
+    public void nextLevel(){
+        if (score >= 150 && currentLevel.equals("easy")) { // Cambiar de nivel en caso de pasar puntos necesarios
+            startLevel("medium");
+        } else if (score >= 500 && currentLevel.equals("medium")) {
+            startLevel("hard");
+        }
+        else{
+            startLevel(currentLevel); // Comenzar mismo nivel en caso de no superar puntos
+        }
+    }
+
+    /** endLevel() ==> Termina la partida y regresa todo a 0*/
+    public void endLevel(){
+        score = 0;
+        player.lives = 3;
+        currentLevel = "easy";
+        resetBooleans();
+        restartLevel();
     }
 
     /** playerHit() ==> Si el jugador es golpeado por una bala. */
@@ -122,16 +151,20 @@ public class Playing extends State implements Statemethods {
 
     /** restartLevel() ==> Cuando el jugador explota, el nivel se reinicia. */
     public void restartLevel(){
-        aniTick++;
-        if(aniTick >= ANI_RESTART_LEVEL){ // Si el contador llega al limite
-            aniTick = 0; // Fin Contador
-            player.newState(IDLE); // Jugador a State IDLE
-            player.setX((float) Game.GAME_WIDTH/2 - (float) Game.TILES_SIZE /2); // Ubicando el jugador
-            player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);                 // en el centro de vuelta
-            player.initHitbox(player.getX(), player.getY(), (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
-            enemyManager.stopEnemys = false; // Reactivamos a los enemigos
-            startLevel(currentLevel); // Comenzar nivel
-        }
+        aniTick = 0; // Fin Contador
+        player.newState(IDLE); // Jugador a State IDLE
+        player.setX((float) Game.GAME_WIDTH / 2 - (float) Game.TILES_SIZE / 2); // Ubicando el jugador
+        player.setY(Game.GAME_HEIGHT - Game.TILES_SIZE * 2);                 // en el centro de vuelta
+        player.initHitbox(player.getX(), player.getY(), (int) (20 * Game.SCALE), (int) (28 * Game.SCALE));
+        enemyManager.stopEnemys = false; // Reactivamos a los enemigos
+        startLevel(currentLevel); // Comenzar nivel
+    }
+
+    public void resetBooleans(){
+        hitPlayer = false;
+        gameOver = false;
+        paused = false;
+        backMenu = false;
     }
 
     /** windowFocusLost() ==> Cuando se pierde el foco del programa */
@@ -139,12 +172,13 @@ public class Playing extends State implements Statemethods {
         player.resetDirBooleans();
     }
 
-    /// Interface IRenderable
+    /** <====== Interface IRenderable ======> */
     @Override
     public void draw(Graphics g) {
         // Dibujar Fondo
         BufferedImage image = LoadSave.GetSpritesAtlas(PLAYING_BACKGROUD);;
         g.drawImage(image, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+
 
         // Dibujar Manager y Enemigos
         bulletManager.draw(g);
@@ -153,10 +187,17 @@ public class Playing extends State implements Statemethods {
 
         // Estadisticas (Editar)
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 15));
+        g.setFont(new Font("Console", Font.BOLD, 15));
         g.drawString("Score: " + score, 10, 20);
         g.drawString("Enemies: " + alienCount, 10, 35);
         g.drawString("Lives: " + player.lives, 10, 50);
+
+        // Pausa
+        if(paused && !gameOver){
+            g.setColor(new Color(0, 0, 0, 150));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+            pauseOverlay.draw(g);
+        }
 
         // Pantalla de Game Over
         if(gameOver){
@@ -174,17 +215,20 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        if(!gameOver){ // Mientras no este Game Over
-            verifyLevel();
+        verifyLevel();
+        if(paused){
+            pauseOverlay.update();
+        }
+        if (!paused && !gameOver) { // Solo actualiza cuando no está pausado ni en game over
             bulletManager.update();
             player.update();
             enemyManager.update();
         }
     }
 
-    /// Interface StateMethods
+    /** <====== Interface StateMethods ======> */
     @Override
-    public void keyPressed(KeyEvent e) { // Solo cuando el jugador este IDLE
+    public void keyPressed(KeyEvent e){ // Solo cuando el jugador este IDLE
         if(player.getState() == IDLE){
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
@@ -193,11 +237,14 @@ public class Playing extends State implements Statemethods {
                 case KeyEvent.VK_D:
                     player.setRight(true);
                     break;
+                case KeyEvent.VK_ESCAPE:
+                    if(paused){
+                        paused = false;
+                    }else{
+                        paused = true;
+                    }
+                    break;
             }
-        }
-
-        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) { // Regresar a Menu en cualquier momento
-            GameState.state = GameState.MENU;
         }
     }
 
@@ -225,16 +272,19 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+         if (paused)
+            pauseOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+         if (paused)
+            pauseOverlay.mouseMoved(e);
     }
 }

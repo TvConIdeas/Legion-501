@@ -10,7 +10,6 @@ public class Constants {
     public static final int ANI_RESTART_LEVEL = 150; // Temporizador para reiniciar nivel
     public static final int ANI_ERROR_MESSAGE = 400; // Temporizador para mostrar mensaje de error en Register
 
-
     public static class EnemyConstants{
         public static final int Alien1 = 0; // Numero para identificar el Alien
         public static final int Alien2 = 1; // Numero para identificar el Alien
@@ -73,6 +72,11 @@ public class Constants {
             public static final int B_HEIGHT_DEFAULT = 62;
             public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * (Game.SCALE+0.3));
             public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * (Game.SCALE+0.3));
+        }
+
+        public static class PauseButtons {
+            public static final int PB_DEFAULT_SIZE = 60;
+            public static final int PB_SIZE = (int) (PB_DEFAULT_SIZE * Game.SCALE);
         }
     }
 

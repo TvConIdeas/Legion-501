@@ -4,6 +4,8 @@ import exceptions.InvalidUsernameOrPasswordException;
 import exceptions.NonexistentUserException;
 import main.Game;
 import main.GamePanel;
+import static utilz.LoadSave.*;
+import utilz.LoadSave;
 import users.User;
 
 import javax.swing.*;
@@ -45,8 +47,8 @@ public class Login extends UserAccount {
         quitButton = new JButton("Quit");
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
-        userIDLabel = new JLabel("User name:");
-        userPasswordLabel = new JLabel("Password:");
+        userIDLabel = new JLabel("");
+        userPasswordLabel = new JLabel("");
 
         backButton.setText("Register");
 
@@ -131,14 +133,9 @@ public class Login extends UserAccount {
 
     @Override
     public void draw(Graphics g) {
-        // Titulo
-        g.setFont(new Font("Console", Font.BOLD, 70));
-        g.setColor(Color.WHITE);
-        g.drawString("Legion 501", 50, 150);
-        g.setFont(new Font("Console", Font.BOLD, 40));
-        g.setColor(Color.GRAY);
-        g.drawString("Login", 170, 230);
-
+      // Fondo y Titulo
+        LoadSave.drawTitleBackgroud(g,LOGIN_BACKGROUD);
+      
         if(showMessage || showMessage2){
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
@@ -149,7 +146,12 @@ public class Login extends UserAccount {
                 g.drawString("Nombre de usuario y/o contraseña incorrectos.", Game.GAME_WIDTH/2-100, 405);
             }
         }
-
+        
+        // Textos
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Console", Font.BOLD, 25));
+        g.drawString("Username", 180, 340);
+        g.drawString("Password", 180, 440);
     }
 }
 

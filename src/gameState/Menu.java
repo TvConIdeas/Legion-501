@@ -2,10 +2,14 @@ package gameState;
 
 import main.Game;
 import ui.MenuButton;
+import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import static utilz.LoadSave.*;
 
 /**
  * Menu ==>
@@ -26,10 +30,10 @@ public class Menu extends State implements Statemethods {
 
     // ====================> METODOS <====================
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150*Game.SCALE),0,GameState.PLAYING); // Primero (y = 150)
+        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (170*Game.SCALE),0,GameState.PLAYING); // Primero (y = 150)
+        buttons[3] = new MenuButton(Game.GAME_WIDTH / 2, (int) (240*Game.SCALE),3,GameState.RANKING); // Segundo (y = 230)
         buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (310*Game.SCALE),1,GameState.OPTIONS); // Tercero (y = 310)
-        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (390*Game.SCALE),2,GameState.QUIT); // Cuarto (y = 390)
-        buttons[3] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE),3,GameState.RANKING); // Segundo (y = 230)
+        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (380*Game.SCALE),2,GameState.LOGIN); // Cuarto (y = 390)
         // La yPos, se debe editar manualmente y le agregamos al final a que state pertene el boton
     }
 
@@ -49,10 +53,8 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void draw(Graphics g) {
-        //"Titulo" medio feo
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Console", Font.BOLD, 60));
-        g.drawString("Legion 501", 70, 100);
+        // Fondo y Titulo
+        LoadSave.drawTitleBackgroud(g,MENU_BACKGROUD);
 
         for(MenuButton mb : buttons) {
             mb.draw(g);

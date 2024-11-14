@@ -5,12 +5,16 @@ import exceptions.PasswordMismatchException;
 import exceptions.UsernameUnavailableException;
 import main.Game;
 import users.User;
+import utilz.LoadSave;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static utilz.Constants.ANI_ERROR_MESSAGE;
+import static utilz.LoadSave.*;
 
 public class Register extends UserAccount {
-
     // ====================> ATRIBUTOS <====================
     // Botones
     private JButton registerButton;
@@ -31,6 +35,7 @@ public class Register extends UserAccount {
     private boolean showMessage2 = false;
     private boolean showMessage3 = false;
 
+
     // ====================> CONTRUCTOR <====================
     public Register(Game game) {
         super(game);
@@ -49,14 +54,15 @@ public class Register extends UserAccount {
         // Instanciar
         registerButton = new JButton("Register");
         quitButton = new JButton("Quit");
-        userIDLabel = new JLabel("User name:");
-        userPasswordLabel = new JLabel("Password:");
-        confirmPasswordLabel = new JLabel("Confirm password:");
+        userIDLabel = new JLabel("");
+        userPasswordLabel = new JLabel("");
+        confirmPasswordLabel = new JLabel("");
+
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
         confirmPasswordField = new JPasswordField();
 
-        // Limites
+        // Limites - edita ian :p
         registerButton.setBounds(Game.GAME_WIDTH-125, Game.GAME_HEIGHT-50, 100, 25);
         quitButton.setBounds(25, Game.GAME_HEIGHT-75, 75, 20);
         userIDLabel.setBounds(Game.GAME_WIDTH/2-100, 250, 75, 25);
@@ -85,7 +91,6 @@ public class Register extends UserAccount {
     /** addEventListeners() ==> Settear los botones para que hagan una acción al ser oprimidos. */
     @Override
     public void addEventListeners(){
-
         registerButton.addActionListener(e -> registerUser());
         quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
         backButton.addActionListener(e -> {
@@ -166,6 +171,9 @@ public class Register extends UserAccount {
 
     @Override
     public void draw(Graphics g) {
+  
+       // Fondo y Titulo
+        LoadSave.drawTitleBackgroud(g,REGISTER_BACKGROUD);
         // Titulo
         g.setFont(new Font("Console", Font.BOLD, 70));
         g.setColor(Color.WHITE);
@@ -186,7 +194,13 @@ public class Register extends UserAccount {
             }
             if(showMessage3){
                 g.drawString("Las contraseñas no coinciden.", Game.GAME_WIDTH/2-100, 480);
-            }
+            }     
+
+        // Textos
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Console", Font.BOLD, 25));
+        g.drawString("Username", 180, 340);
+        g.drawString("Password", 180, 440);
         }
     }
 }
