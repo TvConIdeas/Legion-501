@@ -7,9 +7,6 @@ import utilz.IRenderable;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static utilz.Constants.EnemyConstants.DEAD;
-import static utilz.Constants.EnemyConstants.HIT;
-import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
 public class BulletManager implements IRenderable {

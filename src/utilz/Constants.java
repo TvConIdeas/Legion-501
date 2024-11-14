@@ -73,6 +73,11 @@ public class Constants {
             public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * (Game.SCALE+0.3));
             public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * (Game.SCALE+0.3));
         }
+
+        public static class PauseButtons {
+            public static final int PB_DEFAULT_SIZE = 60;
+            public static final int PB_SIZE = (int) (PB_DEFAULT_SIZE * Game.SCALE);
+        }
     }
 
     public static class PlayerConstants {

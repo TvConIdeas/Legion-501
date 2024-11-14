@@ -2,6 +2,7 @@ package gameState;
 
 import entities.*;
 import main.Game;
+import ui.PauseOverlay;
 import utilz.LevelConfig;
 import utilz.LoadSave;
 
@@ -40,6 +41,7 @@ public class Playing extends State implements Statemethods {
     public EnemyManager enemyManager; // Enemy Manager, controla los enemigos
     public BulletManager bulletManager; // Bullet Manager, controla las balas
     public HashMap<String, LevelConfig> levelManager; // Level Manager, controla el nivel
+    public PauseOverlay pauseOverlay;
 
     // ====================> CONSTRUCTOR <====================
     public Playing(Game game) {
@@ -67,6 +69,7 @@ public class Playing extends State implements Statemethods {
 
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
+        pauseOverlay = new PauseOverlay(this);
         score = 0;
         levelManager = new HashMap<>();
         enemyManager.loadConfigLevel(levelManager);
@@ -181,12 +184,9 @@ public class Playing extends State implements Statemethods {
 
         // Pausa
         if(paused && !gameOver){
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setColor(new Color(0, 0, 0, 180));
-            g2.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.BOLD, 50));
-            g.drawString("Paused", 145, 350);
+            g.setColor(new Color(0, 0, 0, 150));
+            g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+            pauseOverlay.draw(g);
         }
 
         // Pantalla de Game Over
@@ -206,6 +206,9 @@ public class Playing extends State implements Statemethods {
     @Override
     public void update() {
         verifyLevel();
+        if(paused){
+            pauseOverlay.update();
+        }
         if (!paused && !gameOver) { // Solo actualiza cuando no está pausado ni en game over
             bulletManager.update();
             player.update();

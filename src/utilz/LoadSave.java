@@ -15,6 +15,10 @@ public class LoadSave {
     public static final String Alien4_ATLAS = "alien4_sprites.png";
     public static final String PLAYING_BACKGROUD = "playing_background.jpg";
     public static final String MENU_BUTTONS = "button_atlas.png";
+    public static final String PAUSE_MENU = "pause_menu.png";
+    public static final String ADMIN_BUTTONS = "admin_button.png";
+    public static final String PAUSE_BUTTONS = "pause_button.png";
+    public static final String RESUME_BUTTONS = "resume_button.png";
 
     // Funcion que retorna esas imagenes
     public static BufferedImage GetSpritesAtlas(String fileName){
