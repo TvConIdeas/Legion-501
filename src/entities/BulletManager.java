@@ -7,9 +7,6 @@ import utilz.IRenderable;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static utilz.Constants.EnemyConstants.DEAD;
-import static utilz.Constants.EnemyConstants.HIT;
-import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
 public class BulletManager implements IRenderable {
@@ -18,6 +15,7 @@ public class BulletManager implements IRenderable {
     public ArrayList<Bullet> bulletPlayerArr = new ArrayList<>(); // Arraylist con las balas
     public ArrayList<Bullet> bulletAlienArr = new ArrayList<>(); // Arraylist con las balas
     private float bulletSpeed = 5.0f; // Velocidad de la bala
+    private boolean updatingBullets = false;
 
     // ====================> CONSTRUCTOR <====================
     public BulletManager(Playing playing) {
@@ -79,6 +77,13 @@ public class BulletManager implements IRenderable {
         bulletPlayerArr.add(bullet);
     }
 
+    public void clearBullets() {
+        updatingBullets = true; // Activar flag de pausa
+        bulletPlayerArr.clear();
+        bulletAlienArr.clear();
+        updatingBullets = false; // Desactivar flag al terminar
+    }
+
     /** createBulletAlien() ==> Crea una bala en el Enemigo */
     public <T extends Enemy> void createBulletAlien(T alien) {
         Bullet bullet = new Bullet(
@@ -92,7 +97,9 @@ public class BulletManager implements IRenderable {
 
     /** Interface IRenderable */
     public void update(){
-        move();
+        if (!updatingBullets) {
+            move();
+        }
     }
 
     public void draw(Graphics g){
