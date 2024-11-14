@@ -19,18 +19,23 @@ public class Register extends State {
     private JButton quitButton;
     private JButton backButton;
 
+    // Labels
     private JLabel userIDLabel;
     private JLabel userPasswordLabel;
+
+    // Fields
     private JTextField userIDField;
     private JPasswordField userPasswordField;
 
+    // Atributos a ingresar
     private String name;
     private String password;
 
+    // Flags
     boolean flagAddComponents = false; // Flag para agregar los componentes una única vez
-    boolean showMessage = false;
+    boolean showMessage = false; // Mostrar mensaje en pantalla al lanzar excepcion
 
-    private int aniTick = 0;
+    private int aniTick = 0; // Contador para mostrar mensaje al lanzar excepcion
 
 
     // ====================> CONTRUCTOR <====================
@@ -67,15 +72,15 @@ public class Register extends State {
 
     /** addComponents() ==> Agregar los componentes al GamePanel. */
     public void addComponents(GamePanel panel){
-            panel.setLayout(null);
+        panel.setLayout(null);
 
-            panel.add(registerButton);
-            panel.add(quitButton);
-            panel.add(backButton);
-            panel.add(userIDLabel);
-            panel.add(userPasswordLabel);
-            panel.add(userIDField);
-            panel.add(userPasswordField);
+        panel.add(registerButton);
+        panel.add(quitButton);
+        panel.add(backButton);
+        panel.add(userIDLabel);
+        panel.add(userPasswordLabel);
+        panel.add(userIDField);
+        panel.add(userPasswordField);
     }
 
     /** addEventListeners() ==> Settear los botones para que hagan una acción al ser oprimidos. */
@@ -105,18 +110,18 @@ public class Register extends State {
             }
 
             User user = new User(name, password);
-            game.getJsonUserManager().userToFile(user);
-            game.getGamePanel().removeAll();
-            flagAddComponents = false;
-            GameState.state = GameState.LOGIN;
+            game.getJsonUserManager().userToFile(user); // Pasar user al archivo
+            game.getGamePanel().removeAll(); // Eliminar componentes de la pantalla
+            flagAddComponents = false; // Para que cuando vuelva a REGISTER pueda entrar a addComponents
+            GameState.state = GameState.LOGIN; // Cambiar de state
             
-        } catch (InvalidUsernameOrPasswordException e){
+        } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password esta vacio y mas de 20 caracteres
             System.out.println(game.getJsonUserManager().fileToUsers());
             e.getMessage();
             e.printStackTrace();
             showMessage = true;
 
-        } catch (UsernameUnavailableException e){
+        } catch (UsernameUnavailableException e){ // Excepcion si el name ya existe
             e.getMessage();
             e.printStackTrace();
             showMessage = true;
@@ -126,6 +131,7 @@ public class Register extends State {
         }
     }
 
+    /** clearFields() ==> Borrar los contenidos de los fields. */
     public void clearFields(){
         userIDField.setText("");
         userPasswordField.setText("");
@@ -135,13 +141,12 @@ public class Register extends State {
     @Override
     public void update() {
 
-        if(!flagAddComponents) {
+        if(!flagAddComponents) { // Entrar una unica vez
             GamePanel panel = game.getGamePanel();
 
             if(panel != null){
                 addComponents(panel);
-                flagAddComponents = true;
-
+                flagAddComponents = true; // Para que no se agreguen de nuevo
             }
         }
 
