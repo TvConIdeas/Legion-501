@@ -8,7 +8,7 @@ public class Constants {
     public static final int ANI_SPEED_ALIEN = 20;
     public static final int ANI_SPEED_ATTACK = 50; // Temporizador Disparo de Enemy || 2000 Milisegundos (2 segundos)
     public static final int ANI_RESTART_LEVEL = 150; // Temporizador para reiniciar nivel
-    public static final int ANI_ERROR_MESSAGE = 500; // Temporizador para mostrar mensaje de error en Register
+    public static final int ANI_ERROR_MESSAGE = 400; // Temporizador para mostrar mensaje de error en Register
 
 
     public static class EnemyConstants{

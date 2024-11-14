@@ -26,6 +26,8 @@ public class Login extends UserAccount {
     JLabel userPasswordLabel;
 
     // Flags
+    private boolean showMessage = false;
+    private boolean showMessage2 = false;
 
     // ====================> CONSTRUCTOR <====================
     public Login(Game game) {
@@ -96,15 +98,15 @@ public class Login extends UserAccount {
             flagAddComponents = false;
             GameState.state = GameState.MENU;
 
-        } catch (InvalidUsernameOrPasswordException e){
+        } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password estan vacios o >20
             e.getMessage();
             e.printStackTrace();
-//            showMessage = true;
+            showMessage = true;
 
-        } catch (NonexistentUserException e){
+        } catch (NonexistentUserException e){ // Excepcion si el nombre de usuario y/o contraseña son incorrectos
             e.getMessage();
             e.printStackTrace();
-//            showMessage = true;
+            showMessage2 = true;
         }
     }
 
@@ -118,6 +120,13 @@ public class Login extends UserAccount {
     @Override
     public void update() {
         super.update();
+
+        if(showMessage){
+            showMessage = messageCounter(showMessage); // Contador para que desaparezca el mensaje
+        }
+        if(showMessage2){
+            showMessage2 = messageCounter(showMessage2); // Contador para que desaparezca el mensaje
+        }
     }
 
     @Override
@@ -130,12 +139,17 @@ public class Login extends UserAccount {
         g.setColor(Color.GRAY);
         g.drawString("Login", 170, 230);
 
-        /*if(showMessage){
-            g.fillRect(125, 200, 200, 50);
+        if(showMessage || showMessage2){
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            g.drawString("Nombre de usuario y/o contraseña incorrectos.", 150, 225);
-        }*/
+            if(showMessage){
+                g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 405);
+            }
+            if(showMessage2){
+                g.drawString("Nombre de usuario y/o contraseña incorrectos.", Game.GAME_WIDTH/2-100, 405);
+            }
+        }
+
     }
 }
 

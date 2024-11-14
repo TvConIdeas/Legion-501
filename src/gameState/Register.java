@@ -179,7 +179,7 @@ public class Register extends UserAccount {
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
             if(showMessage){
-                g.drawString("Nombre de usuario o contraseña inválidos.", Game.GAME_WIDTH/2-100, 480);
+                g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 480);
             }
             if(showMessage2){
                 g.drawString("Nombre de usuario existente.", Game.GAME_WIDTH/2-100, 480);
