@@ -114,6 +114,17 @@ public class JSONUserManager {
         return true; // Retornar true si no hay uno igual
     }
 
+    public boolean verifyUserInfo(User user){
+        Set<User> users = fileToUsers();
+
+        for(User fileUser : users){
+            if(fileUser.getName().equals(user.getName()) && fileUser.getPassword().equals(user.getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void overwriteUser(User newUser){
         Set<User> users = new HashSet<>();
         users = fileToUsers();

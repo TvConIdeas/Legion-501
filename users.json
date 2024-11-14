@@ -28,5 +28,11 @@
         "password": "jby",
         "best score": 0,
         "name": "buybj"
+    },
+    {
+        "is admin": false,
+        "password": "rivas",
+        "best score": 0,
+        "name": "noel"
     }
 ]}
