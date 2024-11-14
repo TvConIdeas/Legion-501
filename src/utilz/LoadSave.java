@@ -1,6 +1,9 @@
 package utilz;
 
+import main.Game;
+
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +20,10 @@ public class LoadSave {
 
     // Overlays / Fondos
     public static final String PLAYING_BACKGROUD = "playing_background.jpg";
+    public static final String LOGIN_BACKGROUD = "login_background.jpg";
+    public static final String REGISTER_BACKGROUD = "register_background.jpg";
+    public static final String MENU_BACKGROUD = "menu_background.jpg";
+    public static final String TITLE_GAME = "501_title.png";
     public static final String PAUSE_MENU = "pause_menu.png";
 
     // Buttons
@@ -24,6 +31,19 @@ public class LoadSave {
     public static final String MENU_BUTTONS = "menu_button.png";
     public static final String PAUSE_BUTTONS = "pause_button.png";
     public static final String RESUME_BUTTONS = "resume_button.png";
+
+    public static void drawTitleBackgroud(Graphics g, String backgroud) {
+        // Fondo
+        BufferedImage pincel = LoadSave.GetSpritesAtlas(backgroud);
+        g.drawImage(pincel, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+
+        // Titulo
+        pincel = LoadSave.GetSpritesAtlas(TITLE_GAME);;
+        g.drawImage(pincel, (Game.GAME_WIDTH/2)-(pincel.getWidth()/2), 40,
+                pincel.getWidth(),
+                pincel.getHeight(), null);
+    }
+
 
     // Funcion que retorna esas imagenes
     public static BufferedImage GetSpritesAtlas(String fileName){

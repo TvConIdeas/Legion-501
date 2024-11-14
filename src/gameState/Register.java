@@ -5,11 +5,14 @@ import exceptions.UsernameUnavailableException;
 import main.Game;
 import main.GamePanel;
 import users.User;
+import utilz.LoadSave;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static utilz.Constants.ANI_ERROR_MESSAGE;
+import static utilz.LoadSave.*;
 
 public class Register extends State {
 
@@ -34,7 +37,6 @@ public class Register extends State {
     // Flags
     boolean flagAddComponents = false; // Flag para agregar los componentes una única vez
     boolean showMessage = false; // Mostrar mensaje en pantalla al lanzar excepcion
-
     private int aniTick = 0; // Contador para mostrar mensaje al lanzar excepcion
 
 
@@ -55,25 +57,39 @@ public class Register extends State {
         registerButton = new JButton("Register");
         quitButton = new JButton("Quit");
         backButton = new JButton("Back");
-        userIDLabel = new JLabel("User name:");
-        userPasswordLabel = new JLabel("Password:");
+        userIDLabel = new JLabel("");
+        userPasswordLabel = new JLabel("");
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
 
         // Limites
-        registerButton.setBounds(Game.GAME_WIDTH-150, Game.GAME_HEIGHT-100, 100, 25);
-        quitButton.setBounds(20, Game.GAME_HEIGHT-100, 100, 25);
-        backButton.setBounds(20, Game.GAME_HEIGHT-150, 100, 25);
-        userIDLabel.setBounds(50, 100, 75, 25);
-        userPasswordLabel.setBounds(50, 150, 75, 25);
-        userIDField.setBounds(125, 100, 200, 25);
-        userPasswordField.setBounds(125, 150, 200, 25);
+        // Botones
+        quitButton.setBackground(new Color(116, 9, 56));
+        quitButton.setForeground(new Color(222, 124, 125));
+        backButton.setBackground(new Color(0, 11, 88));
+        backButton.setForeground(new Color(106, 154, 176));
+        registerButton.setBackground(new Color(82, 110, 72));
+        registerButton.setForeground(new Color(158, 223, 156));
+        quitButton.setBounds(68, Game.GAME_HEIGHT-100, 100, 25);
+        backButton.setBounds(193, Game.GAME_HEIGHT-100, 100, 25);
+        registerButton.setBounds( 318, Game.GAME_HEIGHT-100, 100, 25);
+
+        //Labels
+        userIDLabel.setBounds(140, 270, 75, 25);
+        userPasswordLabel.setBounds(140, 370, 75, 25);
+
+        //Fields
+        userIDField.setBackground(Color.LIGHT_GRAY);
+        userIDField.setForeground(Color.DARK_GRAY);
+        userPasswordField.setBackground(Color.LIGHT_GRAY);
+        userPasswordField.setForeground(Color.DARK_GRAY);
+        userIDField.setBounds(140, 350, 200, 25);
+        userPasswordField.setBounds(140, 450, 200, 25);
     }
 
     /** addComponents() ==> Agregar los componentes al GamePanel. */
     public void addComponents(GamePanel panel){
         panel.setLayout(null);
-
         panel.add(registerButton);
         panel.add(quitButton);
         panel.add(backButton);
@@ -85,7 +101,6 @@ public class Register extends State {
 
     /** addEventListeners() ==> Settear los botones para que hagan una acción al ser oprimidos. */
     public void addEventListeners(){
-
         registerButton.addActionListener(e -> registerUser());
         quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
         backButton.addActionListener(e -> {
@@ -140,7 +155,6 @@ public class Register extends State {
     // Methods interfaz IRenderable
     @Override
     public void update() {
-
         if(!flagAddComponents) { // Entrar una unica vez
             GamePanel panel = game.getGamePanel();
 
@@ -161,11 +175,23 @@ public class Register extends State {
 
     @Override
     public void draw(Graphics g) {
+
+        // Fondo y Titulo
+        LoadSave.drawTitleBackgroud(g,REGISTER_BACKGROUD);
+
+        // Textos
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Console", Font.BOLD, 25));
+        g.drawString("Username", 180, 340);
+        g.drawString("Password", 180, 440);
+
+        // Encaso de Fallar
         if(showMessage){
-            g.fillRect(125, 200, 200, 50);
+            g.setColor(Color.BLACK);
+            g.fillRect(40, 250, 410, 25); // Rectangulo Negro
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            g.drawString("El nombre de usuario y/o contraseña no cumplen con las condiciones.", 150, 225);
+            g.drawString("El nombre de usuario y/o contraseña no cumplen con las condiciones.", 48, 267);
         }
     }
 }
