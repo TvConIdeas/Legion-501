@@ -14,7 +14,11 @@ import static utilz.Constants.ANI_ERROR_MESSAGE;
 public class Register extends State {
 
     // ====================> ATRIBUTOS <====================
+    // Botones
     private JButton registerButton;
+    private JButton quitButton;
+    private JButton backButton;
+
     private JLabel userIDLabel;
     private JLabel userPasswordLabel;
     private JTextField userIDField;
@@ -44,6 +48,8 @@ public class Register extends State {
     public void initUI(){
         // Instanciar
         registerButton = new JButton("Register");
+        quitButton = new JButton("Quit");
+        backButton = new JButton("Back");
         userIDLabel = new JLabel("User name:");
         userPasswordLabel = new JLabel("Password:");
         userIDField = new JTextField();
@@ -51,6 +57,8 @@ public class Register extends State {
 
         // Limites
         registerButton.setBounds(Game.GAME_WIDTH-150, Game.GAME_HEIGHT-100, 100, 25);
+        quitButton.setBounds(20, Game.GAME_HEIGHT-100, 100, 25);
+        backButton.setBounds(20, Game.GAME_HEIGHT-150, 100, 25);
         userIDLabel.setBounds(50, 100, 75, 25);
         userPasswordLabel.setBounds(50, 150, 75, 25);
         userIDField.setBounds(125, 100, 200, 25);
@@ -62,6 +70,8 @@ public class Register extends State {
             panel.setLayout(null);
 
             panel.add(registerButton);
+            panel.add(quitButton);
+            panel.add(backButton);
             panel.add(userIDLabel);
             panel.add(userPasswordLabel);
             panel.add(userIDField);
@@ -70,7 +80,15 @@ public class Register extends State {
 
     /** addEventListeners() ==> Settear los botones para que hagan una acción al ser oprimidos. */
     public void addEventListeners(){
+
         registerButton.addActionListener(e -> registerUser());
+        quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
+        backButton.addActionListener(e -> {
+            game.getGamePanel().removeAll();
+            flagAddComponents = false; // Para que cuando vuelva a REGISTER entre a addComponents
+            clearFields();
+            GameState.state = GameState.LOGIN;
+        });
     }
 
     /** registerUser() ==> Registrar usuario. */
@@ -89,9 +107,11 @@ public class Register extends State {
             User user = new User(name, password);
             game.getJsonUserManager().userToFile(user);
             game.getGamePanel().removeAll();
+            flagAddComponents = false;
             GameState.state = GameState.LOGIN;
             
         } catch (InvalidUsernameOrPasswordException e){
+            System.out.println(game.getJsonUserManager().fileToUsers());
             e.getMessage();
             e.printStackTrace();
             showMessage = true;
@@ -101,7 +121,14 @@ public class Register extends State {
             e.printStackTrace();
             showMessage = true;
 
+        } finally {
+            clearFields();
         }
+    }
+
+    public void clearFields(){
+        userIDField.setText("");
+        userPasswordField.setText("");
     }
 
     // Methods interfaz IRenderable
@@ -124,9 +151,7 @@ public class Register extends State {
                 aniTick = 0; // Fin Contador
                 showMessage = false;
             }
-
         }
-
     }
 
     @Override
@@ -135,7 +160,7 @@ public class Register extends State {
             g.fillRect(125, 200, 200, 50);
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            g.drawString("Error en la contraseña y/o usuario.", 150, 225);
+            g.drawString("El nombre de usuario y/o contraseña no cumplen con las condiciones.", 150, 225);
         }
     }
 }

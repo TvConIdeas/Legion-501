@@ -19,7 +19,7 @@ public final class ReadWriteOperations {
     public static void write(String file, JSONObject jsonObject){
         try {
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(jsonObject.toString()); // Pasar el JSONObject al archivo
+            fileWriter.write(jsonObject.toString(4)); // Pasar el JSONObject al archivo
             fileWriter.close();
 
         } catch (IOException e){ // Capturar excepcion de entrada/salida

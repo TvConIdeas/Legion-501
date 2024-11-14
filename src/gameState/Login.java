@@ -96,6 +96,7 @@ public class Login extends State {
 
             registerButton.addActionListener(e -> {
                 panel.removeAll();
+                uiInitialized = false;
                 GameState.state = GameState.REGISTER;
             });
 

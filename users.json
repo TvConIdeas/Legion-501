@@ -1,1 +1,20 @@
-{"users":[{"is admin":false,"password":"fenoy","best score":0,"name":"delfi"},{"is admin":false,"password":"feweewf","best score":0,"name":"g"},{"is admin":false,"password":"frefe","best score":0,"name":"gree"},{"is admin":false,"password":"gre","best score":0,"name":"gte"},{"is admin":false,"password":"bgfbf","best score":0,"name":"bgfbf"},{"is admin":false,"password":"nhgtn","best score":0,"name":"muny"},{"is admin":false,"password":"mjym","best score":0,"name":"mynm"},{"is admin":false,"password":"btbt","best score":0,"name":"hbytrbt"}]}
+{"users": [
+    {
+        "is admin": false,
+        "password": "fenoy",
+        "best score": 0,
+        "name": "delfi"
+    },
+    {
+        "is admin": false,
+        "password": "tvconideas",
+        "best score": 0,
+        "name": "ian"
+    },
+    {
+        "is admin": false,
+        "password": "fewfe",
+        "best score": 0,
+        "name": "ffwefew"
+    }
+]}
