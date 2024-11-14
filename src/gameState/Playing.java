@@ -58,6 +58,10 @@ public class Playing extends State implements Statemethods {
         return currentLevel;
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     // ====================> METODOS <====================
     /** initClasses() ==> Inicializa todas las clases */
     private void initClasses(){
@@ -70,9 +74,9 @@ public class Playing extends State implements Statemethods {
         enemyManager = new EnemyManager(this);
         bulletManager = new BulletManager(this);
         pauseOverlay = new PauseOverlay(this);
-        score = 0;
         levelManager = new HashMap<>();
         enemyManager.loadConfigLevel(levelManager);
+        score = 0;
         startLevel(currentLevel); // Iniciar el primer nivel con dificultad "Easy"
     }
 
@@ -129,9 +133,7 @@ public class Playing extends State implements Statemethods {
         score = 0;
         player.lives = 3;
         currentLevel = "easy";
-        backMenu = false;
-        gameOver = false;
-        paused = false;
+        resetBooleans();
         restartLevel();
     }
 
@@ -158,6 +160,13 @@ public class Playing extends State implements Statemethods {
         startLevel(currentLevel); // Comenzar nivel
     }
 
+    public void resetBooleans(){
+        hitPlayer = false;
+        gameOver = false;
+        paused = false;
+        backMenu = false;
+    }
+
     /** windowFocusLost() ==> Cuando se pierde el foco del programa */
     public void windowFocusLost() {
         player.resetDirBooleans();
@@ -170,17 +179,18 @@ public class Playing extends State implements Statemethods {
         BufferedImage image = LoadSave.GetSpritesAtlas(PLAYING_BACKGROUD);;
         g.drawImage(image, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
 
+
+        // Dibujar Manager y Enemigos
+        bulletManager.draw(g);
+        player.draw(g);
+        enemyManager.draw(g);
+
         // Estadisticas (Editar)
         g.setColor(Color.WHITE);
         g.setFont(new Font("Console", Font.BOLD, 15));
         g.drawString("Score: " + score, 10, 20);
         g.drawString("Enemies: " + alienCount, 10, 35);
         g.drawString("Lives: " + player.lives, 10, 50);
-
-        // Dibujar Manager y Enemigos
-        bulletManager.draw(g);
-        player.draw(g);
-        enemyManager.draw(g);
 
         // Pausa
         if(paused && !gameOver){
@@ -218,7 +228,7 @@ public class Playing extends State implements Statemethods {
 
     /** <====== Interface StateMethods ======> */
     @Override
-    public void keyPressed(KeyEvent e) { // Solo cuando el jugador este IDLE
+    public void keyPressed(KeyEvent e){ // Solo cuando el jugador este IDLE
         if(player.getState() == IDLE){
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
@@ -234,12 +244,6 @@ public class Playing extends State implements Statemethods {
                         paused = true;
                     }
                     break;
-            }
-        }
-        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            if(paused || gameOver){
-                backMenu = true;
-                GameState.state = GameState.MENU;
             }
         }
     }
@@ -268,16 +272,19 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (paused)
+            pauseOverlay.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+         if (paused)
+            pauseOverlay.mouseReleased(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+         if (paused)
+            pauseOverlay.mouseMoved(e);
     }
 }

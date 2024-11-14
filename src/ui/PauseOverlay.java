@@ -8,34 +8,40 @@ import gameState.GameState;
 import gameState.Playing;
 import main.Game;
 import utilz.LoadSave;
-import static utilz.Constants.UI.PauseButtons.*;
-import static utilz.Constants.UI.Buttons.*;
 
 public class PauseOverlay {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
     private BufferedImage backgroundImg;
     private int bgX, bgY, bgW, bgH;
-    private PauseButton menuB, replayB;
-    private MenuButton resumeB;
+    private ClassButton[] buttons = new ClassButton[2];
+
+    private ClassButton menuB, replayB;
+    //private ResumeButton resumeB;
 
     // ====================> CONSTRUCTOR <====================
     public PauseOverlay(Playing playing) {
         this.playing = playing;
         loadBackground();
-        createUrmButtons();
+        loadButtons();
     }
 
     // ====================> METODOS <====================
-    private void createUrmButtons() {
-        int menuX = (int) (313 * Game.SCALE);
-        int replayX = (int) (387 * Game.SCALE);
-        int unpauseX = (int) (462 * Game.SCALE);
-        int bY = (int) (325 * Game.SCALE);
+    private void loadButtons(){
+        int replayX = (Game.GAME_WIDTH/2)+65;
+        int menuX = (Game.GAME_WIDTH/2)-70;
+        int resumeX = Game.GAME_WIDTH/2;
+        int bY = (int) (55 * Game.SCALE);
 
-        menuB = new PauseButton(menuX, bY, PB_SIZE, PB_SIZE, 0);
-        replayB = new PauseButton(replayX, bY, PB_SIZE, PB_SIZE, 1);
-        //resumeB = new MenuButton(unpauseX,bY, 0, GameState.MENU);
+        buttons[0] = new ClassButton(replayX, bY + bgY, 0);
+        buttons[1] = new ClassButton(menuX, bY + bgY, 1);
+        //resumeB = new ResumeButton(resumeX,bY,0);
+    }
+
+    private void resetButtons() {
+        for(ClassButton cb : buttons) { // El for, comprueba si el mouse está dentro del área del botón
+            cb.resetBools();
+        }
     }
 
     private void loadBackground() {
@@ -46,61 +52,58 @@ public class PauseOverlay {
         bgY = (int) (70 * Game.SCALE);
     }
 
+    private boolean isIn(MouseEvent e, ClassButton b) {
+        return b.getHitbox().contains(e.getX(), e.getY());
+    }
+
+    // ====================> METODOS COMUNES <====================
     public void update() {
-        menuB.update();
-        replayB.update();
-        //resumeB.update();
-    }
-
-    public void draw(Graphics g) {
-        // Background
-        g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
-
-        // UrmButtons
-        menuB.draw(g);
-        replayB.draw(g);
-        //resumeB.draw(g);
-    }
-
-    public void mousePressed(MouseEvent e) {
-        if (isIn(e, menuB))
-            menuB.setMousePressed(true);
-        else if (isIn(e, replayB))
-            replayB.setMousePressed(true);
-    }
-
-    public void mouseReleased(MouseEvent e) {
-        if (isIn(e, menuB)) {
-            if (menuB.isMousePressed()) {
-//                playing.resetAll();
-//                playing.setGamestate(Gamestate.MENU);
-//                playing.unpauseGame();
-            }
-        } else if (isIn(e, replayB)) {
-            if (replayB.isMousePressed()) {
-//                playing.resetAll();
-//                playing.unpauseGame();
-            }
-
-            menuB.resetBools();
-            replayB.resetBools();
-            //resumeB.resetBools();
-
+        for(ClassButton cb : buttons) {
+            cb.update();
         }
     }
 
+    public void draw(Graphics g) {
+        // Fondo
+        g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
+
+        for(ClassButton cb : buttons) {
+            cb.draw(g);
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+        for(ClassButton cb : buttons) {
+            if(isIn(e, cb)) {
+                cb.setMousePressed(true);
+            }
+        }
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        if (isIn(e, buttons[0])) {
+            if (buttons[0].isMousePressed()) {
+                playing.endLevel();
+            }
+        } else if (isIn(e, buttons[1])) {
+            if (buttons[1].isMousePressed()) {
+                playing.endLevel();
+                GameState.state = GameState.MENU;
+            }
+        }
+        resetButtons();
+    }
+
     public void mouseMoved(MouseEvent e) {
-        menuB.setMouseOver(false);
-        replayB.setMouseOver(false);
-        //resumeB.setMouseOver(false);
+        for (ClassButton cb : buttons)
+            cb.setMouseOver(false); //Reinicia el estado `mouseOver` de todos los botones
 
-        if (isIn(e, menuB))
-            menuB.setMouseOver(true);
-        else if (isIn(e, replayB))
-            replayB.setMouseOver(true);
+        for (ClassButton cb : buttons)
+            if (isIn(e, cb)) {
+                cb.setMouseOver(true); // Comprueba si el mouse está dentro del botón
+                break; // Rompe el ciclo para que solo un botón esté en estado `mouseOver`
+            }
     }
 
-    private boolean isIn(MouseEvent e, PauseButton b) {
-        return b.getBounds().contains(e.getX(), e.getY());
-    }
+
 }

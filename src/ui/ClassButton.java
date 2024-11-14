@@ -1,66 +1,84 @@
 package ui;
 
+import utilz.LoadSave;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static utilz.Constants.UI.PauseButtons.*;
 
 public class ClassButton {
     // ====================> ATRIBUTOS <====================
-    protected int x, y, width, height;
-    protected Rectangle bounds;
+    private int xPos, yPos, rowIndex, index;
+    private int xOffsetCenter = PB_SIZE / 2;
+    private boolean mouseOver, mousePressed;
+    private BufferedImage[] imgs;
+    private Rectangle hitbox;
 
     // ====================> CONSTRUCTOR <====================
-    public ClassButton(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        createBounds();
+    public ClassButton(int xPos, int yPos, int rowIndex) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.rowIndex = rowIndex;
+        loadImgs(); // Cargar Imagenes
+        initBounds();
     }
-
     // ====================> GET | SET <====================
-    public int getX() {
-        return x;
+    public boolean isMouseOver() {
+        return mouseOver;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setMouseOver(boolean mouseOver) {
+        this.mouseOver = mouseOver;
     }
 
-    public int getY() {
-        return y;
+    public boolean isMousePressed() {
+        return mousePressed;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setMousePressed(boolean mousePressed) {
+        this.mousePressed = mousePressed;
     }
 
-    public int getWidth() {
-        return width;
+    public Rectangle getHitbox() {
+        return hitbox;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
+    public void setHitbox(Rectangle hitbox) {
+        this.hitbox = hitbox;
     }
 
     // ====================> METODOS <====================
-    private void createBounds() {
-        bounds = new Rectangle(x, y, width, height);
+    private void initBounds() {
+        hitbox = new Rectangle(xPos - xOffsetCenter, yPos, PB_SIZE, PB_SIZE);
     }
 
+    // Cargamos las imagenes del boton
+    private void loadImgs() {
+        imgs = new BufferedImage[3];
+        BufferedImage temp = LoadSave.GetSpritesAtlas(LoadSave.PAUSE_BUTTONS);
+        for (int i = 0; i < imgs.length; i++)
+            imgs[i] = temp.getSubimage(i * PB_DEFAULT_SIZE, rowIndex * PB_DEFAULT_SIZE, PB_DEFAULT_SIZE, PB_DEFAULT_SIZE);
+    }
+
+    // Dibujamos el Boton
+    public void draw(Graphics g) {
+        g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, PB_SIZE, PB_SIZE, null);
+    }
+
+    // Index, controla cuál de las imágenes del botón se muestra, según el estado del mouse.
+    public void update() {
+        index = 0; // Inactivo
+        if (mouseOver)
+            index = 1; // Sobre el Boton
+        if (mousePressed)
+            index = 2; // Presiona el Boton
+    }
+
+    // Reseteamos los booleanos a False
+    public void resetBools() {
+        mouseOver = false;
+        mousePressed = false;
+    }
 
 }
