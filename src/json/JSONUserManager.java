@@ -122,15 +122,11 @@ public class JSONUserManager {
             if(user.getName().equals(newUser.getName())){
                 users.remove(user);
                 users.add(newUser);
+                usersSetToFile(users);
             }
         }
-
-//        for(int i=0; i<users.size(); i++){
-//            if(users.get(i).getName().equals(newUser.getName())){
-//                users.add(i, newUser);
-//                user
-//            }
-        }
+//        usersSetToFile(users);
+    }
 
         /*public void searchUser(String name){
 
