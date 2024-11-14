@@ -1,42 +1,35 @@
 package gameState;
 
 import exceptions.InvalidUsernameOrPasswordException;
+import exceptions.PasswordMismatchException;
 import exceptions.UsernameUnavailableException;
 import main.Game;
-import main.GamePanel;
 import users.User;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static utilz.Constants.ANI_ERROR_MESSAGE;
-
-public class Register extends State {
+public class Register extends UserAccount {
 
     // ====================> ATRIBUTOS <====================
     // Botones
     private JButton registerButton;
     private JButton quitButton;
-    private JButton backButton;
 
-    // Labels
+    // Texto
     private JLabel userIDLabel;
     private JLabel userPasswordLabel;
+    private JLabel confirmPasswordLabel;
 
-    // Fields
+    // Contenedores
     private JTextField userIDField;
     private JPasswordField userPasswordField;
+    private JPasswordField confirmPasswordField;
 
-    // Atributos a ingresar
-    private String name;
-    private String password;
-
-    // Flags
-    boolean flagAddComponents = false; // Flag para agregar los componentes una única vez
-    boolean showMessage = false; // Mostrar mensaje en pantalla al lanzar excepcion
-
-    private int aniTick = 0; // Contador para mostrar mensaje al lanzar excepcion
-
+    // Mensajes de error
+    private boolean showMessage = false;
+    private boolean showMessage2 = false;
+    private boolean showMessage3 = false;
 
     // ====================> CONTRUCTOR <====================
     public Register(Game game) {
@@ -50,40 +43,47 @@ public class Register extends State {
     // ====================> METODOS <====================
 
     /** initUI ==> Instanciar los componentes. */
+    @Override
     public void initUI(){
+        super.initUI();
         // Instanciar
         registerButton = new JButton("Register");
         quitButton = new JButton("Quit");
-        backButton = new JButton("Back");
         userIDLabel = new JLabel("User name:");
         userPasswordLabel = new JLabel("Password:");
+        confirmPasswordLabel = new JLabel("Confirm password:");
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
+        confirmPasswordField = new JPasswordField();
 
         // Limites
-        registerButton.setBounds(Game.GAME_WIDTH-150, Game.GAME_HEIGHT-100, 100, 25);
-        quitButton.setBounds(20, Game.GAME_HEIGHT-100, 100, 25);
-        backButton.setBounds(20, Game.GAME_HEIGHT-150, 100, 25);
-        userIDLabel.setBounds(50, 100, 75, 25);
-        userPasswordLabel.setBounds(50, 150, 75, 25);
-        userIDField.setBounds(125, 100, 200, 25);
-        userPasswordField.setBounds(125, 150, 200, 25);
+        registerButton.setBounds(Game.GAME_WIDTH-125, Game.GAME_HEIGHT-50, 100, 25);
+        quitButton.setBounds(25, Game.GAME_HEIGHT-75, 75, 20);
+        userIDLabel.setBounds(Game.GAME_WIDTH/2-100, 250, 75, 25);
+        userPasswordLabel.setBounds(Game.GAME_WIDTH/2-100, 325, 75, 25);
+        confirmPasswordLabel.setBounds(Game.GAME_WIDTH/2-100, 400, 110, 25);
+        userIDField.setBounds(Game.GAME_WIDTH/2-100, 275, 200, 25);
+        userPasswordField.setBounds(Game.GAME_WIDTH/2-100, 350, 200, 25);
+        confirmPasswordField.setBounds(Game.GAME_WIDTH/2-100, 425, 200, 25);
     }
 
     /** addComponents() ==> Agregar los componentes al GamePanel. */
-    public void addComponents(GamePanel panel){
+    @Override
+    public void addComponents(){
+        super.addComponents();
         panel.setLayout(null);
-
         panel.add(registerButton);
         panel.add(quitButton);
-        panel.add(backButton);
         panel.add(userIDLabel);
         panel.add(userPasswordLabel);
+        panel.add(confirmPasswordLabel);
         panel.add(userIDField);
         panel.add(userPasswordField);
+        panel.add(confirmPasswordField);
     }
 
     /** addEventListeners() ==> Settear los botones para que hagan una acción al ser oprimidos. */
+    @Override
     public void addEventListeners(){
 
         registerButton.addActionListener(e -> registerUser());
@@ -98,15 +98,20 @@ public class Register extends State {
 
     /** registerUser() ==> Registrar usuario. */
     public void registerUser(){
-        name = userIDField.getText(); // Leer nombre
-        password = new String(userPasswordField.getPassword()); // Leer contraseña
+        String name = userIDField.getText(); // Leer nombre
+        String password = new String(userPasswordField.getPassword()); // Leer contraseña
+        String confirmPassword = new String(confirmPasswordField.getPassword());
 
         try {
-            if(name.isBlank() || password.isBlank() || name.length() >20 || password.length() >20){ // Si esta vacio o es >20
+            if(name.isBlank() || password.isBlank() || confirmPassword.isBlank()
+                    || name.length() >20 || password.length() >20 || confirmPassword.length() >20){ // Si esta vacio o es >20
                 throw new InvalidUsernameOrPasswordException();
 
             } else if (!game.getJsonUserManager().isUsernameAvailable(name)) { // Si el nombre de usuario ya existe
                 throw new UsernameUnavailableException();
+
+            } else if (!confirmPassword.equals(password)) { // Si las contrseñas (password y confirmPassword) no coinciden
+                throw new PasswordMismatchException();
             }
 
             User user = new User(name, password);
@@ -116,7 +121,6 @@ public class Register extends State {
             GameState.state = GameState.LOGIN; // Cambiar de state
             
         } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password esta vacio y mas de 20 caracteres
-            System.out.println(game.getJsonUserManager().fileToUsers());
             e.getMessage();
             e.printStackTrace();
             showMessage = true;
@@ -124,7 +128,12 @@ public class Register extends State {
         } catch (UsernameUnavailableException e){ // Excepcion si el name ya existe
             e.getMessage();
             e.printStackTrace();
-            showMessage = true;
+            showMessage2 = true;
+
+        } catch (PasswordMismatchException e){
+            e.getMessage();
+            e.printStackTrace();
+            showMessage3 = true;
 
         } finally {
             clearFields();
@@ -132,40 +141,52 @@ public class Register extends State {
     }
 
     /** clearFields() ==> Borrar los contenidos de los fields. */
+    @Override
     public void clearFields(){
         userIDField.setText("");
         userPasswordField.setText("");
+        confirmPasswordField.setText("");
     }
 
     // Methods interfaz IRenderable
     @Override
     public void update() {
+        super.update();
 
-        if(!flagAddComponents) { // Entrar una unica vez
-            GamePanel panel = game.getGamePanel();
-
-            if(panel != null){
-                addComponents(panel);
-                flagAddComponents = true; // Para que no se agreguen de nuevo
-            }
+        if(showMessage){
+            showMessage = messageCounter(showMessage); // Contador para que desaparezca el mensaje
         }
-
-        if(showMessage){ // Si se mostró el mensaje de error
-            aniTick++;
-            if(aniTick >= ANI_ERROR_MESSAGE){ // Mostrar hasta que se cumpla un tiempo determinado
-                aniTick = 0; // Fin Contador
-                showMessage = false;
-            }
+        if(showMessage2){
+            showMessage2 = messageCounter(showMessage2); // Contador para que desaparezca el mensaje
+        }
+        if(showMessage3){
+            showMessage3 = messageCounter(showMessage3); // Contador para que desaparezca el mensaje
         }
     }
 
     @Override
     public void draw(Graphics g) {
-        if(showMessage){
-            g.fillRect(125, 200, 200, 50);
+        // Titulo
+        g.setFont(new Font("Console", Font.BOLD, 70));
+        g.setColor(Color.WHITE);
+        g.drawString("Legion 501", 50, 150);
+        g.setFont(new Font("Console", Font.BOLD, 40));
+        g.setColor(Color.GRAY);
+        g.drawString("Register", 150, 230);
+
+        if(showMessage || showMessage2 || showMessage3){
+
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            g.drawString("El nombre de usuario y/o contraseña no cumplen con las condiciones.", 150, 225);
+            if(showMessage){
+                g.drawString("Nombre de usuario o contraseña inválidos.", Game.GAME_WIDTH/2-100, 480);
+            }
+            if(showMessage2){
+                g.drawString("Nombre de usuario existente.", Game.GAME_WIDTH/2-100, 480);
+            }
+            if(showMessage3){
+                g.drawString("Las contraseñas no coinciden.", Game.GAME_WIDTH/2-100, 480);
+            }
         }
     }
 }
