@@ -17,7 +17,7 @@ public abstract class UserAccount extends State {
     // Flags
     protected boolean flagAddComponents = false;
 
-    protected int showMessage; // Index para mensajes de error
+    protected int showMessage; // Index para mensajes de error/modificacion
     private int aniTick = 0; // Contador para mensajes de error
 
     protected GamePanel panel;

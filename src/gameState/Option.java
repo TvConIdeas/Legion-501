@@ -2,6 +2,7 @@ package gameState;
 
 import exceptions.InvalidUsernameOrPasswordException;
 import exceptions.NonexistentUserException;
+import exceptions.SamePasswordException;
 import exceptions.UsernameUnavailableException;
 import main.Game;
 import users.User;
@@ -86,7 +87,7 @@ public class Option extends UserAccount {
     @Override
     public void addEventListeners(){
         confirmUsernameButton.addActionListener(e -> changeUsername());
-//        confirmPasswordButton.addActionListener(e -> changePassword());
+        confirmPasswordButton.addActionListener(e -> changePassword());
 
         backButton.addActionListener(e ->{ // Register button
             game.getGamePanel().removeAll();
@@ -107,11 +108,9 @@ public class Option extends UserAccount {
                 throw new UsernameUnavailableException();
             }
 
-            String oldName = game.getUserInGame().getName();
-            System.out.println(game.getUserInGame());
-            game.getUserInGame().setName(newName);
-            System.out.println(game.getUserInGame());
-            game.getJsonUserManager().overwriteUserName(game.getUserInGame(), oldName);
+            String oldName = game.getUserInGame().getName(); // Guardar nombre anterior
+            game.getUserInGame().setName(newName); // Modificar nombre en UserInGame
+            game.getJsonUserManager().overwriteUserName(game.getUserInGame(), oldName); // Guardar cambios en archivo
             showMessage = 3;
 
         } catch (InvalidUsernameOrPasswordException e){
@@ -123,6 +122,37 @@ public class Option extends UserAccount {
             e.getMessage();
             e.printStackTrace();
             showMessage = 2;
+        } finally {
+            clearFields();
+        }
+    }
+
+    public void changePassword(){
+        String newPassword = new String(userPasswordField.getPassword());
+
+        try {
+            if(newPassword.isBlank() || newPassword.length() >20){
+                throw new InvalidUsernameOrPasswordException("Contraseña inválida.");
+
+            } else if (game.getUserInGame().getPassword().equals(newPassword)) {
+                throw new SamePasswordException();
+            }
+
+            game.getUserInGame().setPassword(newPassword); // Modificar password de user
+            game.getJsonUserManager().overwriteUser(game.getUserInGame()); // Guardar cambios en archivo
+            showMessage = 6;
+
+        } catch (InvalidUsernameOrPasswordException e){
+            e.getMessage();
+            e.printStackTrace();
+            showMessage = 4;
+
+        } catch (SamePasswordException e){
+            e.getMessage();
+            e.printStackTrace();
+            showMessage = 5;
+        } finally {
+            clearFields();
         }
     }
 
@@ -159,6 +189,12 @@ public class Option extends UserAccount {
                 case 3 -> {
                     g.setColor(Color.GREEN);
                     g.drawString("Nombre de usuario modificado con éxito.", 120, 567);
+                }
+                case 4 -> g.drawString("Contraseña inválida.", 120, 567);
+                case 5 -> g.drawString("La contraseña nueva debe ser diferente a la actual.", 120, 567);
+                case 6 -> {
+                    g.setColor(Color.GREEN);
+                    g.drawString("Contraseña modificada con éxito.", 120, 567);
                 }
             }
         }
