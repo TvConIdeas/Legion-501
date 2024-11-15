@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics;
+import java.util.Random;
 
 import gameState.*;
 import json.JSONUserManager;
@@ -28,10 +29,11 @@ public class Game implements Runnable, IRenderable {
     private final int UPS_SET = 100; // Updates Per Second
 
     // GameStates
-    private Playing playing;
-    private Menu menu;
-    private Register register;
     private Login login;
+    private Register register;
+    private Menu menu;
+    private Playing playing;
+    private Ranking ranking;
     private Option option;
     protected User userInGame;
 
@@ -80,6 +82,9 @@ public class Game implements Runnable, IRenderable {
         userInGame = user;
     }
 
+    public Ranking getRanking() {
+        return ranking;
+    }
     public User getUserInGame(){
         return userInGame;
     }
@@ -87,10 +92,11 @@ public class Game implements Runnable, IRenderable {
     // ====================> METODOS <====================
     /** initClasses() ==> Instancia las clases. */
     private void initClasses(){
+        login = new Login(this);
+        register = new Register(this);
         menu = new Menu(this);
         playing = new Playing(this);
-        register = new Register(this);
-        login = new Login(this);
+        ranking = new Ranking(this);
         option = new Option(this);
         userInGame = new User();
         jsonUserManager = new JSONUserManager();
@@ -120,9 +126,9 @@ public class Game implements Runnable, IRenderable {
                 break;
             case OPTIONS:
                 option.update();
-                break;
-            case RANKING: //ranking.update() [no existe aun] break;
-                System.out.println(userInGame);
+            break;
+            case RANKING:
+                ranking.update();
                 break;
             case QUIT:
             default:
@@ -146,6 +152,9 @@ public class Game implements Runnable, IRenderable {
                 break;
             case PLAYING:
                 playing.draw(g);
+                break;
+            case RANKING:
+                ranking.draw(g);
                 break;
             case OPTIONS:
                 option.draw(g);
