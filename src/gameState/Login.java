@@ -87,7 +87,10 @@ public class Login extends UserAccount {
 
     @Override
     public void addEventListeners(){
-        loginButton.addActionListener(e -> login());
+        loginButton.addActionListener(e -> {
+            System.out.println(game.getJsonUserManager().fileToUsers());
+            login();
+        });
         quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
         backButton.addActionListener(e ->{ // Register button
             game.getGamePanel().removeAll();

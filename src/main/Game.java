@@ -33,7 +33,7 @@ public class Game implements Runnable, IRenderable {
     private Register register;
     private Login login;
     private Option option;
-    private User userInGame;
+    protected User userInGame;
 
     // JSON
     protected JSONUserManager jsonUserManager;
@@ -78,6 +78,10 @@ public class Game implements Runnable, IRenderable {
 
     public void setUserInGame(User user){
         userInGame = user;
+    }
+
+    public User getUserInGame(){
+        return userInGame;
     }
 
     // ====================> METODOS <====================

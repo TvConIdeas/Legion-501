@@ -22,13 +22,15 @@ public final class ReadWriteOperations {
             fileWriter.write(jsonObject.toString(4)); // Pasar el JSONObject al archivo
             fileWriter.close();
 
-        } catch (IOException e){ // Capturar excepcion de entrada/salida
+        } catch (FileNotFoundException e){ // Capturar excepcion de archivo no encontrado
             e.printStackTrace();
 
+        } catch (IOException e){ // Capturar excepcion de entrada/salida
+            e.printStackTrace();
         }
     }
 
-    public static void write(String file, JSONArray jsonArray) {
+    /*public static void write(String file, JSONArray jsonArray) {
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(jsonArray.toString(4));
@@ -37,7 +39,7 @@ public final class ReadWriteOperations {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     /** read() ==> Leer el archivo. */
