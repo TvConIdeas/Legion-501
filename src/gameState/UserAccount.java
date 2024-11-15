@@ -31,6 +31,7 @@ public abstract class UserAccount extends State {
     // ====================> SET/GET <====================
 
     // ====================> METODOS <====================
+    /** initUI() ==> Instancia todos los componentes. */
     public void initUI(){
         // Instanciar
         backButton = new JButton("Back");
@@ -41,6 +42,7 @@ public abstract class UserAccount extends State {
         backButton.setBounds(193, Game.GAME_HEIGHT-100, 100, 25);
     }
 
+    /** addComponents() ==> Agregar */
     public void addComponents(){
         this.panel = game.getGamePanel();
         if(panel != null){

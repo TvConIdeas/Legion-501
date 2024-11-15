@@ -121,8 +121,10 @@ public class Game implements Runnable, IRenderable {
                 break;
             case OPTIONS:
                 option.update();
-            break;
+                break;
             case RANKING: //ranking.update() [no existe aun] break;
+                System.out.println(userInGame);
+                break;
             case QUIT:
             default:
                 System.exit(0); // Cierra el programa

@@ -1,14 +1,14 @@
 {"users": [
     {
         "is admin": false,
-        "password": "a",
-        "best score": 340,
-        "name": "a"
-    },
-    {
-        "is admin": false,
         "password": "e",
         "best score": 190,
         "name": "e"
+    },
+    {
+        "is admin": false,
+        "password": "a",
+        "best score": 1020,
+        "name": "aa"
     }
 ]}

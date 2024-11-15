@@ -14,11 +14,10 @@ import java.util.*;
 /**
  * Clase encargada de gestionar el archivo json de usuarios.
  */
-public class JSONUserManager {
+public final class JSONUserManager {
 
     // ====================> ATRIBUTOS <====================
     public final static String nomJSON = "users.json";
-
 
     // ====================> CONTRUCTOR <====================
     public JSONUserManager() {
@@ -116,6 +115,7 @@ public class JSONUserManager {
         return true; // Retornar true si no hay uno igual
     }
 
+    /** verifyUserInfo() ==> Comprobar que el par name-password coincidan con algún usuario del archivo. */
     public boolean verifyUserInfo(User user){
         Set<User> users = fileToUsers();
 
@@ -127,25 +127,38 @@ public class JSONUserManager {
         return false;
     }
 
+    /** overwriteUser() ==> Sobrescribir usuario, buscándolo a partir de su nombre de usuario actual. */
     public void overwriteUser(User newUser){
         Set<User> users = fileToUsers();
 
         users.removeIf(user -> user.getName().equals(newUser.getName())); // Buscar y eliminar el usuario con mismo nombre
         users.add(newUser); // Agregar usuario nuevo/modificado
         usersSetToFile(users); // Pasar los cambios al archivo
-
-        /*for(User user : users){
-            if(user.getName().equals(newUser.getName())){
-                users.remove(user);
-                users.add(newUser);
-                usersSetToFile(users);
-            }
-        }*/
     }
 
-        /*public void searchUser(String name){
+    /** overwriteUserName() ==> Sobrescribir usuario, a partir de su nombre de usuario antiguo. */
+    public void overwriteUserName(User newUser, String oldName){
+        Set<User> users = fileToUsers();
 
-        }*/
+        users.removeIf(user -> user.getName().equals(oldName)); // Buscar y eliminar el usuario con mismo nombre (viejo)
+        users.add(newUser); // Agregar usuario con nombre modificado
+        usersSetToFile(users);
+    }
+
+    /** getUser() ==> Devuelve el usuario correspondiente al nombre especificado.
+     * Este método se utiliza en Login después de realizar las comprobaciones,
+     * por lo que se garantiza que el usuario con ese nombre existe. */
+    public User getUser(String name){
+        Set<User> users = fileToUsers(); // Pasar archivo a colección
+
+        for (User user : users){
+            if(user.getName().equals(name)){ // Una vez que coincidan los nombres (únicos)
+                return user; // Retorna el usuario
+            }
+        }
+
+        return null; // En caso de no encontrarlo (imposible, el usuario siempre existe)
+    }
 }
 
 

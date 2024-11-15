@@ -111,9 +111,9 @@ public class Login extends UserAccount {
                 throw new NonexistentUserException();
             }
 
-            game.getGamePanel().removeAll();
+            game.getGamePanel().removeAll(); // Borrar componentes de pantalla
             flagAddComponents = false;
-            game.setUserInGame(new User(name, password));
+            game.setUserInGame(game.getJsonUserManager().getUser(name));
             GameState.state = GameState.MENU;
 
         } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password estan vacios o >20
