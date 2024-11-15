@@ -43,7 +43,9 @@ public class JSONUserManager {
         for(User user : users){
             jsonArray.put(serialize(user));
         }
-        ReadWriteOperations.write(nomJSON, jsonArray);
+        JSONObject jsonObject =  new JSONObject();
+        jsonObject.put("users", jsonArray);
+        ReadWriteOperations.write(nomJSON, jsonObject);
     }
 
     /** serialize() ==> Pasar de User a JSONObject. */
@@ -126,17 +128,19 @@ public class JSONUserManager {
     }
 
     public void overwriteUser(User newUser){
-        Set<User> users = new HashSet<>();
-        users = fileToUsers();
+        Set<User> users = fileToUsers();
 
-        for(User user : users){
+        users.removeIf(user -> user.getName().equals(newUser.getName())); // Buscar y eliminar el usuario con mismo nombre
+        users.add(newUser); // Agregar usuario nuevo/modificado
+        usersSetToFile(users); // Pasar los cambios al archivo
+
+        /*for(User user : users){
             if(user.getName().equals(newUser.getName())){
                 users.remove(user);
                 users.add(newUser);
                 usersSetToFile(users);
             }
-        }
-//        usersSetToFile(users);
+        }*/
     }
 
         /*public void searchUser(String name){

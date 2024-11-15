@@ -32,7 +32,7 @@ public class Game implements Runnable, IRenderable {
     private Menu menu;
     private Register register;
     private Login login;
-    private User userInGame;
+    protected User userInGame;
 
     // JSON
     protected JSONUserManager jsonUserManager;
@@ -79,6 +79,10 @@ public class Game implements Runnable, IRenderable {
         userInGame = user;
     }
 
+    public User getUserInGame(){
+        return userInGame;
+    }
+
     // ====================> METODOS <====================
     /** initClasses() ==> Instancia las clases. */
     private void initClasses(){
@@ -115,7 +119,8 @@ public class Game implements Runnable, IRenderable {
                 break;
             case OPTIONS: //option.update() [no existe aun] break;
             case RANKING: //ranking.update() [no existe aun] break;
-//                break;
+                System.out.println(userInGame);
+                break;
             case QUIT:
             default:
                 System.exit(0); // Cierra el programa
