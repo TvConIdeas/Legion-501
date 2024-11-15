@@ -1,14 +1,10 @@
 package json;
 
-import main.Game;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import users.User;
 
-import javax.print.attribute.standard.Fidelity;
-import java.io.File;
 import java.util.*;
 
 /**
@@ -72,7 +68,6 @@ public final class JSONUserManager {
 
         try {
             JSONArray usersArray = ReadWriteOperations.read(nomJSON); // Obtener JSONArray con contenido del archivo
-
             // Convertir cada elemento en un JSONObject
             for(int i = 0; i< usersArray.length(); i++){
                 JSONObject userJson = usersArray.getJSONObject(i);
