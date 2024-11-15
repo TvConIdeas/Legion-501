@@ -8,11 +8,10 @@ import static utilz.Constants.ANI_SPEED_ALIEN;
 import static utilz.Constants.EnemyConstants.*;
 
 public abstract class Enemy extends Entity implements IRenderable {
-
     // ====================> ATRIBUTOS <====================
     private int enemyType; // Tipo de enemigo
-    protected BufferedImage[][] animations;
-    protected int lives;
+    protected BufferedImage[][] animations; // Matriz con Animacion
+    protected int lives; // Vidas del Enemigo
 
     protected boolean attack = false; // Capacidad de disparar
 

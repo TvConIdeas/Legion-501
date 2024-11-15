@@ -15,13 +15,13 @@ import java.awt.geom.Rectangle2D;
 public abstract class Entity {
 
     // ====================> ATRIBUTOS <====================
-    protected float x,y;
-    protected int width, height;
+    protected float x,y; // Posiciones
+    protected int width, height; // Ancho y Largo
     protected int aniTick, aniIndex; // Variables para animación
-    protected int state;
-    protected Rectangle2D.Float hitbox;
-    protected float speed= 1.0f;
-    protected boolean active = true;
+    protected int state; // Estado
+    protected Rectangle2D.Float hitbox; // Rectangulo de Colision
+    protected float speed= 1.0f; // Velocidad
+    protected boolean active = true; // Activo o Inactivo
 
     protected float xDrawOffset = 6 * Game.SCALE; // Centraliza la hitbox en el jugador (ancho)
     protected float yDrawOffset = 4 * Game.SCALE; // Centraliza la hitbox en el jugador (largo)
@@ -61,11 +61,11 @@ public abstract class Entity {
 
     // ====================> METODOS <====================
     /** drawHitbox() ==> Metodo Auxiliar para visualizar la hitbox */
-    /*protected void drawHitbox(Graphics g) {
+    protected void drawHitbox(Graphics g) {
         // Unicamente sirve para ver la Hitbox
         g.setColor(Color.RED);
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
-    }*/
+    }
 
     /** initHitbox() ==> Instancia la hitbox. */
     public void initHitbox(float x, float y, int width, int height) {

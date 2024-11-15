@@ -109,7 +109,6 @@ public class EnemyManager <T extends Enemy> implements IRenderable {
         Map<String, Integer> aliensEasy = new LinkedHashMap<>();
         aliensEasy.put("alien2", 5);
         aliensEasy.put("alien1", 10);
-//        aliensEasy.put("alien4", 15);
         levelManager.put("easy", new LevelConfig(aliensEasy));
 
         // Medio
@@ -170,7 +169,7 @@ public class EnemyManager <T extends Enemy> implements IRenderable {
         return alien;
     }
 
-    /// Interface IRenderable
+    /** <======= Interface IRenderable =======> */
     @Override
     public void update(){
         // Remover enemigos inactivos antes de actualizar

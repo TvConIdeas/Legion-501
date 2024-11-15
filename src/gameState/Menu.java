@@ -29,6 +29,7 @@ public class Menu extends State implements Statemethods {
     // ====================> GET | SET <====================
 
     // ====================> METODOS <====================
+    /** loadButtons() ==> Carga e instancia los botones en pantalla */
     private void loadButtons() {
         buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (170*Game.SCALE),0,GameState.PLAYING); // Primero (y = 150)
         buttons[3] = new MenuButton(Game.GAME_WIDTH / 2, (int) (240*Game.SCALE),3,GameState.RANKING); // Segundo (y = 230)
@@ -37,13 +38,14 @@ public class Menu extends State implements Statemethods {
         // La yPos, se debe editar manualmente y le agregamos al final a que state pertene el boton
     }
 
+    /** resetButtons() ==> Comprueba si el mouse se encuentra en el boton */
     private void resetButtons() {
         for(MenuButton mb : buttons) { // El for, comprueba si el mouse está dentro del área del botón
             mb.resetBools();
         }
     }
 
-    /// Interface StateMethods
+    /** <======= Interface StateMethods =======> */
     @Override
     public void update() {
         for(MenuButton mb : buttons) {
@@ -101,7 +103,7 @@ public class Menu extends State implements Statemethods {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) { // BORRAR LUEGO
+    public void keyPressed(KeyEvent e) {
         // Sin uso
     }
 

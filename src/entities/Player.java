@@ -115,7 +115,7 @@ public class Player extends Entity implements IRenderable {
         right = false;
     }
 
-    /// Interface IRenderable
+    /** <====== Interface IRenderable ======> */
     @Override
     public void update(){
         move();
