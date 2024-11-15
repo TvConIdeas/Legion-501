@@ -27,15 +27,16 @@ public class Login extends UserAccount {
     JLabel userIDLabel;
     JLabel userPasswordLabel;
 
-    // Flags
-    private boolean showMessage = false;
-    private boolean showMessage2 = false;
-
     // ====================> CONSTRUCTOR <====================
     public Login(Game game) {
         super(game);
         initUI();
         addEventListeners();
+    }
+
+    // ====================> SET/GET <====================
+    public void setShowMessage(int showMessage) {
+        this.showMessage = showMessage;
     }
 
     // ====================> METODOS <====================
@@ -98,17 +99,21 @@ public class Login extends UserAccount {
 
             game.getGamePanel().removeAll();
             flagAddComponents = false;
+            game.setUserInGame(new User(name, password));
             GameState.state = GameState.MENU;
 
         } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password estan vacios o >20
             e.getMessage();
             e.printStackTrace();
-            showMessage = true;
+            showMessage = 1;
 
         } catch (NonexistentUserException e){ // Excepcion si el nombre de usuario y/o contraseña son incorrectos
             e.getMessage();
             e.printStackTrace();
-            showMessage2 = true;
+            showMessage = 2;
+
+        } finally {
+            clearFields();
         }
     }
 
@@ -123,11 +128,8 @@ public class Login extends UserAccount {
     public void update() {
         super.update();
 
-        if(showMessage){
-            showMessage = messageCounter(showMessage); // Contador para que desaparezca el mensaje
-        }
-        if(showMessage2){
-            showMessage2 = messageCounter(showMessage2); // Contador para que desaparezca el mensaje
+        if(showMessage != 0){
+            messageCounter(this);
         }
     }
 
@@ -135,15 +137,14 @@ public class Login extends UserAccount {
     public void draw(Graphics g) {
       // Fondo y Titulo
         LoadSave.drawTitleBackgroud(g,LOGIN_BACKGROUD);
-      
-        if(showMessage || showMessage2){
+
+        if(showMessage != 0){
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            if(showMessage){
-                g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 405);
-            }
-            if(showMessage2){
-                g.drawString("Nombre de usuario y/o contraseña incorrectos.", Game.GAME_WIDTH/2-100, 405);
+
+            switch (showMessage) {
+                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 405);
+                case 2 -> g.drawString("Nombre de usuario y/o contraseña incorrectos.", Game.GAME_WIDTH/2-100, 405);
             }
         }
         
