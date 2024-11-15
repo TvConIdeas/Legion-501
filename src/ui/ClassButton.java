@@ -1,5 +1,6 @@
 package ui;
 
+import utilz.IRenderable;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -7,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import static utilz.Constants.UI.PauseButtons.*;
 
-public class ClassButton {
+public class ClassButton implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private int xPos, yPos, rowIndex, index;
     private int xOffsetCenter = PB_SIZE / 2;
@@ -62,11 +63,13 @@ public class ClassButton {
     }
 
     // Dibujamos el Boton
+    @Override
     public void draw(Graphics g) {
         g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, PB_SIZE, PB_SIZE, null);
     }
 
     // Index, controla cuál de las imágenes del botón se muestra, según el estado del mouse.
+    @Override
     public void update() {
         index = 0; // Inactivo
         if (mouseOver)

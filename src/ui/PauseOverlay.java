@@ -7,13 +7,14 @@ import java.awt.image.BufferedImage;
 import gameState.GameState;
 import gameState.Playing;
 import main.Game;
+import utilz.IRenderable;
 import utilz.LoadSave;
 
-public class PauseOverlay {
+public class PauseOverlay implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
     private BufferedImage backgroundImg;
-    private int bgX, bgY, bgW, bgH;
+    private int bgX, bgY, bgW, bgH; // Posicion y tamaño de backroundImg
     private ClassButton[] buttons = new ClassButton[2];
 
     private ResumeButton resumeB;
@@ -60,7 +61,8 @@ public class PauseOverlay {
         return b.getHitbox().contains(e.getX(), e.getY());
     }
 
-    // ====================> METODOS COMUNES <====================
+    // ====================> METODOS SOBRESCRITOS <====================
+    @Override
     public void update() {
         resumeB.update();
         for(ClassButton cb : buttons) {
@@ -68,6 +70,7 @@ public class PauseOverlay {
         }
     }
 
+    @Override
     public void draw(Graphics g) {
         // Fondo
         g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
@@ -123,6 +126,4 @@ public class PauseOverlay {
                 break; // Rompe el ciclo para que solo un botón esté en estado `mouseOver`
             }
     }
-
-
 }

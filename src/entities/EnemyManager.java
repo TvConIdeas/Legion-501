@@ -5,6 +5,7 @@ import java.util.*;
 
 import gameState.Playing;
 import main.Game;
+import utilz.IRenderable;
 import utilz.LevelConfig;
 
 import static main.Game.GAME_WIDTH;
@@ -13,10 +14,10 @@ import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.PlayerConstants.EXPLODE;
 import static utilz.HelpMethods.DetectCollision;
 
-public class EnemyManager <T extends Enemy> {
+public class EnemyManager <T extends Enemy> implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing; // Traemos el State Playing
-    private ArrayList<T> enemies = new ArrayList<>(); // ArrayList con los aliens
+    private ArrayList<T> enemies; // ArrayList con los aliens
     private int alienColumns = 5; // Cantidad de Columnas de aliens
     private int aniTick; // Contador para el disparo de enemigo
     private float alienVelocityX = 1f; // Velocidad de los aliens
@@ -25,6 +26,7 @@ public class EnemyManager <T extends Enemy> {
     // ====================> CONSTRUCTOR <====================
     public EnemyManager(Playing playing) {
         this.playing = playing;
+        enemies = new ArrayList<>();
     }
 
     // ====================> GET | SET <====================
@@ -169,6 +171,7 @@ public class EnemyManager <T extends Enemy> {
     }
 
     /// Interface IRenderable
+    @Override
     public void update(){
         // Remover enemigos inactivos antes de actualizar
         enemies.removeIf(enemy -> !enemy.active); // Elimina enemigos inactivos
@@ -188,6 +191,7 @@ public class EnemyManager <T extends Enemy> {
         }
     }
 
+    @Override
     public void draw(Graphics g){
         // Crear una copia inmutable de la lista de enemigos activos
         List<T> enemiesSnapshot = List.copyOf(enemies);
@@ -198,5 +202,4 @@ public class EnemyManager <T extends Enemy> {
             }
         }
     }
-
 }

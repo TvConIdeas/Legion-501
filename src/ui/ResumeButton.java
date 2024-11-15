@@ -1,6 +1,7 @@
 package ui;
 
 
+import utilz.IRenderable;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ import static utilz.Constants.UI.Buttons.*;
 import static utilz.Constants.UI.PauseButtons.PB_DEFAULT_SIZE;
 import static utilz.Constants.UI.PauseButtons.PB_SIZE;
 
-public class ResumeButton{
+public class ResumeButton implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private int xPos, yPos, index;
     private int xOffsetCenter = B_WIDTH / 2;
@@ -69,11 +70,13 @@ public class ResumeButton{
     }
 
     // Dibujamos el Boton
+    @Override
     public void draw(Graphics g) {
         g.drawImage(imgs[0][index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null);
     }
 
     // Index, controla cuál de las imágenes del botón se muestra, según el estado del mouse.
+    @Override
     public void update() {
         index = 0; // Inactivo
         if (mouseOver)

@@ -42,8 +42,8 @@ public abstract class Enemy extends Entity implements IRenderable {
         }
     }
 
+    @Override
     public void update(){
         updateAnimationTick();
     }
-
 }

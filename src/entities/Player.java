@@ -116,11 +116,13 @@ public class Player extends Entity implements IRenderable {
     }
 
     /// Interface IRenderable
+    @Override
     public void update(){
         move();
         updateAnimationTick();
     }
 
+    @Override
     public void draw(Graphics g){
 //      drawHitbox(g);
         if(active){
