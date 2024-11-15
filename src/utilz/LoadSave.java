@@ -24,6 +24,7 @@ public class LoadSave {
     public static final String REGISTER_BACKGROUD = "register_background.jpg";
     public static final String MENU_BACKGROUD = "menu_background.jpg";
     public static final String OPTION_BACKGROUD = "option_background.jpg";
+    public static final String RANKING_BACKGROUD = "ranking_background.jpg";
     public static final String TITLE_GAME = "501_title.png";
     public static final String PAUSE_MENU = "pause_menu.png";
 
