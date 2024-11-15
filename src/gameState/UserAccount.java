@@ -36,7 +36,9 @@ public abstract class UserAccount extends State {
         backButton = new JButton("Back");
 
         // Limites
-        backButton.setBounds(25, Game.GAME_HEIGHT-50, 100, 25);
+        backButton.setBackground(new Color(0, 11, 88));
+        backButton.setForeground(new Color(106, 154, 176));
+        backButton.setBounds(193, Game.GAME_HEIGHT-100, 100, 25);
     }
 
     public void addComponents(){

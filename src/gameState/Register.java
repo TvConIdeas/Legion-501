@@ -54,20 +54,34 @@ public class Register extends UserAccount {
         userIDLabel = new JLabel("");
         userPasswordLabel = new JLabel("");
         confirmPasswordLabel = new JLabel("");
-
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
         confirmPasswordField = new JPasswordField();
 
-        // Limites - edita ian :p
-        registerButton.setBounds(Game.GAME_WIDTH-125, Game.GAME_HEIGHT-50, 100, 25);
-        quitButton.setBounds(25, Game.GAME_HEIGHT-75, 75, 20);
-        userIDLabel.setBounds(Game.GAME_WIDTH/2-100, 250, 75, 25);
-        userPasswordLabel.setBounds(Game.GAME_WIDTH/2-100, 325, 75, 25);
-        confirmPasswordLabel.setBounds(Game.GAME_WIDTH/2-100, 400, 110, 25);
-        userIDField.setBounds(Game.GAME_WIDTH/2-100, 275, 200, 25);
-        userPasswordField.setBounds(Game.GAME_WIDTH/2-100, 350, 200, 25);
-        confirmPasswordField.setBounds(Game.GAME_WIDTH/2-100, 425, 200, 25);
+        // Botones
+        quitButton.setBackground(new Color(116, 9, 56));
+        quitButton.setForeground(new Color(222, 124, 125));
+        registerButton.setBackground(new Color(82, 110, 72));
+        registerButton.setForeground(new Color(158, 223, 156));
+        quitButton.setBounds(68, Game.GAME_HEIGHT-100, 100, 25);
+        registerButton.setBounds( 318, Game.GAME_HEIGHT-100, 100, 25);
+
+        //Labels
+        userIDLabel.setBounds(140, 270, 75, 25);
+        userPasswordLabel.setBounds(140, 370, 75, 25);
+        confirmPasswordLabel.setBounds(140, 470, 75, 25);
+
+        //Fields
+        userIDField.setBackground(Color.LIGHT_GRAY);
+        userIDField.setForeground(Color.DARK_GRAY);
+        userPasswordField.setBackground(Color.LIGHT_GRAY);
+        userPasswordField.setForeground(Color.DARK_GRAY);
+        confirmPasswordField.setBackground(Color.LIGHT_GRAY);
+        confirmPasswordField.setForeground(Color.DARK_GRAY);
+        userIDField.setBounds(140, 350, 200, 25);
+        userPasswordField.setBounds(140, 450, 200, 25);
+        confirmPasswordField.setBounds(140, 550, 200, 25);
+
     }
 
     /** addComponents() ==> Agregar los componentes al GamePanel. */
@@ -162,31 +176,27 @@ public class Register extends UserAccount {
 
     @Override
     public void draw(Graphics g) {
-  
-       // Fondo y Titulo
-        LoadSave.drawTitleBackgroud(g,REGISTER_BACKGROUD);
-        // Titulo
-        g.setFont(new Font("Console", Font.BOLD, 70));
-        g.setColor(Color.WHITE);
-        g.drawString("Legion 501", 50, 150);
-        g.setFont(new Font("Console", Font.BOLD, 40));
-        g.setColor(Color.GRAY);
-        g.drawString("Register", 150, 230);
 
-        if(showMessage != 0){
-            g.setFont(new Font("Console", Font.BOLD, 12));
-            g.setColor(Color.RED);
-            switch (showMessage){
-                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 480);
-                case 2 -> g.drawString("Nombre de usuario existente.", Game.GAME_WIDTH/2-100, 480);
-                case 3 -> g.drawString("Las contraseñas no coinciden.", Game.GAME_WIDTH/2-100, 480);
-            }
-        }
+        // Fondo y Titulo
+        LoadSave.drawTitleBackgroud(g,REGISTER_BACKGROUD);
 
         // Textos
         g.setColor(Color.WHITE);
         g.setFont(new Font("Console", Font.BOLD, 25));
         g.drawString("Username", 180, 340);
         g.drawString("Password", 180, 440);
+        g.drawString("Confirm Password", 130, 540);
+
+        if(showMessage != 0){
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(40, 250, 410, 25); // Rectangulo Negro
+            g.setFont(new Font("Console", Font.BOLD, 12));
+            g.setColor(Color.RED);
+            switch (showMessage){
+                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", 120, 267);
+                case 2 -> g.drawString("Nombre de usuario existente.", 150, 267);
+                case 3 -> g.drawString("Las contraseñas no coinciden.", 150, 267);
+            }
+        }
     }
 }

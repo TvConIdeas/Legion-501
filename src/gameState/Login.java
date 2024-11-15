@@ -3,7 +3,6 @@ package gameState;
 import exceptions.InvalidUsernameOrPasswordException;
 import exceptions.NonexistentUserException;
 import main.Game;
-import main.GamePanel;
 import static utilz.LoadSave.*;
 import utilz.LoadSave;
 import users.User;
@@ -53,13 +52,25 @@ public class Login extends UserAccount {
 
         backButton.setText("Register");
 
-        // Limites
-        loginButton.setBounds(Game.GAME_WIDTH-125, Game.GAME_HEIGHT-50, 100, 25);
-        quitButton.setBounds(25, Game.GAME_HEIGHT-75, 75, 20);
-        userIDField.setBounds(Game.GAME_WIDTH/2-100, 275, 200, 25);
-        userPasswordField.setBounds(Game.GAME_WIDTH/2-100, 350, 200, 25);
-        userIDLabel.setBounds(Game.GAME_WIDTH/2-100, 250, 75, 25);
-        userPasswordLabel.setBounds(Game.GAME_WIDTH/2-100, 325, 75, 25);
+        // Botones
+        quitButton.setBackground(new Color(116, 9, 56));
+        quitButton.setForeground(new Color(222, 124, 125));
+        loginButton.setBackground(new Color(82, 110, 72));
+        loginButton.setForeground(new Color(158, 223, 156));
+        quitButton.setBounds(68, Game.GAME_HEIGHT-100, 100, 25);
+        loginButton.setBounds( 318, Game.GAME_HEIGHT-100, 100, 25);
+
+        //Labels
+        userIDLabel.setBounds(140, 270, 75, 25);
+        userPasswordLabel.setBounds(140, 370, 75, 25);
+
+        //Fields
+        userIDField.setBackground(Color.LIGHT_GRAY);
+        userIDField.setForeground(Color.DARK_GRAY);
+        userPasswordField.setBackground(Color.LIGHT_GRAY);
+        userPasswordField.setForeground(Color.DARK_GRAY);
+        userIDField.setBounds(140, 350, 200, 25);
+        userPasswordField.setBounds(140, 450, 200, 25);
     }
 
     @Override
@@ -135,16 +146,18 @@ public class Login extends UserAccount {
 
     @Override
     public void draw(Graphics g) {
-      // Fondo y Titulo
+        // Fondo y Titulo
         LoadSave.drawTitleBackgroud(g,LOGIN_BACKGROUD);
 
         if(showMessage != 0){
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(40, 250, 410, 25); // Rectangulo Negro
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-
+            
             switch (showMessage) {
-                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", Game.GAME_WIDTH/2-100, 405);
-                case 2 -> g.drawString("Nombre de usuario y/o contraseña incorrectos.", Game.GAME_WIDTH/2-100, 405);
+                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", 120, 267);
+                case 2 -> g.drawString("Nombre de usuario y/o contraseña incorrectos.", 120, 267);
             }
         }
         
