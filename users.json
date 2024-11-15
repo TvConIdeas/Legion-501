@@ -1,44 +1,14 @@
 {"users": [
     {
         "is admin": false,
-        "password": "fenoy",
-        "best score": 0,
-        "name": "delfi"
+        "password": "e",
+        "best score": 190,
+        "name": "e"
     },
     {
         "is admin": false,
-        "password": "tvconideas",
-        "best score": 0,
-        "name": "ian"
-    },
-    {
-        "is admin": false,
-        "password": "fewfe",
-        "best score": 0,
-        "name": "ffwefew"
-    },
-    {
-        "is admin": false,
-        "password": "ian",
-        "best score": 0,
-        "name": "tvconideas"
-    },
-    {
-        "is admin": false,
-        "password": "jby",
-        "best score": 0,
-        "name": "buybj"
-    },
-    {
-        "is admin": false,
-        "password": "rivas",
-        "best score": 0,
-        "name": "noel"
-    },
-    {
-        "is admin": false,
-        "password": "123",
-        "best score": 0,
-        "name": "Tv"
+        "password": "a",
+        "best score": 1020,
+        "name": "a"
     }
 ]}

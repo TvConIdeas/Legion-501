@@ -128,8 +128,15 @@ public class Playing extends State implements Statemethods {
         }
     }
 
-    /** endLevel() ==> Termina la partida y regresa todo a 0*/
+    /** endLevel() ==> Termina la partida y regresa todo a 0.*/
     public void endLevel(){
+        if(gameOver) { // Cuando el usuario pierda la partida
+            if (game.getUserInGame().getBestScore() < score) { // Si el puntaje actual supera su puntaje mas alto
+                game.getUserInGame().setBestScore(score); // Settea su nuevo bestScore
+                game.getJsonUserManager().overwriteUser(game.getUserInGame()); // Guarda los cambios en el archivo
+            }
+        }
+        // Reseta valores del juego
         score = 0;
         player.lives = 3;
         currentLevel = "easy";
@@ -261,6 +268,12 @@ public class Playing extends State implements Statemethods {
                 case KeyEvent.VK_E:
                     bulletManager.createBullet();
                     break;
+            }
+        }
+        if(gameOver){
+            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                endLevel();
+                GameState.state = GameState.MENU;
             }
         }
     }

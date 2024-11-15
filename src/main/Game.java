@@ -35,7 +35,7 @@ public class Game implements Runnable, IRenderable {
     private Playing playing;
     private Ranking ranking;
     private Option option;
-    private User userInGame;
+    protected User userInGame;
 
     // JSON
     protected JSONUserManager jsonUserManager;
@@ -85,6 +85,9 @@ public class Game implements Runnable, IRenderable {
     public Ranking getRanking() {
         return ranking;
     }
+    public User getUserInGame(){
+        return userInGame;
+    }
 
     // ====================> METODOS <====================
     /** initClasses() ==> Instancia las clases. */
@@ -96,7 +99,6 @@ public class Game implements Runnable, IRenderable {
         ranking = new Ranking(this);
         option = new Option(this);
         userInGame = new User();
-
         jsonUserManager = new JSONUserManager();
     }
 

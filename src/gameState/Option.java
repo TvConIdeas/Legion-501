@@ -1,9 +1,9 @@
 package gameState;
 
 import exceptions.InvalidUsernameOrPasswordException;
-import exceptions.NonexistentUserException;
+import exceptions.SamePasswordException;
+import exceptions.UsernameUnavailableException;
 import main.Game;
-import users.User;
 import utilz.LoadSave;
 
 import javax.swing.*;
@@ -33,9 +33,6 @@ public class Option extends UserAccount {
     }
 
     // ====================> SET/GET <====================
-    public void setShowMessage(int showMessage) {
-        this.showMessage = showMessage;
-    }
 
     // ====================> METODOS <====================
     @Override
@@ -44,7 +41,7 @@ public class Option extends UserAccount {
         // Instanciar
         confirmUsernameButton = new JButton("Confirm");
         confirmPasswordButton = new JButton("Confirm");
-        userIDField = new JTextField();
+        userIDField = new JTextField("");
         userPasswordField = new JPasswordField();
         userIDLabel = new JLabel("");
         userPasswordLabel = new JLabel("");
@@ -87,42 +84,76 @@ public class Option extends UserAccount {
 
     @Override
     public void addEventListeners(){
-        confirmUsernameButton.addActionListener(e -> login());
-        confirmPasswordButton.addActionListener(e -> login());
+        confirmUsernameButton.addActionListener(e -> changeUsername()); // Cambiar nombre de usuario
+        confirmPasswordButton.addActionListener(e -> changePassword()); // Cambiar contraseña
 
         backButton.addActionListener(e ->{ // Register button
-            game.getGamePanel().removeAll();
-            flagAddComponents = false;
-            clearFields();
-            GameState.state = GameState.MENU;
+            game.getGamePanel().removeAll(); // Remover los componentes de la pantalla
+            flagAddComponents = false; // Para que cuando vuelva a OPTIONS pueda entrar a addComponents
+            clearFields(); // Limpiar los fields
+            GameState.state = GameState.MENU; // Ir a menú
         });
     }
 
-    public void login(){
-        String name = userIDField.getText();
-        String password = new String(userPasswordField.getPassword());
-
+    /** changeUsername() ==> Método para cambiar nombre de usuario. Se comprueba que sea válido e inexistente
+     * y se lo guarda en el archivo en caso de cumplir con las validaciones.*/
+    public void changeUsername(){
+        String newName = userIDField.getText(); // Leer nombre de usuario nuevo
+        
         try {
-            if(name.isBlank() || password.isBlank() || name.length() >20 || password.length() >20) { // Si esta vacio o es >20
-                throw new InvalidUsernameOrPasswordException();
-            } else if(!game.getJsonUserManager().verifyUserInfo(new User(name, password))){
-                throw new NonexistentUserException();
+            if(newName.isBlank() || newName.length() >20){ // En caso de estar vacío o ser >20
+                throw new InvalidUsernameOrPasswordException("Nombre de usuario inválido.");
+                
+            } else if (!game.getJsonUserManager().isUsernameAvailable(newName)) { // En caso que el nombre no esté disponible
+                throw new UsernameUnavailableException();
             }
 
-            game.getGamePanel().removeAll();
-            flagAddComponents = false;
-            game.setUserInGame(new User(name, password));
-            GameState.state = GameState.MENU;
+            String oldName = game.getUserInGame().getName(); // Guardar nombre anterior
+            game.getUserInGame().setName(newName); // Modificar nombre en UserInGame
+            game.getJsonUserManager().overwriteUserName(game.getUserInGame(), oldName); // Guardar cambios en archivo
+            showMessage = 3; // Indice de mensaje de confirmación
 
-        } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password estan vacios o >20
+        } catch (InvalidUsernameOrPasswordException e){ // Excepción en caso de nombre invalido
             e.getMessage();
             e.printStackTrace();
             showMessage = 1;
 
-        } catch (NonexistentUserException e){ // Excepcion si el nombre de usuario y/o contraseña son incorrectos
+        } catch (UsernameUnavailableException e){ // Excepcion en caso de nombre existente en archivo
             e.getMessage();
             e.printStackTrace();
             showMessage = 2;
+
+        } finally {
+            clearFields();
+        }
+    }
+
+    /** changePassword() ==> Método para cambiar contraseña. Se comprueba que sea válida y diferente a la actual
+     * y se la guarda en el archivo en caso de cumplir con las validaciones. */
+    public void changePassword(){
+        String newPassword = new String(userPasswordField.getPassword()); // Leer contraseña nueva
+
+        try {
+            if(newPassword.isBlank() || newPassword.length() >20){ // En caso de estar vacía o >20
+                throw new InvalidUsernameOrPasswordException("Contraseña inválida.");
+
+            } else if (game.getUserInGame().getPassword().equals(newPassword)) { // En caso que sea la misma que la actual
+                throw new SamePasswordException();
+            }
+
+            game.getUserInGame().setPassword(newPassword); // Modificar password de user
+            game.getJsonUserManager().overwriteUser(game.getUserInGame()); // Guardar cambios en archivo
+            showMessage = 6; // Indice de mensaje de confirmacion
+
+        } catch (InvalidUsernameOrPasswordException e){ // Excepcion de contraseña invalida
+            e.getMessage();
+            e.printStackTrace();
+            showMessage = 4;
+
+        } catch (SamePasswordException e){ // Excepcion de misma contraseña que la actual
+            e.getMessage();
+            e.printStackTrace();
+            showMessage = 5;
 
         } finally {
             clearFields();
@@ -156,9 +187,20 @@ public class Option extends UserAccount {
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
 
+            // Mensajes de error o confirmación
             switch (showMessage) {
-                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", 120, 567);
-                case 2 -> g.drawString("Nombre de usuario y/o contraseña incorrectos.", 120, 567);
+                case 1 -> g.drawString("Nombre de usuario inválido.", 120, 567);
+                case 2 -> g.drawString("Nombre de usuario existente.", 120, 567);
+                case 3 -> {
+                    g.setColor(Color.GREEN);
+                    g.drawString("Nombre de usuario modificado con éxito.", 120, 567);
+                }
+                case 4 -> g.drawString("Contraseña inválida.", 120, 567);
+                case 5 -> g.drawString("La contraseña nueva debe ser diferente a la actual.", 120, 567);
+                case 6 -> {
+                    g.setColor(Color.GREEN);
+                    g.drawString("Contraseña modificada con éxito.", 120, 567);
+                }
             }
         }
 
