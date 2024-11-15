@@ -61,11 +61,11 @@ public abstract class Entity {
 
     // ====================> METODOS <====================
     /** drawHitbox() ==> Metodo Auxiliar para visualizar la hitbox */
-    protected void drawHitbox(Graphics g) {
+    /*protected void drawHitbox(Graphics g) {
         // Unicamente sirve para ver la Hitbox
         g.setColor(Color.RED);
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
-    }
+    }*/
 
     /** initHitbox() ==> Instancia la hitbox. */
     public void initHitbox(float x, float y, int width, int height) {

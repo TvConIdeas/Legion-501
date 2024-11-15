@@ -12,14 +12,16 @@ import static utilz.HelpMethods.DetectCollision;
 public class BulletManager implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private Playing playing;
-    public ArrayList<Bullet> bulletPlayerArr = new ArrayList<>(); // Arraylist con las balas
-    public ArrayList<Bullet> bulletAlienArr = new ArrayList<>(); // Arraylist con las balas
+    public ArrayList<Bullet> bulletPlayerArr; // Arraylist con las balas
+    public ArrayList<Bullet> bulletAlienArr; // Arraylist con las balas
     private float bulletSpeed = 5.0f; // Velocidad de la bala
     private boolean updatingBullets = false;
 
     // ====================> CONSTRUCTOR <====================
     public BulletManager(Playing playing) {
         this.playing = playing;
+        bulletPlayerArr = new ArrayList<>();
+        bulletAlienArr = new ArrayList<>();
     }
 
     // ====================> GET | SET <====================
@@ -96,12 +98,14 @@ public class BulletManager implements IRenderable {
     }
 
     /** Interface IRenderable */
+    @Override
     public void update(){
         if (!updatingBullets) {
             move();
         }
     }
 
+    @Override
     public void draw(Graphics g){
         // Balas Jugadador
         g.setColor(Color.yellow);

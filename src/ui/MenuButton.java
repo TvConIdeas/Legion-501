@@ -3,6 +3,7 @@ package ui;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import gameState.GameState;
+import utilz.IRenderable;
 import utilz.LoadSave;
 import static utilz.Constants.UI.Buttons.*;
 
@@ -11,7 +12,7 @@ import static utilz.Constants.UI.Buttons.*;
  *
  * Creamos los botones pricipales del menu, Jugar, Opciones y Salir
  */
-public class MenuButton {
+public class MenuButton implements IRenderable {
     // ====================> ATRIBUTOS <====================
     private int xPos, yPos, rowIndex, index; // rowIndex: Define la fila en la que se encuentran las imágenes del botón
     private int xOffsetCenter = B_WIDTH / 2; // El centro a lo ancho
@@ -65,11 +66,13 @@ public class MenuButton {
     }
 
     // Dibujamos el Boton
+    @Override
     public void draw(Graphics g) {
         g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null);
     }
 
     // Index, controla cuál de las imágenes del botón se muestra, según el estado del mouse.
+    @Override
     public void update() {
         index = 0; // Inactivo
         if (mouseOver)

@@ -24,6 +24,7 @@ public class Alien4 extends Enemy{
     // ====================> GET | SET <====================
 
     // ====================> METODOS <====================
+    @Override
     public void draw(Graphics g){
         g.drawImage(
                 animations[state][getAniIndex()],
