@@ -93,7 +93,6 @@ public class Game implements Runnable, IRenderable {
         login = new Login(this);
         option = new Option(this);
         userInGame = new User();
-
         jsonUserManager = new JSONUserManager();
     }
 

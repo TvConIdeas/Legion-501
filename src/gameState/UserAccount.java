@@ -8,6 +8,9 @@ import java.awt.*;
 
 import static utilz.Constants.ANI_ERROR_MESSAGE;
 
+/**
+ * Clase padre del Sistema de Usuario (Login, Register, Options).
+ */
 public abstract class UserAccount extends State {
 
     // ====================> ATRIBUTOS <====================
@@ -42,7 +45,7 @@ public abstract class UserAccount extends State {
         backButton.setBounds(193, Game.GAME_HEIGHT-100, 100, 25);
     }
 
-    /** addComponents() ==> Agregar */
+    /** addComponents() ==> Agregar los componentes al panel. */
     public void addComponents(){
         this.panel = game.getGamePanel();
         if(panel != null){
@@ -52,10 +55,17 @@ public abstract class UserAccount extends State {
         }
     }
 
+    /** addEventListeners() ==> Método abstracto a incorporar en clases hijas.
+     * Agrega un listener a un componente gráfico. El listener ejecuta una acción específica al intercatuar con dicho
+     * componente.
+     * */
     public abstract void addEventListeners();
 
+    /** clearFields() ==> Método abstracto a incorporar en clases hijas. Limpia los tipo de componente Field. */
     public abstract void clearFields();
 
+    /** messageCounter() ==> Contador para los mensajes de error o confirmación de las subclases de UserAccount.
+     * Al cumplir con un tiempo determinado (ANI_ERROR_MESSAGE), el texto mensaje desaparece (showMessage = 0). */
     public <T extends UserAccount> void messageCounter(T state){ // Cualquier clase que extienda de UserAccount
         aniTick++;
         if(aniTick >= ANI_ERROR_MESSAGE){ // Mostrar hasta que se cumpla un tiempo determinado
@@ -66,7 +76,7 @@ public abstract class UserAccount extends State {
 
     @Override
     public void update() {
-        if (!flagAddComponents){
+        if (!flagAddComponents){ // Agregar los componentes una única vez
             addComponents();
         }
     }
