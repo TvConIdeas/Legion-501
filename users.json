@@ -34,5 +34,11 @@
         "password": "rivas",
         "best score": 0,
         "name": "noel"
+    },
+    {
+        "is admin": false,
+        "password": "123",
+        "best score": 0,
+        "name": "Tv"
     }
 ]}

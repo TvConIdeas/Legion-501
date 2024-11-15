@@ -32,6 +32,7 @@ public class Game implements Runnable, IRenderable {
     private Menu menu;
     private Register register;
     private Login login;
+    private Option option;
     private User userInGame;
 
     // JSON
@@ -86,6 +87,7 @@ public class Game implements Runnable, IRenderable {
         playing = new Playing(this);
         register = new Register(this);
         login = new Login(this);
+        option = new Option(this);
         userInGame = new User();
 
         jsonUserManager = new JSONUserManager();
@@ -102,10 +104,10 @@ public class Game implements Runnable, IRenderable {
     public void update(){
         switch (GameState.state){ // Llamar method update() según el gameState
             case REGISTER:
-                 register.update();
+                register.update();
                 break;
             case LOGIN:
-                 login.update();
+                login.update();
                 break;
             case MENU:
                 menu.update();
@@ -113,9 +115,10 @@ public class Game implements Runnable, IRenderable {
             case PLAYING:
                 playing.update();
                 break;
-            case OPTIONS: //option.update() [no existe aun] break;
+            case OPTIONS:
+                option.update();
+            break;
             case RANKING: //ranking.update() [no existe aun] break;
-//                break;
             case QUIT:
             default:
                 System.exit(0); // Cierra el programa
@@ -128,16 +131,19 @@ public class Game implements Runnable, IRenderable {
     public void draw(Graphics g){
         switch (GameState.state){
             case REGISTER:
-                 register.draw(g);
+                register.draw(g);
                 break;
             case LOGIN:
-                 login.draw(g);
+                login.draw(g);
                 break;
             case MENU:
                 menu.draw(g);
                 break;
             case PLAYING:
                 playing.draw(g);
+                break;
+            case OPTIONS:
+                option.draw(g);
                 break;
             default:
                 break;
