@@ -16,16 +16,19 @@ public abstract class UserAccount extends State {
 
     // Flags
     protected boolean flagAddComponents = false;
-//    protected boolean showMessage = false;
 
-    protected int aniTick = 0;
+    protected int showMessage; // Index para mensajes de error
+    private int aniTick = 0; // Contador para mensajes de error
 
     protected GamePanel panel;
 
     // ====================> CONSTRUCTOR <====================
     public UserAccount(Game game) {
         super(game);
+        showMessage = 0;
     }
+
+    // ====================> SET/GET <====================
 
     // ====================> METODOS <====================
     public void initUI(){
@@ -51,13 +54,12 @@ public abstract class UserAccount extends State {
 
     public abstract void clearFields();
 
-    public boolean messageCounter(boolean message){
+    public <T extends UserAccount> void messageCounter(T state){ // Cualquier clase que extienda de UserAccount
         aniTick++;
         if(aniTick >= ANI_ERROR_MESSAGE){ // Mostrar hasta que se cumpla un tiempo determinado
             aniTick = 0; // Fin Contador
-            message = false;
+            state.showMessage = 0;
         }
-        return message;
     }
 
     @Override

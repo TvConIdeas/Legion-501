@@ -30,12 +30,6 @@ public class Register extends UserAccount {
     private JPasswordField userPasswordField;
     private JPasswordField confirmPasswordField;
 
-    // Mensajes de error
-    private boolean showMessage = false;
-    private boolean showMessage2 = false;
-    private boolean showMessage3 = false;
-
-
     // ====================> CONTRUCTOR <====================
     public Register(Game game) {
         super(game);
@@ -44,6 +38,9 @@ public class Register extends UserAccount {
     }
 
     // ====================> GET | SET <====================
+    public void setShowMessage(int showMessage){
+        this.showMessage = showMessage;
+    }
 
     // ====================> METODOS <====================
 
@@ -142,17 +139,17 @@ public class Register extends UserAccount {
         } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password esta vacio y mas de 20 caracteres
             e.getMessage();
             e.printStackTrace();
-            showMessage = true;
+            showMessage = 1;
 
         } catch (UsernameUnavailableException e){ // Excepcion si el name ya existe
             e.getMessage();
             e.printStackTrace();
-            showMessage2 = true;
+            showMessage = 2;
 
         } catch (PasswordMismatchException e){
             e.getMessage();
             e.printStackTrace();
-            showMessage3 = true;
+            showMessage = 3;
 
         } finally {
             clearFields();
@@ -172,14 +169,8 @@ public class Register extends UserAccount {
     public void update() {
         super.update();
 
-        if(showMessage){
-            showMessage = messageCounter(showMessage); // Contador para que desaparezca el mensaje
-        }
-        if(showMessage2){
-            showMessage2 = messageCounter(showMessage2); // Contador para que desaparezca el mensaje
-        }
-        if(showMessage3){
-            showMessage3 = messageCounter(showMessage3); // Contador para que desaparezca el mensaje
+        if(showMessage != 0){
+            messageCounter(this);
         }
     }
 
@@ -196,19 +187,15 @@ public class Register extends UserAccount {
         g.drawString("Password", 180, 440);
         g.drawString("Confirm Password", 130, 540);
 
-        if(showMessage || showMessage2 || showMessage3){
+        if(showMessage != 0){
             g.setColor(Color.DARK_GRAY);
             g.fillRect(40, 250, 410, 25); // Rectangulo Negro
             g.setFont(new Font("Console", Font.BOLD, 12));
             g.setColor(Color.RED);
-            if(showMessage){
-                g.drawString("Nombre de usuario y/o contraseña inválidos.", 120, 267);
-            }
-            if(showMessage2){
-                g.drawString("Nombre de usuario existente.", 150, 267);
-            }
-            if(showMessage3){
-                g.drawString("Las contraseñas no coinciden.", 150, 267);
+            switch (showMessage){
+                case 1 -> g.drawString("Nombre de usuario y/o contraseña inválidos.", 120, 267);
+                case 2 -> g.drawString("Nombre de usuario existente.", 150, 267);
+                case 3 -> g.drawString("Las contraseñas no coinciden.", 150, 267);
             }
         }
     }
