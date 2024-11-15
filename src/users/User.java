@@ -70,7 +70,7 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || !(o instanceof User user)) return false;
-        return Objects.equals(name, user.name);
+        return Objects.equals(name, user.name); // Compara por nombre
     }
 
     @Override

@@ -9,9 +9,7 @@ import utilz.LoadSave;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-import static utilz.Constants.ANI_ERROR_MESSAGE;
 import static utilz.LoadSave.*;
 
 public class Register extends UserAccount {
@@ -43,8 +41,6 @@ public class Register extends UserAccount {
     }
 
     // ====================> METODOS <====================
-
-    /** initUI ==> Instanciar los componentes. */
     @Override
     public void initUI(){
         super.initUI();
@@ -81,10 +77,8 @@ public class Register extends UserAccount {
         userIDField.setBounds(140, 350, 200, 25);
         userPasswordField.setBounds(140, 450, 200, 25);
         confirmPasswordField.setBounds(140, 550, 200, 25);
-
     }
 
-    /** addComponents() ==> Agregar los componentes al GamePanel. */
     @Override
     public void addComponents(){
         super.addComponents();
@@ -103,20 +97,21 @@ public class Register extends UserAccount {
     @Override
     public void addEventListeners(){
         registerButton.addActionListener(e -> registerUser());
-        quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
+        quitButton.addActionListener(e -> GameState.state = GameState.QUIT); // Salir del juego
         backButton.addActionListener(e -> {
-            game.getGamePanel().removeAll();
-            flagAddComponents = false; // Para que cuando vuelva a REGISTER entre a addComponents
-            clearFields();
-            GameState.state = GameState.LOGIN;
+            game.getGamePanel().removeAll(); // Remover los componentes de la pantalla
+            flagAddComponents = false; // Para que cuando vuelva a REGISTER pueda entrar a addComponents
+            clearFields(); // Limpiar los fields
+            GameState.state = GameState.LOGIN; // Volver al Login
         });
     }
 
-    /** registerUser() ==> Registrar usuario. */
+    /** registerUser() ==> Registrar usuario. Se ingresa nombre de usuario y contraseña, se hace su comprobación y,
+     * en caso de ser válidos, se los guarda en el archivo. */
     public void registerUser(){
         String name = userIDField.getText(); // Leer nombre
         String password = new String(userPasswordField.getPassword()); // Leer contraseña
-        String confirmPassword = new String(confirmPasswordField.getPassword());
+        String confirmPassword = new String(confirmPasswordField.getPassword()); // Confirmar contraseña
 
         try {
             if(name.isBlank() || password.isBlank() || confirmPassword.isBlank()
@@ -126,7 +121,7 @@ public class Register extends UserAccount {
             } else if (!game.getJsonUserManager().isUsernameAvailable(name)) { // Si el nombre de usuario ya existe
                 throw new UsernameUnavailableException();
 
-            } else if (!confirmPassword.equals(password)) { // Si las contrseñas (password y confirmPassword) no coinciden
+            } else if (!confirmPassword.equals(password)) { // Si las contraseñas (password y confirmPassword) no coinciden
                 throw new PasswordMismatchException();
             }
 
@@ -136,7 +131,7 @@ public class Register extends UserAccount {
             flagAddComponents = false; // Para que cuando vuelva a REGISTER pueda entrar a addComponents
             GameState.state = GameState.LOGIN; // Cambiar de state
             
-        } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password esta vacio y mas de 20 caracteres
+        } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password esta vacio o con mas de 20 caracteres
             e.getMessage();
             e.printStackTrace();
             showMessage = 1;
@@ -146,13 +141,13 @@ public class Register extends UserAccount {
             e.printStackTrace();
             showMessage = 2;
 
-        } catch (PasswordMismatchException e){
+        } catch (PasswordMismatchException e){ // Excepcion si las contraseñas no coiniciden
             e.getMessage();
             e.printStackTrace();
             showMessage = 3;
 
         } finally {
-            clearFields();
+            clearFields(); // Borrar lo escrito en los fields
         }
     }
 
@@ -169,8 +164,8 @@ public class Register extends UserAccount {
     public void update() {
         super.update();
 
-        if(showMessage != 0){
-            messageCounter(this);
+        if(showMessage != 0){ // Si showMessage es distinto de 0, entonces se debe mostrar un mensaje
+            messageCounter(this); // Llamar contador de mensaje
         }
     }
 
@@ -187,6 +182,7 @@ public class Register extends UserAccount {
         g.drawString("Password", 180, 440);
         g.drawString("Confirm Password", 130, 540);
 
+        // Mensajes a mostrar
         if(showMessage != 0){
             g.setColor(Color.DARK_GRAY);
             g.fillRect(40, 250, 410, 25); // Rectangulo Negro

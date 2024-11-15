@@ -130,13 +130,13 @@ public class Playing extends State implements Statemethods {
 
     /** endLevel() ==> Termina la partida y regresa todo a 0.*/
     public void endLevel(){
-        if(gameOver) {
-            if (game.getUserInGame().getBestScore() < score) {
-                game.getUserInGame().setBestScore(score);
-                game.getJsonUserManager().overwriteUser(game.getUserInGame());
+        if(gameOver) { // Cuando el usuario pierda la partida
+            if (game.getUserInGame().getBestScore() < score) { // Si el puntaje actual supera su puntaje mas alto
+                game.getUserInGame().setBestScore(score); // Settea su nuevo bestScore
+                game.getJsonUserManager().overwriteUser(game.getUserInGame()); // Guarda los cambios en el archivo
             }
         }
-
+        // Reseta valores del juego
         score = 0;
         player.lives = 3;
         currentLevel = "easy";

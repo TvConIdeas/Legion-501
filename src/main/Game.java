@@ -93,7 +93,6 @@ public class Game implements Runnable, IRenderable {
         login = new Login(this);
         option = new Option(this);
         userInGame = new User();
-
         jsonUserManager = new JSONUserManager();
     }
 
@@ -121,8 +120,10 @@ public class Game implements Runnable, IRenderable {
                 break;
             case OPTIONS:
                 option.update();
-            break;
+                break;
             case RANKING: //ranking.update() [no existe aun] break;
+                System.out.println(userInGame);
+                break;
             case QUIT:
             default:
                 System.exit(0); // Cierra el programa

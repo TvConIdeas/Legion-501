@@ -10,8 +10,6 @@ import users.User;
 import javax.swing.*;
 import java.awt.*;
 
-import static utilz.Constants.ANI_ERROR_MESSAGE;
-
 public class Login extends UserAccount {
     // ====================> ATRIBUTOS <====================
     // Botones
@@ -50,7 +48,7 @@ public class Login extends UserAccount {
         userIDLabel = new JLabel("");
         userPasswordLabel = new JLabel("");
 
-        backButton.setText("Register");
+        backButton.setText("Register"); // Cambiar etiqueta de boton de "Back" a "Register"
 
         // Botones
         quitButton.setBackground(new Color(116, 9, 56));
@@ -87,34 +85,35 @@ public class Login extends UserAccount {
 
     @Override
     public void addEventListeners(){
-        loginButton.addActionListener(e -> {
-            System.out.println(game.getJsonUserManager().fileToUsers());
-            login();
-        });
-        quitButton.addActionListener(e -> GameState.state = GameState.QUIT);
+        loginButton.addActionListener(e -> login());
+        quitButton.addActionListener(e -> GameState.state = GameState.QUIT); // Salir del juego
         backButton.addActionListener(e ->{ // Register button
-            game.getGamePanel().removeAll();
-            flagAddComponents = false;
-            clearFields();
-            GameState.state = GameState.REGISTER;
+            game.getGamePanel().removeAll(); // Remover los componentes de la pantalla
+            flagAddComponents = false; // Para que cuando vuelva a LOGIN pueda entrar a addComponents
+            clearFields(); // Limpiar los fields
+            GameState.state = GameState.REGISTER; // Ir a Register
         });
     }
 
+    /** login() ==> Loguear usuario. Se realiza la comprobación del nombre de usuario y su contraseña.
+     * Si el nombre de usuario y la contraseña coinciden con los datos almacenados,
+     * el usuario se autentica correctamente y se le da acceso al menú del juego. */
     public void login(){
-        String name = userIDField.getText();
-        String password = new String(userPasswordField.getPassword());
+        String name = userIDField.getText(); // Leer nombre de usuario
+        String password = new String(userPasswordField.getPassword()); // Leer contraseña
 
         try {
             if(name.isBlank() || password.isBlank() || name.length() >20 || password.length() >20) { // Si esta vacio o es >20
                 throw new InvalidUsernameOrPasswordException();
-            } else if(!game.getJsonUserManager().verifyUserInfo(new User(name, password))){
+
+            } else if(!game.getJsonUserManager().verifyUserInfo(new User(name, password))){ // Si el nombre y/o contraseña no son correctos
                 throw new NonexistentUserException();
             }
 
-            game.getGamePanel().removeAll();
-            flagAddComponents = false;
-            game.setUserInGame(new User(name, password));
-            GameState.state = GameState.MENU;
+            game.getGamePanel().removeAll(); // Borrar componentes de pantalla
+            flagAddComponents = false; // Para que cuando vuelva a REGISTER pueda entrar a addComponents
+            game.setUserInGame(game.getJsonUserManager().getUser(name)); // Asigna al jugador activo en el juego según su nombre
+            GameState.state = GameState.MENU; // Ir a menú
 
         } catch (InvalidUsernameOrPasswordException e){ // Excepcion si name o password estan vacios o >20
             e.getMessage();
@@ -142,8 +141,8 @@ public class Login extends UserAccount {
     public void update() {
         super.update();
 
-        if(showMessage != 0){
-            messageCounter(this);
+        if(showMessage != 0){ // Si showMessage es distinto de 0, entonces se debe mostrar un mensaje
+            messageCounter(this); // Llamar contador de mensaje
         }
     }
 
@@ -152,6 +151,7 @@ public class Login extends UserAccount {
         // Fondo y Titulo
         LoadSave.drawTitleBackgroud(g,LOGIN_BACKGROUD);
 
+        // Mensajes de error
         if(showMessage != 0){
             g.setColor(Color.DARK_GRAY);
             g.fillRect(40, 250, 410, 25); // Rectangulo Negro
