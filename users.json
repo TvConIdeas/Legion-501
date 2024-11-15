@@ -1,14 +1,98 @@
 {"users": [
     {
         "is admin": false,
-        "password": "e",
-        "best score": 190,
-        "name": "e"
+        "password": "eagle_sky93",
+        "best score": 410,
+        "name": "ThunderStrike"
     },
     {
         "is admin": false,
-        "password": "a",
-        "best score": 1020,
-        "name": "a"
+        "password": "shadow_fury1",
+        "best score": 1250,
+        "name": "NightBlade"
+    },
+    {
+        "is admin": false,
+        "password": "star_dust77",
+        "best score": 2830,
+        "name": "StarGazer"
+    },
+    {
+        "is admin": false,
+        "password": "wolf_howl45",
+        "best score": 520,
+        "name": "WolfHeart"
+    },
+    {
+        "is admin": false,
+        "password": "ice_edge56",
+        "best score": 3240,
+        "name": "FrostByte"
+    },
+    {
+        "is admin": false,
+        "password": "fire_spirit9",
+        "best score": 870,
+        "name": "BlazeStorm"
+    },
+    {
+        "is admin": false,
+        "password": "storm_rider88",
+        "best score": 2200,
+        "name": "StormBreaker"
+    },
+    {
+        "is admin": false,
+        "password": "hawk_eye17",
+        "best score": 4980,
+        "name": "EagleEye"
+    },
+    {
+        "is admin": false,
+        "password": "moon_shadow",
+        "best score": 1050,
+        "name": "LunarEcho"
+    },
+    {
+        "is admin": false,
+        "password": "frost_bite22",
+        "best score": 4370,
+        "name": "GlacierKnight"
+    },
+    {
+        "is admin": false,
+        "password": "phoenix_4ever",
+        "best score": 3180,
+        "name": "PhoenixFlare"
+    },
+    {
+        "is admin": false,
+        "password": "mystic_dawn",
+        "best score": 560,
+        "name": "DawnSeeker"
+    },
+    {
+        "is admin": false,
+        "password": "dragon_fire2",
+        "best score": 4700,
+        "name": "DragonHeart"
+    },
+    {
+        "is admin": false,
+        "password": "crimson_blade",
+        "best score": 2890,
+        "name": "CrimsonEdge"
+    },
+    {
+        "is admin": false,
+        "password": "night_owl19",
+        "best score": 1430,
+        "name": "SilentWatcher"
+    },
+    {
+        "is admin": false,
+        "password": "123",
+        "best score": 460,
+        "name": "abc"
     }
 ]}
