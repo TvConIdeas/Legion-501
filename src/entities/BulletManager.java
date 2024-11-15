@@ -79,13 +79,6 @@ public class BulletManager implements IRenderable {
         bulletPlayerArr.add(bullet);
     }
 
-    public void clearBullets() {
-        updatingBullets = true; // Activar flag de pausa
-        bulletPlayerArr.clear();
-        bulletAlienArr.clear();
-        updatingBullets = false; // Desactivar flag al terminar
-    }
-
     /** createBulletAlien() ==> Crea una bala en el Enemigo */
     public <T extends Enemy> void createBulletAlien(T alien) {
         Bullet bullet = new Bullet(
@@ -97,7 +90,15 @@ public class BulletManager implements IRenderable {
         bulletAlienArr.add(bullet);
     }
 
-    /** Interface IRenderable */
+    /** clearBullets() ==> Limpia las balas en pantalla */
+    public void clearBullets() {
+        updatingBullets = true; // Activar flag de pausa
+        bulletPlayerArr.clear();
+        bulletAlienArr.clear();
+        updatingBullets = false; // Desactivar flag al terminar
+    }
+
+    /** <====== Interface IRenderable ======> */
     @Override
     public void update(){
         if (!updatingBullets) {

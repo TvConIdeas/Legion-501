@@ -167,6 +167,7 @@ public class Playing extends State implements Statemethods {
         startLevel(currentLevel); // Comenzar nivel
     }
 
+    /** resetBooleans() ==> Reinicia todos los booleanos a False */
     public void resetBooleans(){
         hitPlayer = false;
         gameOver = false;
@@ -259,28 +260,24 @@ public class Playing extends State implements Statemethods {
     public void keyReleased(KeyEvent e) {
         if(player.getState() == IDLE) { // Solo cuando el jugador este IDLE
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_A:
+                case KeyEvent.VK_A: // Izquierda
                     player.setLeft(false);
                     break;
-                case KeyEvent.VK_D:
+                case KeyEvent.VK_D: // Derecha
                     player.setRight(false);
                     break;
-                case KeyEvent.VK_E:
+                case KeyEvent.VK_SPACE: // Disparar con
+                case KeyEvent.VK_E:     // Space o E
                     bulletManager.createBullet();
                     break;
             }
         }
         if(gameOver){
-            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+            if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){ // Para regresar al Menu
                 endLevel();
                 GameState.state = GameState.MENU;
             }
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -299,5 +296,10 @@ public class Playing extends State implements Statemethods {
     public void mouseMoved(MouseEvent e) {
          if (paused)
             pauseOverlay.mouseMoved(e);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 }

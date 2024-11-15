@@ -6,7 +6,6 @@ public class Bullet extends Entity {
     public boolean isEnemyBullet = false;
 
     // ====================> CONSTRUCTOR <====================
-
     public Bullet(float x, float y, int width, int height) {
         super(x, y, width, height);
         active = false;

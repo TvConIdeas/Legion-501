@@ -7,7 +7,7 @@ package gameState;
 
 public enum GameState {
 
-    PLAYING, MENU, OPTIONS, RANKING, QUIT, REGISTER, LOGIN;
+    LOGIN, REGISTER, MENU, PLAYING, RANKING, OPTIONS, QUIT;
 
     public static GameState state = LOGIN; // Estado por default.
 
